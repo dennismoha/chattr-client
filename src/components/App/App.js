@@ -8,6 +8,13 @@ import SignUp from '../SignUp/SignUp'
 import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
+import Foragers from '../Foragers/Foragers'
+import Forager from '../Foragers/Forager'
+import ForagerCreate from '../Foragers/ForagerCreate'
+import ForagerEdit from '../Foragers/ForagerEdit'
+import Fight from '../Fight/Fight'
+import Skills from '../Skills/Skills'
+import Skill from '../Skills/Skill'
 
 class App extends Component {
   constructor () {
@@ -15,13 +22,19 @@ class App extends Component {
 
     this.state = {
       user: null,
-      msgAlerts: []
+      msgAlerts: [],
+      selected: null,
+      opponent: null
     }
   }
 
   setUser = user => this.setState({ user })
 
   clearUser = () => this.setState({ user: null })
+
+  setSelected = id => this.setState({ selected: id })
+
+  setOpponent = id => this.setState({ opponent: id })
 
   msgAlert = ({ heading, message, variant }) => {
     this.setState({ msgAlerts: [...this.state.msgAlerts, { heading, message, variant }] })
@@ -53,6 +66,27 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
+          )} />
+          <Route exact path='/foragers' render={() => (
+            <Foragers msgAlert={this.msgAlert} setSelected={this.setSelected} setOpponent={this.setOpponent} opponent={this.state.opponent} selected={this.state.selected} />
+          )} />
+          <Route exact path='/foragers/:id' render={({ match }) => (
+            <Forager match={match} msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/forager-create' render={() => (
+            <ForagerCreate msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/foragers/:id/edit' render={({ match }) => (
+            <ForagerEdit match={match} msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/fight' render={() => (
+            <Fight msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} />
+          )} />
+          <Route exact user={user} path='/skills' render={() => (
+            <Skills msgAlert={this.msgAlert} user={user} selected={this.state.selected} />
+          )} />
+          <Route exact path='/skills/:id' render={({ match }) => (
+            <Skill match={match} msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>
