@@ -6,8 +6,8 @@ import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 
 const Skill = props => {
-  console.log(props)
   const [skill, setSkill] = useState(null)
+  const [foragerr, setForager] = useState({ name: '', description: '', hp: '', mp: '', str: '', skill: '' })
   const [deleted, setDeleted] = useState(false)
 
   // call this callback once after first render, only occurs once
@@ -17,6 +17,11 @@ const Skill = props => {
     axios(`${apiUrl}/skills/${props.match.params.id}`)
       // make sure to updated this.setState to hooks setSkill
       .then(res => setSkill(res.data.skill))
+      .catch(console.error)
+
+    axios(`${apiUrl}/foragers/${props.selected}`)
+      // make sure to updated this.setState to hooks setForager
+      .then(res => setForager(res.data.forager))
       .catch(console.error)
   }, [])
 
@@ -31,7 +36,24 @@ const Skill = props => {
       .then(() => setDeleted(true))
       .catch(console.error)
   }
-  console.log(skill)
+
+  const add = () => {
+    event.preventDefault()
+    const move = skill._id
+    const updatedSkill = { skill: move }
+    const forager = Object.assign({ ...foragerr }, updatedSkill)
+    setForager(forager)
+    axios({
+      url: `${apiUrl}/foragers/${props.selected}`,
+      method: 'PATCH',
+      data: { forager },
+      headers: {
+        'Authorization': `Bearer ${props.user.token}`
+      }
+    })
+      .then(() => console.log(forager))
+      .catch(console.error)
+  }
 
   if (!skill) {
     return <p>Loading...</p>
@@ -50,6 +72,7 @@ const Skill = props => {
       <p>Cost: {skill.cost}</p>
       <p>Resource used: {skill.resource}</p>
       <button onClick={destroy}>Delete Skill</button>
+      <button onClick={add}>Use this skill</button>
       <Link to={`/skills/${props.match.params.id}/edit`}>
         <button>Edit</button>
       </Link>

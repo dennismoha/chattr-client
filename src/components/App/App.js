@@ -24,7 +24,9 @@ class App extends Component {
       user: null,
       msgAlerts: [],
       selected: null,
-      opponent: null
+      opponent: null,
+      selectedSkill: null,
+      opponentSkill: null
     }
   }
 
@@ -32,9 +34,15 @@ class App extends Component {
 
   clearUser = () => this.setState({ user: null })
 
-  setSelected = id => this.setState({ selected: id })
+  setSelected = (id, sId) => {
+    this.setState({ selected: id })
+    this.setState({ selectedSkill: sId })
+  }
 
-  setOpponent = id => this.setState({ opponent: id })
+  setOpponent = (id, sId) => {
+    this.setState({ opponent: id })
+    this.setState({ opponentSkill: sId })
+  }
 
   msgAlert = ({ heading, message, variant }) => {
     this.setState({ msgAlerts: [...this.state.msgAlerts, { heading, message, variant }] })
@@ -80,13 +88,13 @@ class App extends Component {
             <ForagerEdit match={match} msgAlert={this.msgAlert} user={user} />
           )} />
           <AuthenticatedRoute exact user={user} path='/fight' render={() => (
-            <Fight msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} />
+            <Fight msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} fighterSkill={this.state.selectedSkill} enemySkill={this.state.opponentSkill} />
           )} />
           <Route exact user={user} path='/skills' render={() => (
             <Skills msgAlert={this.msgAlert} user={user} selected={this.state.selected} />
           )} />
           <Route exact path='/skills/:id' render={({ match }) => (
-            <Skill match={match} msgAlert={this.msgAlert} user={user} />
+            <Skill match={match} msgAlert={this.msgAlert} user={user} selected={this.state.selected} />
           )} />
         </main>
       </Fragment>

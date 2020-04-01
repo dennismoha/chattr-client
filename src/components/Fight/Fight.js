@@ -23,27 +23,36 @@ const Fight = props => {
         setEnemy(foundEnemy)
       })
       .catch(console.error)
+    console.log(props)
+    axios(`${apiUrl}/skills/${props.fighterSkill}`)
+      .then((res) => setFighterSkill(res.data.skill))
+      .catch(console.error)
+
+    axios(`${apiUrl}/skills/${props.enemySkill}`)
+      .then((res) => setEnemySkill(res.data.skill))
+      .catch(console.error)
   }, [])
 
+  const templog = []
   const fighterDmg = () => {
-    if (enemy.str > enemy.mp) {
+    if (fighter.str > fighter.mp) {
       const ouch = enemy.hp - fighter.str
       const updatedHp = { hp: ouch }
       const editedEnemy = Object.assign({ ...enemy }, updatedHp)
       setEnemy(editedEnemy)
-      log.push(`you have dealt ${fighter.str} damage`)
-    } else if (enemy.mp > fighter.str) {
-      const ouch = enemy.hp - enemy.mp
+      templog.push(`you have dealt ${fighter.str} damage`)
+    } else if (fighter.mp > fighter.str) {
+      const ouch = enemy.hp - fighter.mp
       const updatedHp = { hp: ouch }
       const editedEnemy = Object.assign({ ...enemy }, updatedHp)
       setEnemy(editedEnemy)
-      log.push(`you have dealt ${fighter.mp} damage`)
+      templog.push(`you have dealt ${fighter.mp} damage`)
     } else {
       const ouch = enemy.hp - (fighter.mp + fighter.str)
       const updatedHp = { hp: ouch }
       const editedEnemy = Object.assign({ ...enemy }, updatedHp)
       setEnemy(editedEnemy)
-      log.push(`you have dealt ${fighter.str + fighter.mp} damage`)
+      templog.push(`you have dealt ${fighter.str + fighter.mp} damage`)
     }
   }
 
@@ -53,21 +62,20 @@ const Fight = props => {
       const updatedHp = { hp: ouch }
       const editedFighter = Object.assign({ ...fighter }, updatedHp)
       setFighter(editedFighter)
-      log.push(`you have been dealt ${enemy.str} damage`)
+      templog.push(`you have been dealt ${enemy.str} damage`)
     } else if (enemy.mp > enemy.str) {
       const ouch = fighter.hp - enemy.mp
       const updatedHp = { hp: ouch }
       const editedFighter = Object.assign({ ...fighter }, updatedHp)
       setFighter(editedFighter)
-      log.push(`you have been dealt ${enemy.mp} damage`)
+      templog.push(`you have been dealt ${enemy.mp} damage`)
     } else {
       const ouch = fighter.hp - (enemy.mp + enemy.str)
       const updatedHp = { hp: ouch }
       const editedFighter = Object.assign({ ...fighter }, updatedHp)
       setFighter(editedFighter)
-      log.push(`you have been dealt ${enemy.str + enemy.mp} damage`)
+      templog.push(`you have been dealt ${enemy.str + enemy.mp} damage`)
     }
-    console.log(log)
   }
 
   const attack = () => {
@@ -75,44 +83,46 @@ const Fight = props => {
     setTurn(newTurn)
     fighterDmg()
     enemyDmg()
+    log.push(...templog)
+    console.log(log)
   }
 
+  let updatedHp1
+  let updatedStat1
+  let updatedHp2
+  let updatedStat2
   const fighterAbility = () => {
-    let updatedStat
     let ouch
     if (fighterSkill.resource === 'mp') {
-      ouch = enemy.hp - (Math.pow(fighter.mp, 1.2))
+      ouch = enemy.hp - Math.floor((Math.pow(fighterSkill.cost, 1.2)))
       const weak = fighter.mp - fighterSkill.cost
-      updatedStat = { mp: weak }
+      updatedStat1 = { mp: weak }
     } else {
-      ouch = enemy.hp - ((fighter.str * 2) + 10)
+      ouch = enemy.hp - ((fighterSkill.cost * 2) + 10)
       const weak = fighter.str - fighterSkill.cost
-      updatedStat = { str: weak }
+      updatedStat1 = { str: weak }
     }
-    const updatedHp = { hp: ouch }
-    const editedEnemy = Object.assign({ ...enemy }, updatedHp)
-    const editedFighter = Object.assign({ ...fighter }, updatedStat)
-    setEnemy(editedEnemy)
-    setFighter(editedFighter)
+    if (fighter.mp < 0 || fighter.str < 0) {
+      ouch = ouch + 300
+    }
+    updatedHp1 = { hp: ouch }
   }
 
   const enemyAbility = () => {
-    let updatedStat
-    let ouch
+    let ouch2
     if (enemySkill.resource === 'mp') {
-      ouch = fighter.hp - (Math.pow(enemy.mp, 1.2))
-      const weak = fighter.mp - enemySkill.cost
-      updatedStat = { mp: weak }
+      ouch2 = fighter.hp - Math.floor((Math.pow(enemySkill.cost, 1.2)))
+      const weak = enemy.mp - enemySkill.cost
+      updatedStat2 = { mp: weak }
     } else {
-      ouch = fighter.hp - ((fighter.str * 2) + 10)
-      const weak = fighter.str - enemySkill.cost
-      updatedStat = { str: weak }
+      ouch2 = fighter.hp - ((enemySkill.cost * 2) + 10)
+      const weak = enemy.str - enemySkill.cost
+      updatedStat2 = { str: weak }
     }
-    const updatedHp = { hp: ouch }
-    const editedFighter = Object.assign({ ...fighter }, updatedHp)
-    const editedEnemy = Object.assign({ ...enemy }, updatedStat)
-    setFighter(editedFighter)
-    setEnemy(editedEnemy)
+    if (enemy.mp < 0 || enemy.str < 0) {
+      ouch2 = ouch2 + 300
+    }
+    updatedHp2 = { hp: ouch2 }
   }
 
   const useAbility = () => {
@@ -120,6 +130,10 @@ const Fight = props => {
     setTurn(newTurn)
     fighterAbility()
     enemyAbility()
+    const editedEnemy = Object.assign({ ...enemy }, updatedHp1, updatedStat2)
+    const editedFighter = Object.assign({ ...fighter }, updatedHp2, updatedStat1)
+    setEnemy(editedEnemy)
+    setFighter(editedFighter)
   }
 
   if (fighter.hp <= 0 && enemy.hp <= 0) {
@@ -145,7 +159,7 @@ const Fight = props => {
           <li>hp: {fighter.hp}</li>
           <li>str: {fighter.str}</li>
           <li>mp: {fighter.mp}</li>
-          <li>skill: {fighterSkill}</li>
+          <li>skill: {fighterSkill.name}</li>
         </ul>
       </span>
       <span>
@@ -153,11 +167,11 @@ const Fight = props => {
           <li>hp: {enemy.hp}</li>
           <li>str: {enemy.str}</li>
           <li>mp: {enemy.mp}</li>
-          <li>skill: {enemySkill}</li>
+          <li>skill: {enemySkill.name}</li>
         </ul>
       </span>
       <button onClick={attack}>Attack!</button>
-      <button onClick={useAbility}>Use Ability!</button>
+      <button onClick={useAbility}>Use your Ability!</button>
       <div>
         <BattleLog log={log}/>
       </div>

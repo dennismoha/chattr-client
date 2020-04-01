@@ -18,8 +18,8 @@ const Foragers = props => {
   const foragerss = foragers.map(forager => (
     <li key={forager._id}>
       <Link to={`/foragers/${forager._id}`}>{forager.name}</Link>
-      <button onClick={() => { props.setSelected(forager._id) }}>Select</button>
-      <button onClick={() => { props.setOpponent(forager._id) }}>Fight</button>
+      <button onClick={() => { props.setSelected(forager._id, forager.skill) }}>Select</button>
+      <button onClick={() => { props.setOpponent(forager._id, forager.skill) }}>Fight</button>
     </li>
   ))
   console.log(props.selected)
@@ -74,7 +74,7 @@ const Foragers = props => {
       <h4>Foragers</h4>
       <p>Currently Selected: {foragerName}</p>
       <p>Opponent: {opponentName}</p>
-      <p>{fightButton}</p>
+      {((foragerName !== '') && (opponentName !== '')) ? <p>{fightButton}</p> : ''}
       <ul>
         {foragerss}
       </ul>

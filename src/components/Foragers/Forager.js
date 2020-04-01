@@ -6,7 +6,6 @@ import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 
 const Forager = props => {
-  console.log(props)
   const [forager, setForager] = useState(null)
   const [deleted, setDeleted] = useState(false)
   const [skill, setSkill] = useState('')

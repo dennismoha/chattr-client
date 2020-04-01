@@ -8,9 +8,11 @@ import messages from '../AutoDismissAlert/messages'
 
 const ForagerEdit = props => {
   const [forager, setForager] = useState({
-    title: '',
-    director: '',
-    year: ''
+    name: '',
+    description: '',
+    hp: '',
+    mp: '',
+    str: ''
   })
   const [update, setUpdate] = useState(false)
   useEffect(() => {
@@ -43,7 +45,7 @@ const ForagerEdit = props => {
     if (total !== 100) {
       props.msgAlert({
         heading: 'Please allocate all your stat points',
-        message: messages.statAllocare,
+        message: messages.statAllocate,
         variant: 'danger'
       })
     }

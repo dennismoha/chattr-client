@@ -16,12 +16,13 @@ const Skills = props => {
       .catch(console.error)
   }, [])
 
-  const skillss = skills.map(skill => (
-    <li key={skill._id}>
-      {console.log(skill)}
-      <Link to={`/skills/${skill._id}`}>{skill.name}</Link>
-    </li>
-  ))
+  const skillss = skills.map(skill => {
+    return (
+      <li key={skill._id}>
+        <Link to={`/skills/${skill._id}`}>{skill.name}</Link>
+      </li>
+    )
+  })
 
   const find = () => {
     axios({
