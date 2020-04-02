@@ -95,7 +95,7 @@ class App extends Component {
             <Fight msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} fighterSkill={this.state.selectedSkill} enemySkill={this.state.opponentSkill} />
           )} />
           <Route exact user={user} path='/skills' render={() => (
-            <Skills msgAlert={this.msgAlert} user={user} selected={this.state.selected} />
+            <Skills msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} />
           )} />
           <Route exact path='/skills/:id' render={({ match }) => (
             <Skill match={match} msgAlert={this.msgAlert} user={user} selected={this.state.selected} />

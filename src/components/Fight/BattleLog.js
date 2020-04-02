@@ -3,10 +3,13 @@ import React from 'react'
 const BattleLog = props => {
   const logger = props.log
   const fightLog = logger.map(msg => {
-    const numero = logger.findIndex(mwsg => mwsg === msg)
+    let id
+    for (const key in msg) {
+      id = key
+    }
     return (
-      <p key={numero}>
-        {msg}
+      <p key={id}>
+        {msg[id]}
       </p>
     )
   })

@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button'
 const Skills = props => {
   const [skills, setSkills] = useState([])
   const [forager, setForager] = useState(null)
+  const [opponent, setOpponent] = useState(null)
 
   useEffect(() => {
     axios(`${apiUrl}/skills`)
@@ -19,13 +20,19 @@ const Skills = props => {
 
   const skillss = skills.map(skill => {
     return (
-      <li key={skill._id}>
-        <Link to={`/skills/${skill._id}`}>{skill.name}</Link>
-      </li>
+      <tbody key={skill._id}>
+        <tr>
+          <td>
+            <Link to={`/skills/${skill._id}`}>{skill.name}</Link></td>
+          <td>{skill.description}</td>
+          <td>{skill.resource}</td>
+          <td>{skill.cost}</td>
+        </tr>
+      </tbody>
     )
   })
 
-  const find = () => {
+  const findForager = () => {
     axios({
       url: `${apiUrl}/foragers/${props.selected}`,
       method: 'GET'
@@ -34,22 +41,46 @@ const Skills = props => {
       .catch(console.error)
   }
 
-  find()
+  const findOpponent = () => {
+    axios({
+      url: `${apiUrl}/foragers/${props.opponent}`,
+      method: 'GET'
+    })
+      .then((res) => setOpponent(res.data.forager.name))
+      .catch(console.error)
+  }
+
+  findForager()
+  findOpponent()
   const foragerName = forager
+  const opponentName = opponent
+  console.log(foragerName)
+
+  const fightButton = (
+    <Link to='/fight'>
+      <Button type='button'>
+        Fight!
+      </Button>
+    </Link>
+  )
 
   return (
     <Layout>
       <h4>Skills</h4>
       <p>Currently Selected: {foragerName}</p>
       <p></p>
-      <Link to='/fight'>
-        <Button type='button'>
-          Fight!
-        </Button>
-      </Link>
-      <ul>
+      {((foragerName !== null) && (opponentName !== null)) ? <p>{fightButton}</p> : ''}
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">description</th>
+            <th scope="col">resource</th>
+            <th scope="col">cost</th>
+          </tr>
+        </thead>
         {skillss}
-      </ul>
+      </table>
     </Layout>
   )
 }

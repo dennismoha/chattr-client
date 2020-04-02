@@ -5,23 +5,46 @@ import axios from 'axios'
 import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
+import useSocket from 'socket.io-client'
 // import LetsFight from '../shared/LetsFight'
 
 const Foragers = props => {
   const [foragers, setForagers] = useState([])
 
+  const socket = useSocket(apiUrl)
+  socket.connect()
+
   useEffect(() => {
     axios(`${apiUrl}/foragers`)
       .then(res => setForagers(res.data.foragers))
       .catch(console.error)
+
+    socket.on('new selected', (fighter) => {
+      console.log(fighter)
+      if (fighter.fighter.selected) {
+        props.setSelected(fighter.fighter.selected._id, fighter.fighter.selected.skill)
+        return props.selected
+      }
+
+      if (fighter.fighter.opponent) {
+        props.setOpponent(fighter.fighter.opponent._id, fighter.fighter.opponent.skill)
+        return props.opponent
+      }
+    })
   }, [])
 
   const foragerss = foragers.map(forager => (
-    <li key={forager._id}>
-      <Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
-      <Button variant="secondary" onClick={() => { props.setSelected(forager._id, forager.skill) }}>Select</Button>
-      <Button variant="secondary" onClick={() => { props.setOpponent(forager._id, forager.skill) }}>Fight</Button>
-    </li>
+    <tbody key={forager._id}>
+      <tr>
+        <td><Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
+          <Button variant="secondary" onClick={() => { props.setSelected(forager._id, forager.skill) }}>Select</Button>
+          <Button variant="secondary" onClick={() => { props.setOpponent(forager._id, forager.skill) }}>Opponent</Button></td>
+        <td>{forager.description}</td>
+        <td>{forager.hp}</td>
+        <td>{forager.mp}</td>
+        <td>{forager.str}</td>
+      </tr>
+    </tbody>
   ))
   console.log(props.selected)
   let foragerName = ''
@@ -31,6 +54,7 @@ const Foragers = props => {
     const selectedForager = foragers.find(forager => forager._id === props.selected)
     if (selectedForager !== undefined) {
       foragerName = selectedForager.name
+      socket.emit('new person', { fighter: { selected: selectedForager } })
     }
   }
 
@@ -38,6 +62,7 @@ const Foragers = props => {
     const selectedOpponent = foragers.find(forager => forager._id === props.opponent)
     if (selectedOpponent !== undefined) {
       opponentName = selectedOpponent.name
+      socket.emit('new person', { fighter: { opponent: selectedOpponent } })
     }
   }
 
@@ -85,9 +110,18 @@ const Foragers = props => {
       <p>Opponent: {opponentName}</p>
       {((foragerName !== '') && (opponentName !== '')) ? <p>{fightButton}</p> : ''}
       {((foragerName !== '') && (opponentName !== '')) ? <p>{multiFightButton}</p> : ''}
-      <ul>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">description</th>
+            <th scope="col">hp</th>
+            <th scope="col">mp</th>
+            <th scope="col">str</th>
+          </tr>
+        </thead>
         {foragerss}
-      </ul>
+      </table>
     </Layout>
   )
 }
