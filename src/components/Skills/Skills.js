@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
+import Button from 'react-bootstrap/Button'
 // import LetsFight from '../shared/LetsFight'
 
 const Skills = props => {
@@ -42,9 +43,9 @@ const Skills = props => {
       <p>Currently Selected: {foragerName}</p>
       <p></p>
       <Link to='/fight'>
-        <button type='button'>
+        <Button type='button'>
           Fight!
-        </button>
+        </Button>
       </Link>
       <ul>
         {skillss}

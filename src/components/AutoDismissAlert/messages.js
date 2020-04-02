@@ -6,5 +6,6 @@ export default {
   signOutSuccess: 'Come back soon!',
   changePasswordSuccess: 'Password changed successfully!',
   changePasswordFailure: 'Failed to change passwords. Check your old password and try again.',
-  statAllocate: 'Please allocate all stat points'
+  statAllocate: 'Please allocate all stat points',
+  notOwner: 'You cannot change this resource because you are not the owner'
 }

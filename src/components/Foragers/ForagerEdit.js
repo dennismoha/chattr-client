@@ -38,14 +38,22 @@ const ForagerEdit = props => {
   }
   const total = hp + mp + str
   const remainingStats = 100 - total
+  console.log(props)
 
   const handleSubmit = event => {
     event.preventDefault()
-
     if (total !== 100) {
       props.msgAlert({
         heading: 'Please allocate all your stat points',
         message: messages.statAllocate,
+        variant: 'danger'
+      })
+    }
+
+    if (props.user._id !== forager.owner) {
+      props.msgAlert({
+        heading: 'You do not own this resource',
+        message: messages.notOwner,
         variant: 'danger'
       })
     }

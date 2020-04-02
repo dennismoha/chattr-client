@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
+import messages from '../AutoDismissAlert/messages'
 
 import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
+import Button from 'react-bootstrap/Button'
 
 const Forager = props => {
   const [forager, setForager] = useState(null)
@@ -21,6 +23,14 @@ const Forager = props => {
   }, [])
 
   const destroy = () => {
+    if (props.user._id !== forager.owner) {
+      props.msgAlert({
+        heading: 'You do not own this resource',
+        message: messages.notOwner,
+        variant: 'danger'
+      })
+    }
+
     axios({
       url: `${apiUrl}/foragers/${props.match.params.id}`,
       method: 'DELETE',
@@ -59,9 +69,9 @@ const Forager = props => {
       <p>Mp: {forager.mp}</p>
       <p>Str: {forager.str}</p>
       <p>Skill: {ability}</p>
-      <button onClick={destroy}>Delete Forager</button>
+      <Button onClick={destroy}>Delete Forager</Button>
       <Link to={`/foragers/${props.match.params.id}/edit`}>
-        <button>Edit</button>
+        <Button>Edit</Button>
       </Link>
       <Link to="/foragers">Back to all foragers</Link>
     </Layout>

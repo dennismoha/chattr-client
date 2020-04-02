@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 const BattleLog = props => {
-  const [log, setLog] = useState([])
-
-  useEffect(() => {
-    setLog(props.log)
-  }, [])
-  console.log(log)
-
-  const fightLog = log.map(msg => (
-    <li key={msg}>
-      {msg}
-    </li>
-  ))
+  const logger = props.log
+  const fightLog = logger.map(msg => {
+    const numero = logger.findIndex(mwsg => mwsg === msg)
+    return (
+      <p key={numero}>
+        {msg}
+      </p>
+    )
+  })
 
   return (
-    <div>
-      <ul>Log
+    <div className="overflow-auto">
+      <ul>Log:
         {fightLog}
       </ul>
     </div>

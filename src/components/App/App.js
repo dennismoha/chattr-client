@@ -15,6 +15,10 @@ import ForagerEdit from '../Foragers/ForagerEdit'
 import Fight from '../Fight/Fight'
 import Skills from '../Skills/Skills'
 import Skill from '../Skills/Skill'
+import SkillEdit from '../Skills/SkillEdit'
+import SkillCreate from '../Skills/SkillCreate'
+import MultiFight from '../Fight/MultiFight'
+// import Home from '../Home/Home'
 
 class App extends Component {
   constructor () {
@@ -95,6 +99,15 @@ class App extends Component {
           )} />
           <Route exact path='/skills/:id' render={({ match }) => (
             <Skill match={match} msgAlert={this.msgAlert} user={user} selected={this.state.selected} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/skills/:id/edit' render={({ match }) => (
+            <SkillEdit match={match} msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/skill-create' render={() => (
+            <SkillCreate msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/multi-fight' render={() => (
+            <MultiFight msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} fighterSkill={this.state.selectedSkill} enemySkill={this.state.opponentSkill} />
           )} />
         </main>
       </Fragment>

@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-const ForagerForm = ({ forager, remaining, handleSubmit, handleChange, cancelPath }) => (
+const ForagerForm = ({ skill, handleSubmit, handleChange, cancelPath }) => (
   <Form onSubmit={handleSubmit}>
     <Form.Label>Name</Form.Label>
     <Form.Control
-      placeholder="A Superb Forager"
-      value={forager.name}
+      placeholder="A Great Skill"
+      value={skill.name}
       name="name"
       onChange={handleChange}
     />
@@ -16,39 +16,27 @@ const ForagerForm = ({ forager, remaining, handleSubmit, handleChange, cancelPat
     <Form.Label>Description</Form.Label>
     <Form.Control
       placeholder="John Doe"
-      value={forager.description}
+      value={skill.description}
       name="description"
       onChange={handleChange}
     />
 
-    <Form.Label>Hp</Form.Label>
+    <Form.Label>Resource</Form.Label>
     <Form.Control
-      type="number"
-      placeholder="00"
-      value={forager.hp}
-      name="hp"
+      placeholder="hp"
+      value={skill.resource}
+      name="resource"
       onChange={handleChange}
     />
 
-    <Form.Label>Mp</Form.Label>
+    <Form.Label>Cost</Form.Label>
     <Form.Control
-      type="number"
+      type='Number'
       placeholder="00"
-      value={forager.mp}
-      name="mp"
+      value={skill.cost}
+      name="cost"
       onChange={handleChange}
     />
-
-    <Form.Label>Str</Form.Label>
-    <Form.Control
-      type="number"
-      placeholder="00"
-      value={forager.str}
-      name="str"
-      onChange={handleChange}
-    />
-
-    <p>Remaining Stats Points: {remaining}</p>
 
     <Button type="submit">Submit</Button>
     <Link to={cancelPath}>
