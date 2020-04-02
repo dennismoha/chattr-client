@@ -28,6 +28,10 @@ Fantasy Foragers is a text based, turn based, real time, multiplayer online role
 -   `npm install`
 -   `npm install --socket.io-client`
 
+## Links
+-   [Fantasy Foragers deployed api] (https://sleepy-harbor-73832.herokuapp.com/)
+
+
 ## Unsolved Problems
 -   Prevent one of the players from seeing the opposing players buttons
 -   Allow one of the players to only be able to select their own character
