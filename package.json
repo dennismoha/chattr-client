@@ -1,6 +1,6 @@
 {
   "name": "fantasy-foragers",
-  "homepage": "https://kurotsubasa.github.io/fantasy-foragers",
+  "homepage": "https://kurotsubasa.github.io/fantasy-foragers-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
