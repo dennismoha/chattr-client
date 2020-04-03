@@ -39,7 +39,7 @@ const Forager = props => {
       }
     })
       .then(() => setDeleted(true))
-      .catch(props.msgAlert({
+      .catch(() => props.msgAlert({
         heading: 'Couldnt Delete Forager',
         message: 'Probly not yours',
         variant: 'danger'
@@ -56,10 +56,12 @@ const Forager = props => {
     } />
   }
 
-  axios(`${apiUrl}/skills/${forager.skill}`)
-    // make sure to updated this.setState to hooks setForager
-    .then(res => setSkill(res.data.skill))
-    .catch()
+  if (forager.skill !== undefined) {
+    axios(`${apiUrl}/skills/${forager.skill}`)
+      // make sure to updated this.setState to hooks setForager
+      .then(res => setSkill(res.data.skill))
+      .catch()
+  }
 
   const ability = (
     <Link to={`/skills/${skill._id}`}>{skill.name}</Link>

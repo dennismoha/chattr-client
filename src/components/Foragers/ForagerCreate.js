@@ -40,7 +40,7 @@ const ForagerCreate = props => {
     if (total !== 100) {
       props.msgAlert({
         heading: 'Please allocate all your stat points',
-        message: messages.statAllocare,
+        message: messages.statAllocate,
         variant: 'danger'
       })
     }
@@ -54,9 +54,9 @@ const ForagerCreate = props => {
       }
     })
       .then(res => setCreatedForagerId(res.data.forager._id))
-      .catch(props.msgAlert({
+      .catch(() => props.msgAlert({
         heading: 'Couldnt create forager',
-        message: 'Are you logged in?',
+        message: messages.statAllocate,
         variant: 'danger'
       }))
   }

@@ -24,14 +24,20 @@ const Fight = props => {
         setEnemy(foundEnemy)
       })
       .catch()
-    axios(`${apiUrl}/skills/${props.fighterSkill}`)
-      .then((res) => setFighterSkill(res.data.skill))
-      .catch()
 
-    axios(`${apiUrl}/skills/${props.enemySkill}`)
-      .then((res) => setEnemySkill(res.data.skill))
-      .catch()
+    if (props.fighterSkill !== undefined) {
+      axios(`${apiUrl}/skills/${props.fighterSkill}`)
+        .then((res) => setFighterSkill(res.data.skill))
+        .catch()
+    }
+    if (props.enemySkill !== undefined) {
+      axios(`${apiUrl}/skills/${props.enemySkill}`)
+        .then((res) => setEnemySkill(res.data.skill))
+        .catch()
+    }
   }, [])
+
+  console.log(props)
 
   const templog = [...log]
   const fighterDmg = () => {

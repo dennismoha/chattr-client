@@ -75,6 +75,7 @@ const Foragers = props => {
   return (
     <Layout>
       <h4>Foragers</h4>
+      <h5>Please pick a selected forager and an opponent</h5>
       <p>Currently Selected: {foragerName}</p>
       <p>Opponent: {opponentName}</p>
       {((foragerName !== '') && (opponentName !== '')) ? <p>{fightButton}</p> : ''}

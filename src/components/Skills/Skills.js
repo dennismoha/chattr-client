@@ -33,21 +33,25 @@ const Skills = props => {
   })
 
   const findForager = () => {
-    axios({
-      url: `${apiUrl}/foragers/${props.selected}`,
-      method: 'GET'
-    })
-      .then((res) => setForager(res.data.forager.name))
-      .catch(console.error)
+    if (props.selected) {
+      axios({
+        url: `${apiUrl}/foragers/${props.selected}`,
+        method: 'GET'
+      })
+        .then((res) => setForager(res.data.forager.name))
+        .catch(console.error)
+    }
   }
 
   const findOpponent = () => {
-    axios({
-      url: `${apiUrl}/foragers/${props.opponent}`,
-      method: 'GET'
-    })
-      .then((res) => setOpponent(res.data.forager.name))
-      .catch(console.error)
+    if (props.opponent) {
+      axios({
+        url: `${apiUrl}/foragers/${props.opponent}`,
+        method: 'GET'
+      })
+        .then((res) => setOpponent(res.data.forager.name))
+        .catch(console.error)
+    }
   }
 
   findForager()
