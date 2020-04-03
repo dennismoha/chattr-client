@@ -54,7 +54,6 @@ const Skills = props => {
   findOpponent()
   const foragerName = forager
   const opponentName = opponent
-  console.log(foragerName)
 
   const fightButton = (
     <Link to='/fight'>

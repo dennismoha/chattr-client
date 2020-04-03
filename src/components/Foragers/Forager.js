@@ -65,6 +65,13 @@ const Forager = props => {
     <Link to={`/skills/${skill._id}`}>{skill.name}</Link>
   )
 
+  const deleteButton = (<Button onClick={destroy}>Delete Forager</Button>)
+  const editButton = (
+    <Link to={`/foragers/${props.match.params.id}/edit`}>
+      <Button>Edit</Button>
+    </Link>
+  )
+
   return (
     <Layout>
       <h4>{forager.name}</h4>
@@ -73,10 +80,8 @@ const Forager = props => {
       <p>Mp: {forager.mp}</p>
       <p>Str: {forager.str}</p>
       <p>Skill: {ability}</p>
-      <Button onClick={destroy}>Delete Forager</Button>
-      <Link to={`/foragers/${props.match.params.id}/edit`}>
-        <Button>Edit</Button>
-      </Link>
+      {(props.user._id === forager.owner) ? <p>{deleteButton}</p> : ''}
+      {(props.user._id === forager.owner) ? <p>{editButton}</p> : ''}
       <Link to="/foragers">Back to all foragers</Link>
     </Layout>
   )

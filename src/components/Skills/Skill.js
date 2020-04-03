@@ -79,17 +79,23 @@ const Skill = props => {
     } />
   }
 
+  const deleteButton = (<Button onClick={destroy}>Delete Skill</Button>)
+  const editButton = (
+    <Link to={`/skills/${props.match.params.id}/edit`}>
+      <Button>Edit</Button>
+    </Link>
+  )
+  const addButton = (<Button onClick={add}>Use this skill</Button>)
+
   return (
     <Layout>
       <h4>{skill.name}</h4>
       <p>Description: {skill.description}</p>
       <p>Cost: {skill.cost}</p>
       <p>Resource used: {skill.resource}</p>
-      <Button onClick={destroy}>Delete Skill</Button>
-      <Button onClick={add}>Use this skill</Button>
-      <Link to={`/skills/${props.match.params.id}/edit`}>
-        <Button>Edit</Button>
-      </Link>
+      {(props.user._id === skill.owner) ? <p>{deleteButton}</p> : ''}
+      {(props.user._id === skill.owner) ? <p>{editButton}</p> : ''}
+      {(foragerr.name !== '') ? <p>{addButton}</p> : ''}
       <Link to="/skills">Back to all skills</Link>
     </Layout>
   )
