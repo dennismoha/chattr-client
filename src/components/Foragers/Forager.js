@@ -19,7 +19,7 @@ const Forager = props => {
     axios(`${apiUrl}/foragers/${props.match.params.id}`)
       // make sure to updated this.setState to hooks setForager
       .then(res => setForager(res.data.forager))
-      .catch(console.error)
+      .catch()
   }, [])
 
   const destroy = () => {
@@ -39,7 +39,11 @@ const Forager = props => {
       }
     })
       .then(() => setDeleted(true))
-      .catch(console.error)
+      .catch(props.msgAlert({
+        heading: 'Couldnt Delete Forager',
+        message: 'Probly not yours',
+        variant: 'danger'
+      }))
   }
 
   if (!forager) {
@@ -55,7 +59,7 @@ const Forager = props => {
   axios(`${apiUrl}/skills/${forager.skill}`)
     // make sure to updated this.setState to hooks setForager
     .then(res => setSkill(res.data.skill))
-    .catch(console.error)
+    .catch()
 
   const ability = (
     <Link to={`/skills/${skill._id}`}>{skill.name}</Link>

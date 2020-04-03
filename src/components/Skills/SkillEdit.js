@@ -17,7 +17,12 @@ const SkillEdit = props => {
   useEffect(() => {
     axios(`${apiUrl}/skills/${props.match.params.id}`)
       .then(res => setSkill(res.data.skill))
-      .catch(console.error)
+      .catch(props.msgAlert({
+        heading: 'Couldnt Find Skill',
+        message: 'Something wrong the the servers, my bad :(',
+        variant: 'danger'
+      })
+      )
   }, [])
 
   const handleChange = event => {
@@ -44,7 +49,11 @@ const SkillEdit = props => {
       }
     })
       .then(() => setUpdate(true))
-      .catch(console.error)
+      .catch(props.msgAlert({
+        heading: 'Couldnt modify skill',
+        message: 'Probly not yours',
+        variant: 'danger'
+      }))
   }
   if (update) {
     return <Redirect to={`/skills/${props.match.params.id}`} />

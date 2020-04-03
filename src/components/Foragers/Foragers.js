@@ -17,10 +17,9 @@ const Foragers = props => {
   useEffect(() => {
     axios(`${apiUrl}/foragers`)
       .then(res => setForagers(res.data.foragers))
-      .catch(console.error)
+      .catch()
 
     socket.on('new selected', (fighter) => {
-      console.log(fighter)
       if (fighter.fighter.selected) {
         props.setSelected(fighter.fighter.selected._id, fighter.fighter.selected.skill)
         return props.selected
@@ -46,7 +45,6 @@ const Foragers = props => {
       </tr>
     </tbody>
   ))
-  console.log(props.selected)
   let foragerName = ''
   let opponentName = ''
 
@@ -66,16 +64,6 @@ const Foragers = props => {
     }
   }
 
-  let exist
-
-  if (foragerName !== '' && opponentName !== '') {
-    exist = true
-  } else {
-    exist = false
-  }
-
-  console.log(exist)
-
   const fightButton = (
     <Link to='/fight'>
       <Button type='button'>
@@ -91,17 +79,6 @@ const Foragers = props => {
       </Button>
     </Link>
   )
-
-  const show = function (exist) {
-    if (exist === true) {
-      return (
-        { fightButton }
-      )
-    } else {
-      return 'Please pick your fighters'
-    }
-  }
-  console.log(show)
 
   return (
     <Layout>

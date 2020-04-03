@@ -18,12 +18,12 @@ const Skill = props => {
     axios(`${apiUrl}/skills/${props.match.params.id}`)
       // make sure to updated this.setState to hooks setSkill
       .then(res => setSkill(res.data.skill))
-      .catch(console.error)
+      .catch()
 
     axios(`${apiUrl}/foragers/${props.selected}`)
       // make sure to updated this.setState to hooks setForager
       .then(res => setForager(res.data.forager))
-      .catch(console.error)
+      .catch()
   }, [])
 
   const destroy = () => {
@@ -35,7 +35,11 @@ const Skill = props => {
       }
     })
       .then(() => setDeleted(true))
-      .catch(console.error)
+      .catch(props.msgAlert({
+        heading: 'Couldnt delete skill',
+        message: 'Probly not yours tbh',
+        variant: 'danger'
+      }))
   }
 
   const add = () => {
@@ -52,8 +56,17 @@ const Skill = props => {
         'Authorization': `Bearer ${props.user.token}`
       }
     })
-      .then(() => console.log(forager))
-      .catch(console.error)
+      .then(() => props.msgAlert({
+        heading: 'Skill Added to your forager',
+        message: 'Go fight',
+        variant: 'success'
+      })
+      )
+      .catch(props.msgAlert({
+        heading: 'Couldnt add skill to your forager',
+        message: 'Go get a forager',
+        variant: 'danger'
+      }))
   }
 
   if (!skill) {

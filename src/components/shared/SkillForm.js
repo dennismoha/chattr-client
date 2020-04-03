@@ -51,6 +51,8 @@ const ForagerForm = ({ skill, handleSubmit, handleChange, cancelPath }) => {
       <Form.Label>Cost</Form.Label>
       <Form.Control
         type='Number'
+        min="0"
+        max="100"
         placeholder="00"
         value={skill.cost}
         name="cost"

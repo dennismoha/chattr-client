@@ -54,14 +54,16 @@ const ForagerCreate = props => {
       }
     })
       .then(res => setCreatedForagerId(res.data.forager._id))
-      .catch(console.error)
+      .catch(props.msgAlert({
+        heading: 'Couldnt create forager',
+        message: 'Are you logged in?',
+        variant: 'danger'
+      }))
   }
 
   if (createdForagerId) {
     return <Redirect to={`/foragers/${createdForagerId}`} />
   }
-
-  console.log(total)
 
   return (
     <Layout>

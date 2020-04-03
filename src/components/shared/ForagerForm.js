@@ -24,6 +24,8 @@ const ForagerForm = ({ forager, remaining, handleSubmit, handleChange, cancelPat
     <Form.Label>Hp</Form.Label>
     <Form.Control
       type="number"
+      min="0"
+      max="100"
       placeholder="00"
       value={forager.hp}
       name="hp"
@@ -33,6 +35,8 @@ const ForagerForm = ({ forager, remaining, handleSubmit, handleChange, cancelPat
     <Form.Label>Mp</Form.Label>
     <Form.Control
       type="number"
+      min="0"
+      max="100"
       placeholder="00"
       value={forager.mp}
       name="mp"
@@ -42,6 +46,8 @@ const ForagerForm = ({ forager, remaining, handleSubmit, handleChange, cancelPat
     <Form.Label>Str</Form.Label>
     <Form.Control
       type="number"
+      min="0"
+      max="100"
       placeholder="00"
       value={forager.str}
       name="str"

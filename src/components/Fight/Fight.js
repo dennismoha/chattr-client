@@ -23,15 +23,26 @@ const Fight = props => {
         setFighter(foundFighter)
         setEnemy(foundEnemy)
       })
-      .catch(console.error)
-    console.log(props)
+      .catch(props.msgAlert({
+        heading: 'Couldnt find forager',
+        message: 'Go find a forager',
+        variant: 'danger'
+      }))
     axios(`${apiUrl}/skills/${props.fighterSkill}`)
       .then((res) => setFighterSkill(res.data.skill))
-      .catch(console.error)
+      .catch(props.msgAlert({
+        heading: 'Couldnt find a skill for your forager',
+        message: 'You should probly add a skill',
+        variant: 'danger'
+      }))
 
     axios(`${apiUrl}/skills/${props.enemySkill}`)
       .then((res) => setEnemySkill(res.data.skill))
-      .catch(console.error)
+      .catch(props.msgAlert({
+        heading: 'Couldnt find the skill for your opponent',
+        message: 'Go add one',
+        variant: 'danger'
+      }))
   }, [])
 
   const templog = [...log]

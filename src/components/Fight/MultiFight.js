@@ -27,22 +27,26 @@ const Fight = props => {
         setFighter(foundFighter)
         setEnemy(foundEnemy)
       })
-      .catch(console.error)
+      .catch()
     axios(`${apiUrl}/skills/${props.fighterSkill}`)
       .then((res) => setFighterSkill(res.data.skill))
-      .catch(console.error)
+      .catch()
 
     axios(`${apiUrl}/skills/${props.enemySkill}`)
       .then((res) => setEnemySkill(res.data.skill))
-      .catch(console.error)
+      .catch()
 
     socket.on('new peep', (fighter) => {
-      const editedEnemy = fighter.fighter.editedEnemy
-      const editedFighter = fighter.fighter.editedFighter
-      if (fighter.fighter.editedEnemy !== undefined) {
-        setEnemy(editedEnemy)
-      } else if (fighter.fighter.editedFighter !== undefined) {
-        setFighter(editedFighter)
+      if (fighter.fighter !== undefined) {
+        if (fighter.fighter.editedEnemy !== undefined) {
+          const editedEnemy = fighter.fighter.editedEnemy
+          setEnemy(editedEnemy)
+        }
+      } else if (fighter.fighter !== undefined) {
+        if (fighter.fighter.editedFighter !== undefined) {
+          const editedFighter = fighter.fighter.editedFighter
+          setFighter(editedFighter)
+        }
       }
     })
   }, [])
@@ -100,14 +104,28 @@ const Fight = props => {
 
   const fighterAttack = () => {
     const newTurn = turn + 1
-    setTurn(newTurn)
+    socket.emit('new peep', { turn: { newTurn } })
+    socket.on('new peep', (turn) => {
+      if (turn.turn !== undefined) {
+        if (turn.turn.newTurn !== undefined) {
+          setTurn(newTurn)
+        }
+      }
+    })
     fighterDmg()
     setLog([...templog])
   }
 
   const enemyAttack = () => {
     const newTurn = turn + 1
-    setTurn(newTurn)
+    socket.emit('new peep', { turn: { newTurn } })
+    socket.on('new peep', (turn) => {
+      if (turn.turn !== undefined) {
+        if (turn.turn.newTurn !== undefined) {
+          setTurn(newTurn)
+        }
+      }
+    })
     enemyDmg()
     setLog([...templog])
   }
@@ -168,7 +186,14 @@ const Fight = props => {
 
   const fighterUseAbility = () => {
     const newTurn = turn + 1
-    setTurn(newTurn)
+    socket.emit('new peep', { turn: { newTurn } })
+    socket.on('new peep', (turn) => {
+      if (turn.turn !== undefined) {
+        if (turn.turn.newTurn !== undefined) {
+          setTurn(newTurn)
+        }
+      }
+    })
     fighterAbility()
     const editedFighter = Object.assign({ ...fighter }, updatedHp2, updatedStat1)
     const editedEnemy = Object.assign({ ...enemy }, updatedHp1, updatedStat2)
@@ -179,7 +204,14 @@ const Fight = props => {
 
   const enemyUseAbility = () => {
     const newTurn = turn + 1
-    setTurn(newTurn)
+    socket.emit('new peep', { turn: { newTurn } })
+    socket.on('new peep', (turn) => {
+      if (turn.turn !== undefined) {
+        if (turn.turn.newTurn !== undefined) {
+          setTurn(newTurn)
+        }
+      }
+    })
     enemyAbility()
     const editedEnemy = Object.assign({ ...enemy }, updatedHp1, updatedStat2)
     const editedFighter = Object.assign({ ...fighter }, updatedHp2, updatedStat1)

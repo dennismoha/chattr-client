@@ -18,7 +18,11 @@ const ForagerEdit = props => {
   useEffect(() => {
     axios(`${apiUrl}/foragers/${props.match.params.id}`)
       .then(res => setForager(res.data.forager))
-      .catch(console.error)
+      .catch(props.msgAlert({
+        heading: 'Couldnt find your forager',
+        message: 'Go get a forager',
+        variant: 'danger'
+      }))
   }, [])
 
   const handleChange = event => {
@@ -38,7 +42,6 @@ const ForagerEdit = props => {
   }
   const total = hp + mp + str
   const remainingStats = 100 - total
-  console.log(props)
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -67,7 +70,11 @@ const ForagerEdit = props => {
       }
     })
       .then(() => setUpdate(true))
-      .catch(console.error)
+      .catch(props.msgAlert({
+        heading: 'Couldnt modify forager',
+        message: 'Probly not yours',
+        variant: 'danger'
+      }))
   }
   if (update) {
     return <Redirect to={`/foragers/${props.match.params.id}`} />
