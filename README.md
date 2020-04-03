@@ -21,7 +21,7 @@ Fantasy Foragers is a text based, turn based, real time, multiplayer online role
 -   As a user, I want to be able to see the history and logs of the fight
 
 ## Screenshot
-![link] (https://imgur.com/a/eo56CB8)
+-   (https://imgur.com/a/eo56CB8)
 
 ## Set up
 -   [Front End Template](https://git.generalassemb.ly/ga-wdi-boston/react-auth-template)
@@ -30,6 +30,9 @@ Fantasy Foragers is a text based, turn based, real time, multiplayer online role
 
 ## Links
 -   [Fantasy Foragers deployed api] (https://sleepy-harbor-73832.herokuapp.com/)
+-   [Fantasy Foragers deployed site] (https://kurotsubasa.github.io/fantasy-foragers-client/#/)
+-   [Fantasy Foragers api repo] (https://github.com/kurotsubasa/fantasy-foragers-api)
+-   [Fantasy Foragers client repo] (https://github.com/kurotsubasa/fantasy-foragers-client)
 
 
 ## Unsolved Problems
