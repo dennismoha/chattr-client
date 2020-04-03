@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
+import Button from 'react-bootstrap/Button'
 
 const Skill = props => {
   const [skill, setSkill] = useState(null)
@@ -71,10 +72,10 @@ const Skill = props => {
       <p>Description: {skill.description}</p>
       <p>Cost: {skill.cost}</p>
       <p>Resource used: {skill.resource}</p>
-      <button onClick={destroy}>Delete Skill</button>
-      <button onClick={add}>Use this skill</button>
+      <Button onClick={destroy}>Delete Skill</Button>
+      <Button onClick={add}>Use this skill</Button>
       <Link to={`/skills/${props.match.params.id}/edit`}>
-        <button>Edit</button>
+        <Button>Edit</Button>
       </Link>
       <Link to="/skills">Back to all skills</Link>
     </Layout>

@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 const ForagerForm = ({ skill, handleSubmit, handleChange, cancelPath }) => {
-  const resources = ['mp', 'str']
+  const resources = ['MP', 'STR']
   const resourceJSX = resources.map(resource => {
     let isChecked = false
     if (resource === skill.resource) {
@@ -14,7 +14,7 @@ const ForagerForm = ({ skill, handleSubmit, handleChange, cancelPath }) => {
     return (
       <fieldset key={resource} className="resources">
         <label htmlFor={resource}>{resource}</label>
-        <input
+        <Form.Control
           type="radio"
           id={resource}
           value={resource || ''}
