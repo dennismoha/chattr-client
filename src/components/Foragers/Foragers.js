@@ -7,7 +7,6 @@ import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
 import useSocket from 'socket.io-client'
 // import LetsFight from '../shared/LetsFight'
-
 const Foragers = props => {
   const [foragers, setForagers] = useState([])
 
@@ -19,32 +18,25 @@ const Foragers = props => {
       .then(res => setForagers(res.data.foragers))
       .catch()
 
-    socket.on('new selected', (fighter) => {
-      if (fighter.fighter.selected) {
-        props.setSelected(fighter.fighter.selected._id, fighter.fighter.selected.skill)
-        return props.selected
-      }
-
-      if (fighter.fighter.opponent) {
-        props.setOpponent(fighter.fighter.opponent._id, fighter.fighter.opponent.skill)
-        return props.opponent
-      }
+    socket.on('new peep', (fighter) => {
     })
   }, [])
 
-  const foragerss = foragers.map(forager => (
-    <tbody key={forager._id}>
-      <tr>
-        <td><Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
-          <Button variant="secondary" onClick={() => { props.setSelected(forager._id, forager.skill) }}>Select</Button>
-          <Button variant="secondary" onClick={() => { props.setOpponent(forager._id, forager.skill) }}>Opponent</Button></td>
-        <td>{forager.description}</td>
-        <td>{forager.hp}</td>
-        <td>{forager.mp}</td>
-        <td>{forager.str}</td>
-      </tr>
-    </tbody>
-  ))
+  const foragerss = foragers.map(forager => {
+    return (
+      <tbody key={forager._id}>
+        <tr>
+          <td><Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
+            <Button variant="secondary" onClick={() => { props.setSelected(forager._id, forager.skill) }}>Select</Button>
+            <Button variant="secondary" onClick={() => { props.setOpponent(forager._id, forager.skill) }}>Opponent</Button></td>
+          <td>{forager.description}</td>
+          <td>{forager.hp}</td>
+          <td>{forager.mp}</td>
+          <td>{forager.str}</td>
+        </tr>
+      </tbody>
+    )
+  })
   let foragerName = ''
   let opponentName = ''
 
@@ -52,7 +44,7 @@ const Foragers = props => {
     const selectedForager = foragers.find(forager => forager._id === props.selected)
     if (selectedForager !== undefined) {
       foragerName = selectedForager.name
-      socket.emit('new person', { fighter: { selected: selectedForager } })
+      socket.emit('new peep', { fighter: { selected: selectedForager } })
     }
   }
 
@@ -60,7 +52,7 @@ const Foragers = props => {
     const selectedOpponent = foragers.find(forager => forager._id === props.opponent)
     if (selectedOpponent !== undefined) {
       opponentName = selectedOpponent.name
-      socket.emit('new person', { fighter: { opponent: selectedOpponent } })
+      socket.emit('new peep', { fighter: { opponent: selectedOpponent } })
     }
   }
 
