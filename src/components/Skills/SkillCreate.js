@@ -31,7 +31,7 @@ const SkillCreate = props => {
       }
     })
       .then(res => setCreatedSkillId(res.data.skill._id))
-      .catch(props.msgAlert({
+      .catch(() => props.msgAlert({
         heading: 'Couldnt create a skill',
         message: 'Are you logged in',
         variant: 'danger'

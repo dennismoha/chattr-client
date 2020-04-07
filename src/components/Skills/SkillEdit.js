@@ -17,7 +17,7 @@ const SkillEdit = props => {
   useEffect(() => {
     axios(`${apiUrl}/skills/${props.match.params.id}`)
       .then(res => setSkill(res.data.skill))
-      .catch(props.msgAlert({
+      .catch(() => props.msgAlert({
         heading: 'Couldnt Find Skill',
         message: 'Something wrong the the servers, my bad :(',
         variant: 'danger'
@@ -48,8 +48,15 @@ const SkillEdit = props => {
         'Authorization': `Bearer ${props.user.token}`
       }
     })
-      .then(() => setUpdate(true))
-      .catch(props.msgAlert({
+      .then(() => {
+        setUpdate(true)
+        props.msgAlert({
+          heading: 'Successfully modified skill',
+          message: 'Hooray!',
+          variant: 'success'
+        })
+      })
+      .catch(() => props.msgAlert({
         heading: 'Couldnt modify skill',
         message: 'Probly not yours',
         variant: 'danger'

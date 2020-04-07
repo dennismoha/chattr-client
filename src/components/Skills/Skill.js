@@ -20,10 +20,12 @@ const Skill = props => {
       .then(res => setSkill(res.data.skill))
       .catch()
 
-    axios(`${apiUrl}/foragers/${props.selected}`)
-      // make sure to updated this.setState to hooks setForager
-      .then(res => setForager(res.data.forager))
-      .catch()
+    if (props.selected !== null) {
+      axios(`${apiUrl}/foragers/${props.selected}`)
+        // make sure to updated this.setState to hooks setForager
+        .then(res => setForager(res.data.forager))
+        .catch()
+    }
   }, [])
 
   const destroy = () => {
@@ -34,8 +36,15 @@ const Skill = props => {
         'Authorization': `Bearer ${props.user.token}`
       }
     })
-      .then(() => setDeleted(true))
-      .catch(props.msgAlert({
+      .then(() => {
+        setDeleted(true)
+        props.msgAlert({
+          heading: 'Successfully deleted skill',
+          message: 'Skill is now gone',
+          variant: 'success'
+        })
+      })
+      .catch(() => props.msgAlert({
         heading: 'Couldnt delete skill',
         message: 'Probly not yours tbh',
         variant: 'danger'

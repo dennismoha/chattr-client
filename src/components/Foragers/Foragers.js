@@ -5,21 +5,14 @@ import axios from 'axios'
 import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
-import useSocket from 'socket.io-client'
 // import LetsFight from '../shared/LetsFight'
 const Foragers = props => {
   const [foragers, setForagers] = useState([])
-
-  const socket = useSocket(apiUrl)
-  socket.connect()
 
   useEffect(() => {
     axios(`${apiUrl}/foragers`)
       .then(res => setForagers(res.data.foragers))
       .catch()
-
-    socket.on('new peep', (fighter) => {
-    })
   }, [])
 
   const foragerss = foragers.map(forager => {
@@ -44,7 +37,6 @@ const Foragers = props => {
     const selectedForager = foragers.find(forager => forager._id === props.selected)
     if (selectedForager !== undefined) {
       foragerName = selectedForager.name
-      socket.emit('new peep', { fighter: { selected: selectedForager } })
     }
   }
 
@@ -52,7 +44,6 @@ const Foragers = props => {
     const selectedOpponent = foragers.find(forager => forager._id === props.opponent)
     if (selectedOpponent !== undefined) {
       opponentName = selectedOpponent.name
-      socket.emit('new peep', { fighter: { opponent: selectedOpponent } })
     }
   }
 
