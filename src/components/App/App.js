@@ -18,6 +18,7 @@ import Skill from '../Skills/Skill'
 import SkillEdit from '../Skills/SkillEdit'
 import SkillCreate from '../Skills/SkillCreate'
 import MultiFight from '../Fight/MultiFight'
+import Select from '../Fight/Select'
 // import Home from '../Home/Home'
 
 class App extends Component {
@@ -30,7 +31,11 @@ class App extends Component {
       selected: null,
       opponent: null,
       selectedSkill: null,
-      opponentSkill: null
+      opponentSkill: null,
+      fighter1: null,
+      fighter2: null,
+      fighter1Skill: null,
+      fighter2Skill: null
     }
   }
 
@@ -46,6 +51,16 @@ class App extends Component {
   setOpponent = (id, sId) => {
     this.setState({ opponent: id })
     this.setState({ opponentSkill: sId })
+  }
+
+  setFighter1 = (id, sId) => {
+    this.setState({ fighter1: id })
+    this.setState({ fighter1Skill: sId })
+  }
+
+  setFighter2 = (id, sId) => {
+    this.setState({ fighter2: id })
+    this.setState({ fighter2Skill: sId })
   }
 
   msgAlert = ({ heading, message, variant }) => {
@@ -66,7 +81,7 @@ class App extends Component {
             message={msgAlert.message}
           />
         ))}
-        <main className="container">
+        <main className="container" id='mainContainer'>
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
@@ -80,7 +95,7 @@ class App extends Component {
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
           <Route exact path='/foragers' render={() => (
-            <Foragers msgAlert={this.msgAlert} setSelected={this.setSelected} setOpponent={this.setOpponent} opponent={this.state.opponent} selected={this.state.selected} />
+            <Foragers msgAlert={this.msgAlert} user={user} setSelected={this.setSelected} setOpponent={this.setOpponent} opponent={this.state.opponent} selected={this.state.selected} />
           )} />
           <Route exact path='/foragers/:id' render={({ match }) => (
             <Forager match={match} msgAlert={this.msgAlert} user={user} />
@@ -106,8 +121,11 @@ class App extends Component {
           <AuthenticatedRoute exact user={user} path='/skill-create' render={() => (
             <SkillCreate msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute exact user={user} path='/multi-fight' render={() => (
-            <MultiFight msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} fighterSkill={this.state.selectedSkill} enemySkill={this.state.opponentSkill} />
+          <AuthenticatedRoute exact user={user} path='/games/:id/multi-fight' render={({ match }) => (
+            <MultiFight match={match} msgAlert={this.msgAlert} user={user} fighter1={this.state.fighter1} fighter1Skill={this.state.fighter1Skill} fighter2={this.state.fighter2} fighter2Skill={this.state.fighter2Skill} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/games/:id/select' render={({ match }) => (
+            <Select match={match} msgAlert={this.msgAlert} user={user} setFighter1={this.setFighter1} setFighter2={this.setFighter2} />
           )} />
         </main>
       </Fragment>

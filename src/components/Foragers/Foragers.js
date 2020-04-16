@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 import apiUrl from '../../apiConfig'
@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button'
 // import LetsFight from '../shared/LetsFight'
 const Foragers = props => {
   const [foragers, setForagers] = useState([])
+  const [createdGameId, setCreatedGameId] = useState(null)
 
   useEffect(() => {
     axios(`${apiUrl}/foragers`)
@@ -46,6 +47,25 @@ const Foragers = props => {
       opponentName = selectedOpponent.name
     }
   }
+  const gameCreate = () => {
+    axios({
+      url: `${apiUrl}/games`,
+      method: 'POST',
+      data: { 'game': {
+        'player1': `${props.user._id}`
+      }
+      },
+      headers: {
+        'Authorization': `Bearer ${props.user.token}`
+      }
+    })
+      .then(res => setCreatedGameId(res.data.game._id))
+      .catch(() => props.msgAlert({
+        heading: 'Couldnt Create Game',
+        message: 'Are you signed in?',
+        variant: 'danger'
+      }))
+  }
 
   const fightButton = (
     <Link to='/fight'>
@@ -55,22 +75,24 @@ const Foragers = props => {
     </Link>
   )
 
-  const multiFightButton = (
-    <Link to='/multi-fight'>
-      <Button type='button'>
-            Multi-Fight!
-      </Button>
-    </Link>
+  if (createdGameId) {
+    return <Redirect to={`/games/${createdGameId}/select`} />
+  }
+
+  const multiplayer = (
+    <Button onClick={gameCreate} type='button'>
+          Multiplayer!
+    </Button>
   )
 
   return (
     <Layout>
       <h4>Foragers</h4>
       <h5>Please pick a selected forager and an opponent</h5>
+      <h6>or...{multiplayer}</h6>
       <p>Currently Selected: {foragerName}</p>
       <p>Opponent: {opponentName}</p>
       {((foragerName !== '') && (opponentName !== '')) ? <p>{fightButton}</p> : ''}
-      {((foragerName !== '') && (opponentName !== '')) ? <p>{multiFightButton}</p> : ''}
       <table className="table">
         <thead>
           <tr>

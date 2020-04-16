@@ -6,10 +6,11 @@ import useSocket from 'socket.io-client'
 import Button from 'react-bootstrap/Button'
 
 const Fight = props => {
-  const [fighter, setFighter] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
-  const [enemy, setEnemy] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
-  const [fighterSkill, setFighterSkill] = useState({ name: '', description: '', cost: '', resource: '' })
-  const [enemySkill, setEnemySkill] = useState({ name: '', description: '', cost: '', resource: '' })
+  const [fighter1, setFighter1] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
+  const [fighter2, setFighter2] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
+  const [fighter1Skill, setFighter1Skill] = useState({ name: '', description: '', cost: '', resource: '' })
+  const [fighter2Skill, setFighter2Skill] = useState({ name: '', description: '', cost: '', resource: '' })
+  const [game, setGame] = useState({ player1: '', player2: '' })
   const [turn, setTurn] = useState(1)
   const [log, setLog] = useState([])
 
@@ -20,250 +21,244 @@ const Fight = props => {
     axios(`${apiUrl}/foragers`)
       .then(res => {
         const foragers = res.data.foragers
-        const foundFighter = foragers.find(forager => forager._id === props.selected)
-        const foundEnemy = foragers.find(forager => forager._id === props.opponent)
-        foundFighter.hp = 200 + (foundFighter.hp * 2)
-        foundEnemy.hp = 200 + (foundEnemy.hp * 2)
-        setFighter(foundFighter)
-        setEnemy(foundEnemy)
+        const foundFighter1 = foragers.find(forager => forager._id === props.fighter1)
+        const foundFighter2 = foragers.find(forager => forager._id === props.fighter2)
+        foundFighter1.hp = 200 + (foundFighter1.hp * 2)
+        foundFighter2.hp = 200 + (foundFighter2.hp * 2)
+        setFighter1(foundFighter1)
+        setFighter2(foundFighter2)
       })
       .catch()
-    axios(`${apiUrl}/skills/${props.fighterSkill}`)
-      .then((res) => setFighterSkill(res.data.skill))
+    axios(`${apiUrl}/skills/${props.fighter1Skill}`)
+      .then((res) => setFighter1Skill(res.data.skill))
       .catch()
 
-    axios(`${apiUrl}/skills/${props.enemySkill}`)
-      .then((res) => setEnemySkill(res.data.skill))
+    axios(`${apiUrl}/skills/${props.fighter2Skill}`)
+      .then((res) => setFighter2Skill(res.data.skill))
+      .catch()
+
+    axios({
+      url: `${apiUrl}/games/${props.match.params.id}`,
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${props.user.token}`
+      }
+    })
+      .then(res => {
+        setGame(res.data.game)
+      })
       .catch()
 
     socket.on('new peep', (fighter) => {
       if (fighter.fighter !== undefined) {
-        if (fighter.fighter.editedEnemy !== undefined) {
-          const editedEnemy = fighter.fighter.editedEnemy
-          setEnemy(editedEnemy)
+        if (fighter.fighter.editedFighter2 !== undefined) {
+          const editedFighter2 = fighter.fighter.editedFighter2
+          setFighter2(editedFighter2)
         }
-      } else if (fighter.fighter !== undefined) {
-        if (fighter.fighter.editedFighter !== undefined) {
-          const editedFighter = fighter.fighter.editedFighter
-          setFighter(editedFighter)
+      }
+      if (fighter.fighter !== undefined) {
+        if (fighter.fighter.editedFighter1 !== undefined) {
+          const editedFighter1 = fighter.fighter.editedFighter1
+          setFighter1(editedFighter1)
         }
+      }
+      if (fighter.turn) {
+        setTurn(fighter.turn.newTurn)
+      }
+      if (fighter.log) {
+        console.log(fighter.log)
+        const newLog = fighter.log.templog
+        setLog([...newLog])
       }
     })
   }, [])
 
   const templog = [...log]
-  const fighterDmg = () => {
-    if (fighter.str > fighter.mp) {
-      const ouch = enemy.hp - fighter.str
+  const fighter1Dmg = () => {
+    if (fighter1.str > fighter1.mp) {
+      const ouch = fighter2.hp - fighter1.str
       const updatedHp = { hp: ouch }
-      const editedEnemy = Object.assign({ ...enemy }, updatedHp)
-      setEnemy(editedEnemy)
-      templog.push({ [templog.length]: `you have dealt ${fighter.str} damage` })
-      socket.emit('new peep', { fighter: { editedEnemy } })
-    } else if (fighter.mp > fighter.str) {
-      const ouch = enemy.hp - fighter.mp
+      const editedFighter2 = Object.assign({ ...fighter2 }, updatedHp)
+      setFighter2(editedFighter2)
+      templog.push({ [templog.length]: `${fighter1.name} has dealt ${fighter1.str} damage` })
+      socket.emit('new peep', { fighter: { editedFighter2 } })
+    } else if (fighter1.mp > fighter1.str) {
+      const ouch = fighter2.hp - fighter1.mp
       const updatedHp = { hp: ouch }
-      const editedEnemy = Object.assign({ ...enemy }, updatedHp)
-      setEnemy(editedEnemy)
-      templog.push({ [templog.length]: `you have dealt ${fighter.mp} damage` })
-      socket.emit('new peep', { fighter: { editedEnemy } })
+      const editedFighter2 = Object.assign({ ...fighter2 }, updatedHp)
+      setFighter2(editedFighter2)
+      templog.push({ [templog.length]: `${fighter1.name} has dealt ${fighter1.mp} damage` })
+      socket.emit('new peep', { fighter: { editedFighter2 } })
     } else {
-      const ouch = enemy.hp - (fighter.mp + fighter.str)
+      const ouch = fighter2.hp - (fighter1.mp + fighter1.str)
       const updatedHp = { hp: ouch }
-      const editedEnemy = Object.assign({ ...enemy }, updatedHp)
-      setEnemy(editedEnemy)
-      templog.push({ [templog.length]: `you have dealt ${fighter.str + fighter.mp} damage` })
-      socket.emit('new peep', { fighter: { editedEnemy } })
+      const editedFighter2 = Object.assign({ ...fighter2 }, updatedHp)
+      setFighter2(editedFighter2)
+      templog.push({ [templog.length]: `${fighter1.name} has dealt ${fighter1.str + fighter1.mp} damage` })
+      socket.emit('new peep', { fighter: { editedFighter2 } })
     }
   }
 
-  const enemyDmg = () => {
-    if (enemy.str > enemy.mp) {
-      const ouch = fighter.hp - enemy.str
+  const fighter2Dmg = () => {
+    if (fighter2.str > fighter2.mp) {
+      const ouch = fighter1.hp - fighter2.str
       const updatedHp = { hp: ouch }
-      const editedFighter = Object.assign({ ...fighter }, updatedHp)
-      setFighter(editedFighter)
-      templog.push({ [templog.length]: `you have been dealt ${enemy.str} damage` })
-      socket.emit('new peep', { fighter: { editedFighter } })
-    } else if (enemy.mp > enemy.str) {
-      const ouch = fighter.hp - enemy.mp
+      const editedFighter1 = Object.assign({ ...fighter1 }, updatedHp)
+      setFighter1(editedFighter1)
+      templog.push({ [templog.length]: `${fighter2.name} has dealt ${fighter2.str} damage` })
+      socket.emit('new peep', { fighter: { editedFighter1 } })
+    } else if (fighter2.mp > fighter2.str) {
+      const ouch = fighter1.hp - fighter2.mp
       const updatedHp = { hp: ouch }
-      const editedFighter = Object.assign({ ...fighter }, updatedHp)
-      setFighter(editedFighter)
-      templog.push({ [templog.length]: `you have been dealt ${enemy.mp} damage` })
-      socket.emit('new peep', { fighter: { editedFighter } })
+      const editedFighter1 = Object.assign({ ...fighter1 }, updatedHp)
+      setFighter1(editedFighter1)
+      templog.push({ [templog.length]: `${fighter2.name} has dealt ${fighter2.mp} damage` })
+      socket.emit('new peep', { fighter: { editedFighter1 } })
     } else {
-      const ouch = fighter.hp - (enemy.mp + enemy.str)
+      const ouch = fighter1.hp - (fighter2.mp + fighter2.str)
       const updatedHp = { hp: ouch }
-      const editedFighter = Object.assign({ ...fighter }, updatedHp)
-      setFighter(editedFighter)
-      templog.push({ [templog.length]: `you have been dealt ${enemy.str + enemy.mp} damage` })
-      socket.emit('new peep', { fighter: { editedFighter } })
+      const editedFighter1 = Object.assign({ ...fighter1 }, updatedHp)
+      setFighter1(editedFighter1)
+      templog.push({ [templog.length]: `${fighter2.name} has dealt ${fighter2.str + fighter2.mp} damage` })
+      socket.emit('new peep', { fighter: { editedFighter1 } })
     }
   }
 
-  const fighterAttack = () => {
+  const fighter1Attack = () => {
     const newTurn = turn + 1
     socket.emit('new peep', { turn: { newTurn } })
-    socket.on('new peep', (turn) => {
-      if (turn.turn !== undefined) {
-        if (turn.turn.newTurn !== undefined) {
-          setTurn(newTurn)
-        }
-      }
-    })
-    fighterDmg()
-    setLog([...templog])
+    fighter1Dmg()
+    socket.emit('new peep', { log: { templog } })
   }
 
-  const enemyAttack = () => {
+  const fighter2Attack = () => {
     const newTurn = turn + 1
     socket.emit('new peep', { turn: { newTurn } })
-    socket.on('new peep', (turn) => {
-      if (turn.turn !== undefined) {
-        if (turn.turn.newTurn !== undefined) {
-          setTurn(newTurn)
-        }
-      }
-    })
-    enemyDmg()
-    setLog([...templog])
+    fighter2Dmg()
+    socket.emit('new peep', { log: { templog } })
   }
 
   let updatedHp1
   let updatedStat1
   let updatedHp2
   let updatedStat2
-  const fighterAbility = () => {
+  const fighter1Ability = () => {
     let ouch
-    if (fighterSkill.resource === 'mp') {
-      ouch = enemy.hp - Math.floor((Math.pow(fighterSkill.cost, 1.2)))
-      const weak = fighter.mp - fighterSkill.cost
+    if (fighter1Skill.resource === 'mp') {
+      ouch = fighter2.hp - Math.floor((Math.pow(fighter1Skill.cost, 1.2)))
+      const weak = fighter1.mp - fighter1Skill.cost
       updatedStat1 = { mp: weak }
-      templog.push({ [templog.length]: `you have dealt ${Math.floor((Math.pow(fighterSkill.cost, 1.2)))} damage` })
-      if (fighter.mp < 0) {
-        templog.push('Your skill resource is negative, you have healed your opponent for 300hp')
+      templog.push({ [templog.length]: `${fighter1.name} has dealt ${Math.floor((Math.pow(fighter1Skill.cost, 1.2)))} damage with ${fighter1Skill.name}` })
+      if (fighter1.mp < 0) {
+        templog.push({ [templog.length]: `${fighter1.name} has used their skill with negative resources, their opponent has been healed for 300hp` })
       }
     } else {
-      ouch = enemy.hp - ((fighterSkill.cost * 2) + 10)
-      const weak = fighter.str - fighterSkill.cost
+      ouch = fighter2.hp - ((fighter1Skill.cost * 2) + 10)
+      const weak = fighter1.str - fighter1Skill.cost
       updatedStat1 = { str: weak }
-      templog.push({ [templog.length]: `you have dealt ${(fighterSkill.cost * 2) + 10} damage` })
-      if (fighter.str < 0) {
-        templog.push({ [templog.length]: 'Your skill resource is negative, you have healed your opponent for 300hp' })
+      templog.push({ [templog.length]: `${fighter1.name} has dealt ${(fighter1Skill.cost * 2) + 10} damage with ${fighter1Skill.name}` })
+      if (fighter1.str < 0) {
+        templog.push({ [templog.length]: `${fighter1.name} has used their skill with negative resources, their opponent has been healed for 300hp` })
       }
     }
-    if (fighter.mp < 0 || fighter.str < 0) {
+    if (fighter1.mp < 0 || fighter1.str < 0) {
       ouch = ouch + 300
     }
     updatedHp1 = { hp: ouch }
   }
 
-  const enemyAbility = () => {
+  const fighter2Ability = () => {
     let ouch2
-    if (enemySkill.resource === 'mp') {
-      ouch2 = fighter.hp - Math.floor((Math.pow(enemySkill.cost, 1.2)))
-      const weak = enemy.mp - enemySkill.cost
+    if (fighter2Skill.resource === 'mp') {
+      ouch2 = fighter1.hp - Math.floor((Math.pow(fighter2Skill.cost, 1.2)))
+      const weak = fighter2.mp - fighter2Skill.cost
       updatedStat2 = { mp: weak }
-      templog.push({ [templog.length]: `you have been dealt ${Math.floor((Math.pow(enemySkill.cost, 1.2)))} damage` })
-      if (enemy.mp < 0) {
-        templog.push({ [templog.length]: 'Your enemies skill resource is negative, you have been healed for 300hp' })
+      templog.push({ [templog.length]: `${fighter2.name} has dealt ${Math.floor((Math.pow(fighter2Skill.cost, 1.2)))} damage with ${fighter2Skill.name}` })
+      if (fighter2.mp < 0) {
+        templog.push({ [templog.length]: `${fighter2.name} has used their skill with negative resources, their opponent has been healed for 300hp` })
       }
     } else {
-      ouch2 = fighter.hp - ((enemySkill.cost * 2) + 10)
-      const weak = enemy.str - enemySkill.cost
+      ouch2 = fighter1.hp - ((fighter2Skill.cost * 2) + 10)
+      const weak = fighter2.str - fighter2Skill.cost
       updatedStat2 = { str: weak }
-      templog.push({ [templog.length]: `you have been dealt ${(enemySkill.cost * 2) + 10} damage` })
-      if (enemy.str < 0) {
-        templog.push({ [templog.length]: 'Your enemies skill resource is negative, you have been healed for 300hp' })
+      templog.push({ [templog.length]: `${fighter2.name} has dealt ${(fighter2Skill.cost * 2) + 10} damage with ${fighter2Skill.name}` })
+      if (fighter2.str < 0) {
+        templog.push({ [templog.length]: `${fighter2.name} has used their skill with negative resources, their opponent has been healed for 300hp` })
       }
     }
-    if (enemy.mp < 0 || enemy.str < 0) {
+    if (fighter2.mp < 0 || fighter2.str < 0) {
       ouch2 = ouch2 + 300
     }
     updatedHp2 = { hp: ouch2 }
   }
 
-  const fighterUseAbility = () => {
+  const fighter1UseAbility = () => {
     const newTurn = turn + 1
     socket.emit('new peep', { turn: { newTurn } })
-    socket.on('new peep', (turn) => {
-      if (turn.turn !== undefined) {
-        if (turn.turn.newTurn !== undefined) {
-          setTurn(newTurn)
-        }
-      }
-    })
-    fighterAbility()
-    const editedFighter = Object.assign({ ...fighter }, updatedHp2, updatedStat1)
-    const editedEnemy = Object.assign({ ...enemy }, updatedHp1, updatedStat2)
-    setLog([...templog])
-    socket.emit('new peep', { fighter: { editedFighter } })
-    socket.emit('new peep', { fighter: { editedEnemy } })
+    fighter1Ability()
+    const editedFighter1 = Object.assign({ ...fighter1 }, updatedHp2, updatedStat1)
+    const editedFighter2 = Object.assign({ ...fighter2 }, updatedHp1, updatedStat2)
+    socket.emit('new peep', { log: { templog } })
+    socket.emit('new peep', { fighter: { editedFighter1 } })
+    socket.emit('new peep', { fighter: { editedFighter2 } })
   }
 
-  const enemyUseAbility = () => {
+  const fighter2UseAbility = () => {
     const newTurn = turn + 1
     socket.emit('new peep', { turn: { newTurn } })
-    socket.on('new peep', (turn) => {
-      if (turn.turn !== undefined) {
-        if (turn.turn.newTurn !== undefined) {
-          setTurn(newTurn)
-        }
-      }
-    })
-    enemyAbility()
-    const editedEnemy = Object.assign({ ...enemy }, updatedHp1, updatedStat2)
-    const editedFighter = Object.assign({ ...fighter }, updatedHp2, updatedStat1)
-    setLog([...templog])
-    socket.emit('new peep', { fighter: { editedEnemy } })
-    socket.emit('new peep', { fighter: { editedFighter } })
+    fighter2Ability()
+    const editedFighter2 = Object.assign({ ...fighter2 }, updatedHp1, updatedStat2)
+    const editedFighter1 = Object.assign({ ...fighter1 }, updatedHp2, updatedStat1)
+    socket.emit('new peep', { log: { templog } })
+    socket.emit('new peep', { fighter: { editedFighter2 } })
+    socket.emit('new peep', { fighter: { editedFighter1 } })
   }
 
-  if (fighter.hp <= 0 && enemy.hp <= 0) {
+  console.log(game)
+  if (fighter1.hp <= 0 && fighter2.hp <= 0) {
     return 'Its a tie!'
   }
 
-  if (fighter.hp <= 0) {
-    return 'You lose!'
+  if (fighter1.hp <= 0) {
+    return `${fighter2.name} has won`
   }
 
-  if (enemy.hp <= 0) {
-    return 'You win!'
+  if (fighter2.hp <= 0) {
+    return `${fighter1.name} has won`
   }
 
   if (turn === 15) {
-    return 'Game Over!'
+    return 'Time Over!'
   }
-  const enemyButton = (
+  const fighter2Button = (
     <div>
-      <Button onClick={enemyAttack}>Attack!</Button>
-      <Button onClick={enemyUseAbility}>Use your Ability!</Button>
+      <Button onClick={fighter2Attack}>Attack!</Button>
+      <Button onClick={fighter2UseAbility}>Use your Ability!</Button>
     </div>
   )
 
-  const fighterButton = (
+  const fighter1Button = (
     <p>
-      <Button onClick={fighterAttack}>Attack!</Button>
-      <Button onClick={fighterUseAbility}>Use your Ability!</Button>
+      <Button onClick={fighter1Attack}>Attack!</Button>
+      <Button onClick={fighter1UseAbility}>Use your Ability!</Button>
     </p>
   )
   return (
     <div>
-      <ul>your stats:
-        <li>hp: {fighter.hp}</li>
-        <li>str: {fighter.str}</li>
-        <li>mp: {fighter.mp}</li>
-        <li>skill: {fighterSkill.name}</li>
-        {(turn % 2 === 0) ? <div>{ fighterButton }</div> : '' }
+      <ul>{fighter1.name}:
+        <li>hp: {fighter1.hp}</li>
+        <li>str: {fighter1.str}</li>
+        <li>mp: {fighter1.mp}</li>
+        <li>skill: {fighter1Skill.name}</li>
+        {((turn % 2 !== 0) && (props.user._id === game.player1)) ? <div>{ fighter1Button }</div> : '' }
       </ul>
 
-      <ul>opponents stats:
-        <li>hp: {enemy.hp}</li>
-        <li>str: {enemy.str}</li>
-        <li>mp: {enemy.mp}</li>
-        <li>skill: {enemySkill.name}</li>
-        {(turn % 2 !== 0) ? <p>{ enemyButton }</p> : '' }
+      <ul>{fighter2.name}:
+        <li>hp: {fighter2.hp}</li>
+        <li>str: {fighter2.str}</li>
+        <li>mp: {fighter2.mp}</li>
+        <li>skill: {fighter2Skill.name}</li>
+        {((turn % 2 === 0) && (props.user._id === game.player2)) ? <p>{ fighter2Button }</p> : '' }
       </ul>
       <BattleLog log={log} />
     </div>
