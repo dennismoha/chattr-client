@@ -71,7 +71,7 @@ const Skill = props => {
         variant: 'success'
       })
       )
-      .catch(props.msgAlert({
+      .catch(() => props.msgAlert({
         heading: 'Couldnt add skill to your forager',
         message: 'Go get a forager',
         variant: 'danger'
