@@ -251,6 +251,7 @@ const Fight = props => {
         <li>mp: {fighter1.mp}</li>
         <li>skill: {fighter1Skill.name}</li>
         {((turn % 2 !== 0) && (props.user._id === game.player1)) ? <div>{ fighter1Button }</div> : '' }
+        {(turn % 2 !== 0) ? 'Waiting for player 2 to take their turn' : '' }
       </ul>
 
       <ul>{fighter2.name}:
@@ -259,6 +260,7 @@ const Fight = props => {
         <li>mp: {fighter2.mp}</li>
         <li>skill: {fighter2Skill.name}</li>
         {((turn % 2 === 0) && (props.user._id === game.player2)) ? <p>{ fighter2Button }</p> : '' }
+        {(turn % 2 === 0) ? 'Waiting for player 1 to take their turn' : '' }
       </ul>
       <BattleLog log={log} />
     </div>
