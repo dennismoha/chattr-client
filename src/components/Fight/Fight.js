@@ -38,8 +38,6 @@ const Fight = props => {
     }
   }, [])
 
-  console.log(props)
-
   const templog = [...log]
   const fighterDmg = () => {
     if (fighter.str > fighter.mp) {
@@ -175,6 +173,8 @@ const Fight = props => {
     return 'Game Over'
   }
 
+  const revLog = log.reverse()
+
   return (
     <Layout>
       <div>
@@ -197,7 +197,7 @@ const Fight = props => {
         <div className="buttons">
           <Button onClick={attack}>Attack!</Button>
           <Button onClick={useAbility}>Use your Ability!</Button>
-          <BattleLog log={log} />
+          <BattleLog log={revLog} />
         </div>
       </div>
     </Layout>

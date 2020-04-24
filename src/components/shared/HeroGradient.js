@@ -1,7 +1,6 @@
 import React from 'react'
 
 const HeroGradient = ({ message, startColor, midColor, endColor }) => {
-  console.log(startColor, midColor, endColor)
   const heroContainerStyles = {
     // Center content inside container
     display: 'flex',

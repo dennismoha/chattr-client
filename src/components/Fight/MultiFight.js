@@ -66,7 +66,6 @@ const Fight = props => {
         setTurn(fighter.turn.newTurn)
       }
       if (fighter.log) {
-        console.log(fighter.log)
         const newLog = fighter.log.templog
         setLog([...newLog])
       }
@@ -214,7 +213,6 @@ const Fight = props => {
     socket.emit('new peep', { fighter: { editedFighter1 } })
   }
 
-  console.log(game)
   if (fighter1.hp <= 0 && fighter2.hp <= 0) {
     return 'Its a tie!'
   }
@@ -257,6 +255,8 @@ const Fight = props => {
       <Button variant="secondary" disabled>Use your Ability!</Button>
     </p>
   )
+
+  const revLog = log.reverse()
   return (
     <div>
       <div className="float-md-left float-lg-left float-xl-left">
@@ -265,7 +265,7 @@ const Fight = props => {
           <li>str: {fighter1.str}</li>
           <li>mp: {fighter1.mp}</li>
           <li>skill: {fighter1Skill.name}</li>
-          {((turn % 2 !== 0) && (props.user._id === game.player1)) ? <div>{ fighter1Button }</div> : <div>{ fighter1ButtonDead }</div> }
+          {((turn % 2 !== 0) && (props.user._id === game.player1)) ? <div>{ fighter1Button }</div> : (props.user._id === game.player2) ? '' : <div>{ fighter1ButtonDead }</div> }
           {(turn % 2 !== 0) ? 'Waiting for player 1 to take their turn' : '' }
           {(turn % 2 === 0) ? 'Waiting for player 2 to take their turn' : '' }
         </ul>
@@ -277,12 +277,12 @@ const Fight = props => {
           <li>str: {fighter2.str}</li>
           <li>mp: {fighter2.mp}</li>
           <li>skill: {fighter2Skill.name}</li>
-          {((turn % 2 === 0) && (props.user._id === game.player2)) ? <p>{ fighter2Button }</p> : <div>{ fighter2ButtonDead }</div> }
+          {((turn % 2 === 0) && (props.user._id === game.player2)) ? <p>{ fighter2Button }</p> : (props.user._id === game.player1) ? '' : <div>{ fighter2ButtonDead }</div> }
           {(turn % 2 === 0) ? 'Waiting for player 2 to take their turn' : '' }
           {(turn % 2 !== 0) ? 'Waiting for player 1 to take their turn' : '' }
         </ul>
       </div>
-      <BattleLog log={log} />
+      <BattleLog log={revLog} />
     </div>
   )
 }

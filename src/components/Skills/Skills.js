@@ -15,7 +15,11 @@ const Skills = props => {
   useEffect(() => {
     axios(`${apiUrl}/skills`)
       .then(res => setSkills(res.data.skills))
-      .catch(console.error)
+      .catch(() => props.msgAlert({
+        heading: 'Couldnt find skill',
+        message: 'Go make a skill',
+        variant: 'danger'
+      }))
   }, [])
 
   const skillss = skills.map(skill => {
@@ -39,7 +43,7 @@ const Skills = props => {
         method: 'GET'
       })
         .then((res) => setForager(res.data.forager.name))
-        .catch(console.error)
+        .catch()
     }
   }
 
@@ -50,7 +54,7 @@ const Skills = props => {
         method: 'GET'
       })
         .then((res) => setOpponent(res.data.forager.name))
-        .catch(console.error)
+        .catch()
     }
   }
 
