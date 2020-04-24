@@ -6,6 +6,7 @@ import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
 import useSocket from 'socket.io-client'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 // import LetsFight from '../shared/LetsFight'
 const Foragers = props => {
   const [game, setGame] = useState({ player1: '', player2: '' })
@@ -17,6 +18,7 @@ const Foragers = props => {
   const [fighter2Skill, setFighter2Skill] = useState(null)
   const [confirm1, setConfirm1] = useState(false)
   const [confirm2, setConfirm2] = useState(false)
+  const [copier, setCopier] = useState(window.location.href)
 
   const socket = useSocket(apiUrl)
   socket.connect()
@@ -181,12 +183,27 @@ const Foragers = props => {
       Are you Playing?
     </Button>
   )
-  console.log(window.location.href)
 
+  const handleChange = event => {
+    const updatedField = event.target.value
+
+    setCopier(updatedField)
+
+    // setForager({ ...forager, [event.target.name]: event.target.value })
+  }
+
+  const urlCopier = (
+    <div>
+      <input value={copier} onChange={handleChange} />
+      <CopyToClipboard text={copier}>
+        <button>Copy URL</button>
+      </CopyToClipboard>
+    </div>
+  )
   return (
     <Layout>
       <h4>Foragers</h4>
-      {(game.player1 && game.player2) ? <h5>Please pick a selected forager and an opponent</h5> : `Please send your friend this link to get started: ${window.location.href}`}
+      {(game.player1 && game.player2) ? <h5>Please pick a selected forager and an opponent</h5> : <div><p>Please send your friend this link to get started:</p> { urlCopier }</div>}
       <p>Forager 1: {fighter1Name}<br></br>
       Skill: {fighter1SkillName}</p>
       <p>Forager 2: {fighter2Name}<br></br>
