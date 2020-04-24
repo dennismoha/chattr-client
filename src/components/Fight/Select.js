@@ -79,7 +79,7 @@ const Foragers = props => {
     }
 
     return (
-      <tbody key={forager._id}>
+      <tbody className="lay" key={forager._id}>
         <tr>
           <td><Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
             {props.user._id === game.player1 && (game.player2) ? <Button variant="secondary" onClick={fighter1Selector}>Forager 1</Button> : ''}
@@ -205,7 +205,7 @@ const Foragers = props => {
       {(!game.player2) ? 'Waiting for player 2 to join...' : ''}
       <table className="table">
         <thead>
-          <tr>
+          <tr className="lay">
             <th scope="col">Name</th>
             <th scope="col">description</th>
             <th scope="col">hp</th>

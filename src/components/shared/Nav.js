@@ -5,19 +5,19 @@ import Button from 'react-bootstrap/Button'
 const Nav = () => (
   <nav>
     <Button
-      variant="light">
+      variant="dark">
       <NavLink to='/'>Home</NavLink>
     </Button>
     <Button
-      variant="light">
+      variant="dark">
       <NavLink to='/foragers'>Foragers</NavLink>
     </Button>
     <Button
-      variant="light">
+      variant="dark">
       <NavLink to='/forager-create'>Create Forager</NavLink>
     </Button>
     <Button
-      variant="light">
+      variant="dark">
       <NavLink to='/skill-create'>Create Skill</NavLink>
     </Button>
   </nav>

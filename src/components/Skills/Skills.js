@@ -20,7 +20,7 @@ const Skills = props => {
 
   const skillss = skills.map(skill => {
     return (
-      <tbody key={skill._id}>
+      <tbody className="lay" key={skill._id}>
         <tr>
           <td>
             <Link to={`/skills/${skill._id}`}>{skill.name}</Link></td>
@@ -75,7 +75,7 @@ const Skills = props => {
       {((foragerName !== null) && (opponentName !== null)) ? <p>{fightButton}</p> : ''}
       <table className="table">
         <thead>
-          <tr>
+          <tr className="lay">
             <th scope="col">Name</th>
             <th scope="col">description</th>
             <th scope="col">resource</th>

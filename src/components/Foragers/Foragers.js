@@ -5,6 +5,7 @@ import axios from 'axios'
 import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
+
 // import LetsFight from '../shared/LetsFight'
 const Foragers = props => {
   const [foragers, setForagers] = useState([])
@@ -18,7 +19,7 @@ const Foragers = props => {
 
   const foragerss = foragers.map(forager => {
     return (
-      <tbody key={forager._id}>
+      <tbody className="lay" key={forager._id}>
         <tr>
           <td><Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
             <Button variant="secondary" onClick={() => { props.setSelected(forager._id, forager.skill) }}>Select</Button>
@@ -86,16 +87,17 @@ const Foragers = props => {
   )
 
   return (
-    <Layout>
+    <Layout className="lay">
       <h4>Foragers</h4>
       <h5>Please pick a selected forager and an opponent</h5>
-      <h6>or...{multiplayer}</h6>
+      <h5>Go to the skills tab and add a skill to your forager</h5>
+      <h6>{multiplayer}</h6>
       <p>Currently Selected: {foragerName}</p>
       <p>Opponent: {opponentName}</p>
       {((foragerName !== '') && (opponentName !== '')) ? <p>{fightButton}</p> : ''}
       <table className="table">
         <thead>
-          <tr>
+          <tr className="lay">
             <th scope="col">Name</th>
             <th scope="col">description</th>
             <th scope="col">hp</th>

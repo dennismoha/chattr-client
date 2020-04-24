@@ -243,25 +243,45 @@ const Fight = props => {
       <Button onClick={fighter1UseAbility}>Use your Ability!</Button>
     </p>
   )
+
+  const fighter1ButtonDead = (
+    <p>
+      <Button variant="secondary" disabled>Attack!</Button>
+      <Button variant="secondary" disabled>Use your Ability!</Button>
+    </p>
+  )
+
+  const fighter2ButtonDead = (
+    <p>
+      <Button variant="secondary" disabled>Attack</Button>
+      <Button variant="secondary" disabled>Use your Ability!</Button>
+    </p>
+  )
   return (
     <div>
-      <ul>{fighter1.name}:
-        <li>hp: {fighter1.hp}</li>
-        <li>str: {fighter1.str}</li>
-        <li>mp: {fighter1.mp}</li>
-        <li>skill: {fighter1Skill.name}</li>
-        {((turn % 2 !== 0) && (props.user._id === game.player1)) ? <div>{ fighter1Button }</div> : '' }
-        {(turn % 2 !== 0) ? 'Waiting for player 2 to take their turn' : '' }
-      </ul>
+      <div className="float-md-left float-lg-left float-xl-left">
+        <ul>{fighter1.name}:
+          <li>hp: {fighter1.hp}</li>
+          <li>str: {fighter1.str}</li>
+          <li>mp: {fighter1.mp}</li>
+          <li>skill: {fighter1Skill.name}</li>
+          {((turn % 2 !== 0) && (props.user._id === game.player1)) ? <div>{ fighter1Button }</div> : <div>{ fighter1ButtonDead }</div> }
+          {(turn % 2 !== 0) ? 'Waiting for player 1 to take their turn' : '' }
+          {(turn % 2 === 0) ? 'Waiting for player 2 to take their turn' : '' }
+        </ul>
+      </div>
 
-      <ul>{fighter2.name}:
-        <li>hp: {fighter2.hp}</li>
-        <li>str: {fighter2.str}</li>
-        <li>mp: {fighter2.mp}</li>
-        <li>skill: {fighter2Skill.name}</li>
-        {((turn % 2 === 0) && (props.user._id === game.player2)) ? <p>{ fighter2Button }</p> : '' }
-        {(turn % 2 === 0) ? 'Waiting for player 1 to take their turn' : '' }
-      </ul>
+      <div className="float-md-right float-lg-right float-xl-right">
+        <ul>{fighter2.name}:
+          <li>hp: {fighter2.hp}</li>
+          <li>str: {fighter2.str}</li>
+          <li>mp: {fighter2.mp}</li>
+          <li>skill: {fighter2Skill.name}</li>
+          {((turn % 2 === 0) && (props.user._id === game.player2)) ? <p>{ fighter2Button }</p> : <div>{ fighter2ButtonDead }</div> }
+          {(turn % 2 === 0) ? 'Waiting for player 2 to take their turn' : '' }
+          {(turn % 2 !== 0) ? 'Waiting for player 1 to take their turn' : '' }
+        </ul>
+      </div>
       <BattleLog log={log} />
     </div>
   )

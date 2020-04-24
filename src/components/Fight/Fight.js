@@ -3,6 +3,7 @@ import axios from 'axios'
 import apiUrl from '../../apiConfig'
 import BattleLog from './BattleLog'
 import Button from 'react-bootstrap/Button'
+import Layout from '../shared/Layout'
 
 const Fight = props => {
   const [fighter, setFighter] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
@@ -175,27 +176,31 @@ const Fight = props => {
   }
 
   return (
-    <div>
-      <span>
-        <ul>your stats:
-          <li>hp: {fighter.hp}</li>
-          <li>str: {fighter.str}</li>
-          <li>mp: {fighter.mp}</li>
-          <li>skill: {fighterSkill.name}</li>
-        </ul>
-      </span>
-      <span>
-        <ul>opponents stats:
-          <li>hp: {enemy.hp}</li>
-          <li>str: {enemy.str}</li>
-          <li>mp: {enemy.mp}</li>
-          <li>skill: {enemySkill.name}</li>
-        </ul>
-      </span>
-      <Button onClick={attack}>Attack!</Button>
-      <Button onClick={useAbility}>Use your Ability!</Button>
-      <BattleLog log={log} />
-    </div>
+    <Layout>
+      <div>
+        <div className="float-md-left float-lg-left float-xl-left">
+          <ul>your stats:
+            <li>hp: {fighter.hp}</li>
+            <li>str: {fighter.str}</li>
+            <li>mp: {fighter.mp}</li>
+            <li>skill: {fighterSkill.name}</li>
+          </ul>
+        </div>
+        <div className="opponent">
+          <ul>opponents stats:
+            <li>hp: {enemy.hp}</li>
+            <li>str: {enemy.str}</li>
+            <li>mp: {enemy.mp}</li>
+            <li>skill: {enemySkill.name}</li>
+          </ul>
+        </div>
+        <div className="buttons">
+          <Button onClick={attack}>Attack!</Button>
+          <Button onClick={useAbility}>Use your Ability!</Button>
+          <BattleLog log={log} />
+        </div>
+      </div>
+    </Layout>
   )
 }
 

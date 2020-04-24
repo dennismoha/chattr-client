@@ -15,7 +15,7 @@ const BattleLog = props => {
   })
 
   return (
-    <div style={{ overflowY: 'scroll', width: '50vw' } }>
+    <div style={{ overflowY: 'scroll', height: '20vh', width: '70vw', margin: '10vh 5vw' } }>
       <ul>Log:
         {fightLog}
       </ul>

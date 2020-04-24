@@ -8,7 +8,6 @@ const HeroImage = ({ backgroundImage, message }) => {
     // Center horizontally
     justifyContent: 'center',
     // Center verticaly
-    alignItems: 'center',
 
     // Background image
     backgroundImage: `url(${backgroundImage})`,
@@ -16,12 +15,13 @@ const HeroImage = ({ backgroundImage, message }) => {
     backgroundPosition: 'center',
 
     // Make the container taller
-    height: '100vh'
+    height: '100vh',
+    position: 'sticky'
   }
   // <div style={{ backgroundColor: 'red' }}>
   return (
     <div style={heroContainerStyles}>
-      <h1>{message}</h1>
+      <div>{message}</div>
     </div>
   )
 }

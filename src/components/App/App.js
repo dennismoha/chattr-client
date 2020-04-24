@@ -19,6 +19,7 @@ import SkillEdit from '../Skills/SkillEdit'
 import SkillCreate from '../Skills/SkillCreate'
 import MultiFight from '../Fight/MultiFight'
 import Select from '../Fight/Select'
+import Home from '../Home/Home'
 // import Home from '../Home/Home'
 
 class App extends Component {
@@ -71,7 +72,7 @@ class App extends Component {
     const { msgAlerts, user } = this.state
 
     return (
-      <Fragment>
+      <Fragment className="hi">
         <Header user={user} />
         {msgAlerts.map((msgAlert, index) => (
           <AutoDismissAlert
@@ -82,6 +83,7 @@ class App extends Component {
           />
         ))}
         <main className="container" id='mainContainer'>
+          <Route path='/' component={Home} />
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
