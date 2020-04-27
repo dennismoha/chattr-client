@@ -22,20 +22,6 @@ const Skills = props => {
       }))
   }, [])
 
-  const skillss = skills.map(skill => {
-    return (
-      <tbody className="lay" key={skill._id}>
-        <tr>
-          <td>
-            <Link to={`/skills/${skill._id}`}>{skill.name}</Link></td>
-          <td>{skill.description}</td>
-          <td>{skill.resource}</td>
-          <td>{skill.cost}</td>
-        </tr>
-      </tbody>
-    )
-  })
-
   const findForager = () => {
     if (props.selected) {
       axios({
@@ -62,6 +48,49 @@ const Skills = props => {
   findOpponent()
   const foragerName = forager
   const opponentName = opponent
+
+  const skillss = skills.map(skill => {
+    const add = () => {
+      event.preventDefault()
+      const move = skill._id
+      if (props.selected) {
+        axios({
+          url: `${apiUrl}/foragers/${props.selected}`,
+          method: 'PATCH',
+          data: { skill: move },
+          headers: {
+            'Authorization': `Bearer ${props.user.token}`
+          }
+        })
+          .then(() => props.msgAlert({
+            heading: 'Skill Added to your forager',
+            message: 'Go fight',
+            variant: 'success'
+          })
+          )
+          .catch(() => props.msgAlert({
+            heading: 'Couldnt add skill to your forager',
+            message: 'Go get a forager',
+            variant: 'danger'
+          }))
+      }
+    }
+
+    const addButton = (<Button onClick={add}>Use this skill</Button>)
+
+    return (
+      <tbody className="lay" key={skill._id}>
+        <tr>
+          <td>
+            <Link to={`/skills/${skill._id}`}>{skill.name}</Link>
+            {(foragerName) ? <p>{addButton}</p> : ''}</td>
+          <td>{skill.description}</td>
+          <td>{skill.resource}</td>
+          <td>{skill.cost}</td>
+        </tr>
+      </tbody>
+    )
+  })
 
   const fightButton = (
     <Link to='/fight'>

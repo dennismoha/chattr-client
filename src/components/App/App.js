@@ -72,7 +72,7 @@ class App extends Component {
     const { msgAlerts, user } = this.state
 
     return (
-      <Fragment className="hi">
+      <Fragment>
         <Header user={user} />
         {msgAlerts.map((msgAlert, index) => (
           <AutoDismissAlert
