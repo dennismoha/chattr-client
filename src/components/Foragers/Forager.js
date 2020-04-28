@@ -18,7 +18,14 @@ const Forager = props => {
   useEffect(() => {
     axios(`${apiUrl}/foragers/${props.match.params.id}`)
       // make sure to updated this.setState to hooks setForager
-      .then(res => setForager(res.data.forager))
+      .then(res => {
+        setForager(res.data.forager)
+        if (res.data.forager.skill) {
+          axios(`${apiUrl}/skills/${res.data.forager.skill}`)
+            .then(res => setSkill(res.data.skill))
+            .catch()
+        }
+      })
       .catch()
   }, [])
 
@@ -54,13 +61,6 @@ const Forager = props => {
     return <Redirect to={
       { pathname: '/foragers', state: { msg: 'Forager succesfully deleted!' } }
     } />
-  }
-
-  if (forager.skill !== undefined) {
-    axios(`${apiUrl}/skills/${forager.skill}`)
-      // make sure to updated this.setState to hooks setForager
-      .then(res => setSkill(res.data.skill))
-      .catch()
   }
 
   const ability = (

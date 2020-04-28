@@ -18,7 +18,7 @@ const ForagerEdit = props => {
   useEffect(() => {
     axios(`${apiUrl}/foragers/${props.match.params.id}`)
       .then(res => setForager(res.data.forager))
-      .catch(props.msgAlert({
+      .catch(() => props.msgAlert({
         heading: 'Couldnt find your forager',
         message: 'Go get a forager',
         variant: 'danger'
@@ -69,8 +69,15 @@ const ForagerEdit = props => {
         'Authorization': `Bearer ${props.user.token}`
       }
     })
-      .then(() => setUpdate(true))
-      .catch(props.msgAlert({
+      .then(() => {
+        setUpdate(true)
+        props.msgAlert({
+          heading: 'Successfully modified forager',
+          message: 'Congratulations',
+          variant: 'success'
+        })
+      })
+      .catch(() => props.msgAlert({
         heading: 'Couldnt modify forager',
         message: 'Probly not yours',
         variant: 'danger'
