@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button'
 
 const Skills = props => {
   const [skills, setSkills] = useState([])
-  const [forager, setForager] = useState(null)
+  const [foragerr, setForager] = useState(null)
   const [opponent, setOpponent] = useState(null)
 
   useEffect(() => {
@@ -20,20 +20,16 @@ const Skills = props => {
         message: 'Go make a skill',
         variant: 'danger'
       }))
-  }, [])
 
-  const findForager = () => {
     if (props.selected) {
       axios({
         url: `${apiUrl}/foragers/${props.selected}`,
         method: 'GET'
       })
-        .then((res) => setForager(res.data.forager.name))
+        .then(res => setForager(res.data.forager))
         .catch()
     }
-  }
 
-  const findOpponent = () => {
     if (props.opponent) {
       axios({
         url: `${apiUrl}/foragers/${props.opponent}`,
@@ -42,22 +38,29 @@ const Skills = props => {
         .then((res) => setOpponent(res.data.forager.name))
         .catch()
     }
-  }
+  }, [])
 
-  findForager()
-  findOpponent()
-  const foragerName = forager
-  const opponentName = opponent
+  let foragerName = ''
+  let opponentName = ''
+  if (foragerr !== null) {
+    foragerName = foragerr.name
+  }
+  if (opponent !== null) {
+    opponentName = opponent.name
+  }
 
   const skillss = skills.map(skill => {
     const add = () => {
       event.preventDefault()
       const move = skill._id
+      const updatedSkill = { skill: move }
+      const forager = Object.assign({ ...foragerr }, updatedSkill)
+      setForager(forager)
       if (props.selected) {
         axios({
           url: `${apiUrl}/foragers/${props.selected}`,
           method: 'PATCH',
-          data: { skill: move },
+          data: { forager },
           headers: {
             'Authorization': `Bearer ${props.user.token}`
           }
