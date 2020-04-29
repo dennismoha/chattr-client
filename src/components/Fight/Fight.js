@@ -185,8 +185,10 @@ const Fight = props => {
             <li>mp: {fighter.mp}</li>
             <li>skill: {fighterSkill.name}</li>
           </ul>
+          <Button onClick={attack}>Attack!</Button>
+          <Button onClick={useAbility}>Use your Ability!</Button>
         </div>
-        <div className="opponent">
+        <div className="float-md-right float-lg-right float-xl-right">
           <ul>opponents stats:
             <li>hp: {enemy.hp}</li>
             <li>str: {enemy.str}</li>
@@ -195,8 +197,6 @@ const Fight = props => {
           </ul>
         </div>
         <div className="buttons">
-          <Button onClick={attack}>Attack!</Button>
-          <Button onClick={useAbility}>Use your Ability!</Button>
           <BattleLog log={revLog} />
         </div>
       </div>
