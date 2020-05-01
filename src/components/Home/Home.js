@@ -34,7 +34,15 @@ const Home = props => {
   const teamfight = (
     <Link to='/teamfight/select'>
       <Button type='button'>
-            TeamFight!
+            Team Fight!
+      </Button>
+    </Link>
+  )
+
+  const singlefight = (
+    <Link to='/foragers'>
+      <Button type='button'>
+        Solo Fight!
       </Button>
     </Link>
   )
@@ -49,8 +57,8 @@ const Home = props => {
     <div>
       <h1 className="lay">Welcome to Fantasy Foragers</h1>
       <h6>{teamfight}</h6>
+      <h6>{singlefight}</h6>
       <h6>{multiplayer}</h6>
-
     </div>
   )
 }
