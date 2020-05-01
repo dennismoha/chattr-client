@@ -131,10 +131,10 @@ class App extends Component {
           <AuthenticatedRoute exact user={user} path='/games/:id/select' render={({ match }) => (
             <Select match={match} msgAlert={this.msgAlert} user={user} setFighter1={this.setFighter1} setFighter2={this.setFighter2} />
           )} />
-          <AuthenticatedRoute exact user={user} path='/games/TeamFight/Select' render={() => (
+          <AuthenticatedRoute exact user={user} path='/TeamFight/Select' render={() => (
             <TeamFightSelect msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} fighterSkill={this.state.selectedSkill} enemySkill={this.state.opponentSkill} />
           )} />
-          <AuthenticatedRoute exact user={user} path='/games/TeamFight' render={() => (
+          <AuthenticatedRoute exact user={user} path='/TeamFight' render={() => (
             <TeamFight msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} fighterSkill={this.state.selectedSkill} enemySkill={this.state.opponentSkill} />
           )} />
         </main>
