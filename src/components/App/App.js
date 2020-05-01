@@ -148,7 +148,7 @@ class App extends Component {
             <TeamFight msgAlert={this.msgAlert} user={user} />
           )} />
           <Route exact path='/singlefight/select' render={() => (
-            <SingleFightSelect msgAlert={this.msgAlert} user={user} setFighter={this.state.setFighter} setOpponent={this.state.setOpponent} fighter={this.state.fighter} opponent={this.state.opponent} />
+            <SingleFightSelect msgAlert={this.msgAlert} user={user} setFighter={this.setFighter} setOpponent={this.setOpponent} fighter={this.state.fighter} opponent={this.state.opponent} />
           )} />
         </main>
       </Fragment>

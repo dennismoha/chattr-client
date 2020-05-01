@@ -40,7 +40,7 @@ const Home = props => {
   )
 
   const singlefight = (
-    <Link to='/foragers'>
+    <Link to='/singlefight/select'>
       <Button type='button'>
         Solo Fight!
       </Button>
