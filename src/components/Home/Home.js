@@ -31,8 +31,8 @@ const Home = props => {
       }))
   }
 
-  const teamfight = () => (
-    <Link to='/TeamFight/Select'>
+  const teamfight = (
+    <Link to='/teamfight/select'>
       <Button type='button'>
             TeamFight!
       </Button>
