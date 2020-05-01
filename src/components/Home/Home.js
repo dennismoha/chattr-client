@@ -34,7 +34,7 @@ const Home = props => {
   const teamfight = (
     <Link to='/teamfight/select'>
       <Button type='button'>
-            Team Fight!
+          Team Fight!
       </Button>
     </Link>
   )
