@@ -10,7 +10,6 @@ import Button from 'react-bootstrap/Button'
 const Skills = props => {
   const [skills, setSkills] = useState([])
   const [foragerr, setForager] = useState(null)
-  const [opponent, setOpponent] = useState(null)
 
   useEffect(() => {
     axios(`${apiUrl}/skills`)
@@ -29,26 +28,12 @@ const Skills = props => {
         .then(res => setForager(res.data.forager))
         .catch()
     }
-
-    if (props.opponent) {
-      axios({
-        url: `${apiUrl}/foragers/${props.opponent}`,
-        method: 'GET'
-      })
-        .then((res) => setOpponent(res.data.forager.name))
-        .catch()
-    }
   }, [])
 
   let foragerName = ''
-  let opponentName = ''
   if (foragerr !== null) {
     foragerName = foragerr.name
   }
-  if (opponent !== null) {
-    opponentName = opponent.name
-  }
-
   const skillss = skills.map(skill => {
     const add = () => {
       event.preventDefault()
@@ -95,20 +80,11 @@ const Skills = props => {
     )
   })
 
-  const fightButton = (
-    <Link to='/fight'>
-      <Button type='button'>
-        Fight!
-      </Button>
-    </Link>
-  )
-
   return (
     <Layout>
       <h4>Skills</h4>
       <p>Currently Selected: {foragerName}</p>
       <p></p>
-      {((foragerName !== null) && (opponentName !== null)) ? <p>{fightButton}</p> : ''}
       <table className="table">
         <thead>
           <tr className="lay">

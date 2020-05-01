@@ -20,8 +20,7 @@ const Foragers = props => {
       <tbody className="lay" key={forager._id}>
         <tr>
           <td><Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
-            <Button variant="secondary" onClick={() => { props.setSelected(forager._id, forager.skill) }}>Select</Button>
-            <Button variant="secondary" onClick={() => { props.setOpponent(forager._id, forager.skill) }}>Opponent</Button></td>
+            <Button variant="secondary" onClick={() => { props.setSelected(forager._id, forager.skill) }}>Select</Button></td>
           <td>{forager.description}</td>
           <td>{forager.hp}</td>
           <td>{forager.mp}</td>
@@ -31,7 +30,6 @@ const Foragers = props => {
     )
   })
   let foragerName = ''
-  let opponentName = ''
 
   if (props.selected) {
     const selectedForager = foragers.find(forager => forager._id === props.selected)
@@ -40,29 +38,12 @@ const Foragers = props => {
     }
   }
 
-  if (props.opponent) {
-    const selectedOpponent = foragers.find(forager => forager._id === props.opponent)
-    if (selectedOpponent !== undefined) {
-      opponentName = selectedOpponent.name
-    }
-  }
-
-  const fightButton = (
-    <Link to='/fight'>
-      <Button type='button'>
-            Fight!
-      </Button>
-    </Link>
-  )
-
   return (
     <Layout className="lay">
       <h4>Foragers</h4>
-      <h5>Please pick a selected forager and an opponent</h5>
+      <h5>Please pick a selected forager</h5>
       <h5>Go to the skills tab and add a skill to your forager</h5>
       <p>Currently Selected: {foragerName}</p>
-      <p>Opponent: {opponentName}</p>
-      {((foragerName !== '') && (opponentName !== '')) ? <p>{fightButton}</p> : ''}
       <table className="table">
         <thead>
           <tr className="lay">
