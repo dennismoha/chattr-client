@@ -131,7 +131,7 @@ class App extends Component {
             <MultiFight match={match} msgAlert={this.msgAlert} user={user} fighter1={this.state.fighter1} fighter1Skill={this.state.fighter1Skill} fighter2={this.state.fighter2} fighter2Skill={this.state.fighter2Skill} />
           )} />
           <AuthenticatedRoute exact user={user} path='/games/:id/select' render={({ match }) => (
-            <Select match={match} msgAlert={this.msgAlert} user={user} setFighter1={this.setFighter1} setFighter2={this.setFighter2} />
+            <Select match={match} msgAlert={this.msgAlert} user={user} />
           )} />
           <AuthenticatedRoute exact user={user} path='/teamfight/select' render={() => (
             <TeamFightSelect msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} fighterSkill={this.state.selectedSkill} enemySkill={this.state.opponentSkill} />

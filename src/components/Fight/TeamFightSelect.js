@@ -21,17 +21,12 @@ const Foragers = props => {
     axios(`${apiUrl}/foragers`)
       .then(res => setForagers(res.data.foragers))
       .catch()
-    axios(`${apiUrl}/foragers/${props.selected}`)
-      .then(res => setFighter1(res.data.forager))
-      .catch()
-
-    axios(`${apiUrl}/foragers/${props.opponent}`)
-      .then(res => setFighter4(res.data.forager))
-      .catch()
   }, [])
   const foragerss = foragers.map(forager => {
     const team1Selector = () => {
-      if (!fighter2) {
+      if (!fighter1) {
+        setFighter1(forager)
+      } else if (!fighter2) {
         setFighter2(forager)
       } else {
         setFighter3(forager)
@@ -39,7 +34,9 @@ const Foragers = props => {
     }
 
     const team2Selector = () => {
-      if (!fighter5) {
+      if (!fighter4) {
+        setFighter4(forager)
+      } else if (!fighter5) {
         setFighter5(forager)
       } else {
         setFighter6(forager)
