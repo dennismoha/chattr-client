@@ -56,12 +56,21 @@ const Forager = props => {
     )
   })
 
+  const fightButton = (
+    <Link to='/fight'>
+      <Button type='button'>
+        Fight!
+      </Button>
+    </Link>
+  )
+
   return (
     <Layout>
       <h4>Foragers</h4>
       <h5>Please pick a fighter and opponent</h5>
       <p>Currently Selected: {(fighter !== null) ? <h6>{fighter.name}</h6> : '' }</p>
       <p>Opponent: {(opponent !== null) ? <h6>{opponent.name}</h6> : '' }</p>
+      {(fighter !== null && opponent !== null) ? <h6>{fightButton}</h6> : ''}
       <table className="table">
         <thead>
           <tr className="lay">

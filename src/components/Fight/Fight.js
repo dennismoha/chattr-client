@@ -12,12 +12,13 @@ const Fight = props => {
   const [enemySkill, setEnemySkill] = useState({ name: '', description: '', cost: '', resource: '' })
   const [turn, setTurn] = useState(1)
   const [log, setLog] = useState([])
+  console.log(props)
 
   useEffect(() => {
     axios(`${apiUrl}/foragers`)
       .then(res => {
         const foragers = res.data.foragers
-        const foundFighter = foragers.find(forager => forager._id === props.selected)
+        const foundFighter = foragers.find(forager => forager._id === props.fighter)
         const foundEnemy = foragers.find(forager => forager._id === props.opponent)
         foundFighter.hp = 200 + (foundFighter.hp * 2)
         foundEnemy.hp = 200 + (foundEnemy.hp * 2)

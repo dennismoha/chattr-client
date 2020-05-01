@@ -121,7 +121,7 @@ class App extends Component {
             <ForagerEdit match={match} msgAlert={this.msgAlert} user={user} />
           )} />
           <AuthenticatedRoute exact user={user} path='/fight' render={() => (
-            <Fight msgAlert={this.msgAlert} user={user} selected={this.state.selected} opponent={this.state.opponent} fighterSkill={this.state.selectedSkill} enemySkill={this.state.opponentSkill} />
+            <Fight msgAlert={this.msgAlert} user={user} fighter={this.state.fighter} opponent={this.state.opponent} fighterSkill={this.state.fighterSkill} enemySkill={this.state.opponentSkill} />
           )} />
           <Route exact user={user} path='/skills' render={() => (
             <Skills msgAlert={this.msgAlert} user={user} selected={this.state.selected} />
