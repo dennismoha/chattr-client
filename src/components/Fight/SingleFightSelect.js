@@ -57,7 +57,7 @@ const Forager = props => {
   })
 
   const fightButton = (
-    <Link to='/fight'>
+    <Link to='/singlefight'>
       <Button type='button'>
         Fight!
       </Button>
