@@ -55,6 +55,10 @@ const Foragers = props => {
       console.log(team2)
     }
 
+    if (confirm === true) {
+      return <Redirect to={'/teamfight'} />
+    }
+
     return (
       <tbody className="lay" key={forager._id}>
         <tr>
