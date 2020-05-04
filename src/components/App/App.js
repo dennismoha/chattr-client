@@ -41,7 +41,9 @@ class App extends Component {
       fighter1: null,
       fighter2: null,
       fighter1Skill: null,
-      fighter2Skill: null
+      fighter2Skill: null,
+      team1: [],
+      team2: []
     }
   }
 
@@ -72,6 +74,26 @@ class App extends Component {
   setFighter2 = (id, sId) => {
     this.setState({ fighter2: id })
     this.setState({ fighter2Skill: sId })
+  }
+
+  setTeam1 = (arr) => {
+    this.setState({
+      team1: [
+        { forager1: arr[0] },
+        { forager2: arr[1] },
+        { forager3: arr[2] }
+      ]
+    })
+  }
+
+  setTeam2 = (arr) => {
+    this.setState({
+      team2: [
+        { forager4: arr[0] },
+        { forager5: arr[1] },
+        { forager6: arr[2] }
+      ]
+    })
   }
 
   msgAlert = ({ heading, message, variant }) => {
@@ -139,13 +161,13 @@ class App extends Component {
             <MultiFight match={match} msgAlert={this.msgAlert} user={user} fighter1={this.state.fighter1} fighter1Skill={this.state.fighter1Skill} fighter2={this.state.fighter2} fighter2Skill={this.state.fighter2Skill} />
           )} />
           <AuthenticatedRoute exact user={user} path='/games/:id/select' render={({ match }) => (
-            <Select match={match} msgAlert={this.msgAlert} user={user} setFighter1={this.state.setFighter1} setFighter2={this.state.setFighter2} />
+            <Select match={match} msgAlert={this.msgAlert} user={user} setFighter1={this.setFighter1} setFighter2={this.setFighter2} />
           )} />
           <AuthenticatedRoute exact user={user} path='/teamfight/select' render={() => (
-            <TeamFightSelect msgAlert={this.msgAlert} user={user} />
+            <TeamFightSelect msgAlert={this.msgAlert} user={user} setTeam1={this.setTeam1} setTeam2={this.setTeam2} team1={this.state.team1} team2={this.state.team2} />
           )} />
           <AuthenticatedRoute exact user={user} path='/teamfight' render={() => (
-            <TeamFight msgAlert={this.msgAlert} user={user} />
+            <TeamFight msgAlert={this.msgAlert} user={user} team1={this.state.team1} team2={this.state.team2}/>
           )} />
           <Route exact path='/singlefight/select' render={() => (
             <SingleFightSelect msgAlert={this.msgAlert} user={user} setFighter={this.setFighter} setOpponent={this.setOpponent} fighter={this.state.fighter} opponent={this.state.opponent} />

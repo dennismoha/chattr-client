@@ -158,22 +158,6 @@ const Fight = props => {
     setLog([...templog])
   }
 
-  if (fighter.hp <= 0 && enemy.hp <= 0) {
-    return 'Its a tie!'
-  }
-
-  if (fighter.hp <= 0) {
-    return 'You lose!'
-  }
-
-  if (enemy.hp <= 0) {
-    return 'You win!'
-  }
-
-  if (turn === 15) {
-    return 'Game Over'
-  }
-
   const revLog = log.reverse()
 
   return (

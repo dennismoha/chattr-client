@@ -14,8 +14,9 @@ const Foragers = props => {
   const [fighter4, setFighter4] = useState(null)
   const [fighter5, setFighter5] = useState(null)
   const [fighter6, setFighter6] = useState(null)
-  const [team1, setTeam1] = useState(null)
-  const [team2, setTeam2] = useState(null)
+  const [team1, setTeam1] = useState([])
+  const [team2, setTeam2] = useState([])
+  const [confirm, setConfirm] = useState(false)
 
   useEffect(() => {
     axios(`${apiUrl}/foragers`)
@@ -24,31 +25,42 @@ const Foragers = props => {
   }, [])
   const foragerss = foragers.map(forager => {
     const team1Selector = () => {
-      if (!fighter1) {
+      const t1 = [ ...team1 ]
+      if (fighter1 === null) {
         setFighter1(forager)
-      } else if (!fighter2) {
+        t1.push(forager)
+      } else if (fighter2 === null) {
         setFighter2(forager)
-      } else {
+        t1.push(forager)
+      } else if (fighter3 === null) {
         setFighter3(forager)
+        t1.push(forager)
       }
+      setTeam1(t1)
     }
 
     const team2Selector = () => {
+      const t2 = [...team2]
       if (!fighter4) {
         setFighter4(forager)
+        t2.push(forager)
       } else if (!fighter5) {
         setFighter5(forager)
+        t2.push(forager)
       } else {
         setFighter6(forager)
+        t2.push(forager)
       }
+      setTeam2(t2)
+      console.log(team2)
     }
 
     return (
       <tbody className="lay" key={forager._id}>
         <tr>
           <td><Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
-            {!fighter2 && !fighter3 ? <Button variant="secondary" onClick={team1Selector}>Add to your team!</Button> : ''}
-            {!fighter5 && !fighter6 ? <Button variant="secondary" onClick={team2Selector}>Add to opponents team!</Button> : ''}
+            {!fighter1 || !fighter2 || !fighter3 ? <Button variant="secondary" onClick={team1Selector}>Add to your team!</Button> : ''}
+            {!fighter4 || !fighter5 || !fighter6 ? <Button variant="secondary" onClick={team2Selector}>Add to opponents team!</Button> : ''}
           </td>
           <td>{forager.description}</td>
           <td>{forager.hp}</td>
@@ -59,26 +71,30 @@ const Foragers = props => {
     )
   })
 
-  const t1 = [fighter1, fighter2, fighter3]
-  const t2 = [fighter4, fighter5, fighter6]
-  setTeam1(t1)
-  setTeam2(t2)
+  const confirmation = () => {
+    props.setTeam1(team1)
+    props.setTeam2(team2)
+    console.log(props.team1)
+    console.log(props.team2)
+  }
 
   return (
     <Layout>
-      <div>Team 1:
+      <div>
+      Team 1:
         <ul>
-          <li>{team1.fighter1.name}</li>
-          <li>{team1.fighter2.name}</li>
-          <li>{team1.fighter3.name}</li>
+          {(fighter1 !== null) ? <li>{fighter1.name}</li> : '' }
+          {(fighter2 !== null) ? <li>{fighter2.name}</li> : '' }
+          {(fighter3 !== null) ? <li>{fighter3.name}</li> : '' }
         </ul>
       Team 2:
         <ul>
-          <li>{team2.fighter4.name}</li>
-          <li>{team2.fighter5.name}</li>
-          <li>{team2.fighter6.name}</li>
+          {(fighter4 !== null) ? <li>{fighter4.name}</li> : '' }
+          {(fighter5 !== null) ? <li>{fighter5.name}</li> : '' }
+          {(fighter6 !== null) ? <li>{fighter6.name}</li> : '' }
         </ul>
       </div>
+      {team1.length === 3 && team2.length === 3 ? <Button variant='secondary' onClick={confirmation}>Confirm!</Button> : ''}
       <h4>Foragers</h4>
       <table className="table">
         <thead>
