@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 import apiUrl from '../../apiConfig'
@@ -74,8 +74,7 @@ const Foragers = props => {
   const confirmation = () => {
     props.setTeam1(team1)
     props.setTeam2(team2)
-    console.log(props.team1)
-    console.log(props.team2)
+    setConfirm(true)
   }
 
   return (
