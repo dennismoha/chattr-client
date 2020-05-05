@@ -5,7 +5,7 @@ import BattleLog from './BattleLog'
 import useSocket from 'socket.io-client'
 import Button from 'react-bootstrap/Button'
 
-const Fight = props => {
+const MultiFight = props => {
   const [fighter1, setFighter1] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [fighter2, setFighter2] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [fighter1Skill, setFighter1Skill] = useState({ name: '', description: '', cost: '', resource: '' })
@@ -287,4 +287,4 @@ const Fight = props => {
   )
 }
 
-export default Fight
+export default MultiFight

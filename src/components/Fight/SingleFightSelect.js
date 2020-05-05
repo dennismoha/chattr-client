@@ -6,7 +6,7 @@ import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
 
-const Forager = props => {
+const SingleFightSelect = props => {
   const [foragers, setForagers] = useState([])
   const [fighter, setFighter] = useState(null)
   const [opponent, setOpponent] = useState(null)
@@ -87,4 +87,4 @@ const Forager = props => {
   )
 }
 
-export default Forager
+export default SingleFightSelect

@@ -6,7 +6,7 @@ import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
 // import LetsFight from '../shared/LetsFight'
-const Foragers = props => {
+const TeamFightSelect = props => {
   const [foragers, setForagers] = useState([])
   const [fighter1, setFighter1] = useState(null)
   const [fighter2, setFighter2] = useState(null)
@@ -115,4 +115,4 @@ const Foragers = props => {
   )
 }
 
-export default Foragers
+export default TeamFightSelect

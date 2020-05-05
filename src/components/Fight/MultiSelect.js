@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button'
 import useSocket from 'socket.io-client'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 // import LetsFight from '../shared/LetsFight'
-const Foragers = props => {
+const MultiSelect = props => {
   const [game, setGame] = useState({ player1: '', player2: '' })
   const [foragers, setForagers] = useState([])
   const [skills, setSkills] = useState([])
@@ -236,4 +236,4 @@ const Foragers = props => {
   )
 }
 
-export default Foragers
+export default MultiSelect

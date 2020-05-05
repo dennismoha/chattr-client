@@ -5,7 +5,7 @@ import BattleLog from './BattleLog'
 import Button from 'react-bootstrap/Button'
 import Layout from '../shared/Layout'
 
-const Fight = props => {
+const SingleFight = props => {
   const [fighter, setFighter] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [enemy, setEnemy] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [fighterSkill, setFighterSkill] = useState({ name: '', description: '', cost: '', resource: '' })
@@ -205,4 +205,4 @@ const Fight = props => {
   )
 }
 
-export default Fight
+export default SingleFight

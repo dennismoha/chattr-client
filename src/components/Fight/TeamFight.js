@@ -5,11 +5,13 @@ import BattleLog from './BattleLog'
 import Button from 'react-bootstrap/Button'
 import Layout from '../shared/Layout'
 
-const Fight = props => {
+const TeamFight = props => {
   const [team1, setTeam1] = useState([])
   const [team2, setTeam2] = useState([])
   const [team1Skills, setTeam1Skills] = useState([])
   const [team2Skills, setTeam2Skills] = useState([])
+  const [team1Defeated, setTeam1Defeated] = useState([])
+  const [team2Defeated, setTeam2Defeated] = useState([])
   const [fighter, setFighter] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [enemy, setEnemy] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [fighterSkill, setFighterSkill] = useState({ name: '', description: '', cost: '', resource: '' })
@@ -208,4 +210,4 @@ const Fight = props => {
   )
 }
 
-export default Fight
+export default TeamFight

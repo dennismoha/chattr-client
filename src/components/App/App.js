@@ -12,13 +12,13 @@ import Foragers from '../Foragers/Foragers'
 import Forager from '../Foragers/Forager'
 import ForagerCreate from '../Foragers/ForagerCreate'
 import ForagerEdit from '../Foragers/ForagerEdit'
-import Fight from '../Fight/Fight'
+import SingleFight from '../Fight/SingleFight'
 import Skills from '../Skills/Skills'
 import Skill from '../Skills/Skill'
 import SkillEdit from '../Skills/SkillEdit'
 import SkillCreate from '../Skills/SkillCreate'
 import MultiFight from '../Fight/MultiFight'
-import Select from '../Fight/Select'
+import MultiSelect from '../Fight/MultiSelect'
 import Home from '../Home/Home'
 import TeamFight from '../Fight/TeamFight'
 import TeamFightSelect from '../Fight/TeamFightSelect'
@@ -143,7 +143,7 @@ class App extends Component {
             <ForagerEdit match={match} msgAlert={this.msgAlert} user={user} />
           )} />
           <AuthenticatedRoute exact user={user} path='/singlefight' render={() => (
-            <Fight msgAlert={this.msgAlert} user={user} fighter={this.state.fighter} opponent={this.state.opponent} fighterSkill={this.state.fighterSkill} enemySkill={this.state.opponentSkill} />
+            <SingleFight msgAlert={this.msgAlert} user={user} fighter={this.state.fighter} opponent={this.state.opponent} fighterSkill={this.state.fighterSkill} enemySkill={this.state.opponentSkill} />
           )} />
           <Route exact user={user} path='/skills' render={() => (
             <Skills msgAlert={this.msgAlert} user={user} selected={this.state.selected} />
@@ -161,7 +161,7 @@ class App extends Component {
             <MultiFight match={match} msgAlert={this.msgAlert} user={user} fighter1={this.state.fighter1} fighter1Skill={this.state.fighter1Skill} fighter2={this.state.fighter2} fighter2Skill={this.state.fighter2Skill} />
           )} />
           <AuthenticatedRoute exact user={user} path='/games/:id/select' render={({ match }) => (
-            <Select match={match} msgAlert={this.msgAlert} user={user} setFighter1={this.setFighter1} setFighter2={this.setFighter2} />
+            <MultiSelect match={match} msgAlert={this.msgAlert} user={user} setFighter1={this.setFighter1} setFighter2={this.setFighter2} />
           )} />
           <AuthenticatedRoute exact user={user} path='/teamfight/select' render={() => (
             <TeamFightSelect msgAlert={this.msgAlert} user={user} setTeam1={this.setTeam1} setTeam2={this.setTeam2} team1={this.state.team1} team2={this.state.team2} />
