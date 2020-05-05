@@ -60,6 +60,24 @@ const TeamFight = props => {
     setEnemySkill(t2Skills[0])
   }, [])
 
+  if (fighter.hp <= 0) {
+    const t1Defeated = [...team1Defeated]
+    t1Defeated.push(fighter)
+    const fighterIndex = t1Defeated.length
+    setFighter(team1[fighterIndex])
+    setFighterSkill(team1Skills[fighterIndex])
+    setTeam1Defeated(t1Defeated)
+  }
+
+  if (enemy.hp <= 0) {
+    const t2Defeated = [...team2Defeated]
+    t2Defeated.push(enemy)
+    const enemyIndex = t2Defeated.length
+    setEnemy(team2[enemyIndex])
+    setEnemySkill(team2Skills[enemyIndex])
+    setTeam2Defeated(t2Defeated)
+  }
+
   const templog = [...log]
   const fighterDmg = () => {
     if (fighter.str > fighter.mp) {
