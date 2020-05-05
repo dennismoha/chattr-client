@@ -6,10 +6,8 @@ import Button from 'react-bootstrap/Button'
 import Layout from '../shared/Layout'
 
 const Fight = props => {
-  const [fighter, setFighter] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
-  const [enemy, setEnemy] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
-  const [fighterSkill, setFighterSkill] = useState({ name: '', description: '', cost: '', resource: '' })
-  const [enemySkill, setEnemySkill] = useState({ name: '', description: '', cost: '', resource: '' })
+  const [team1, setTeam1] = useState([])
+  const [team2, setTeam2] = useState([])
   const [turn, setTurn] = useState(1)
   const [log, setLog] = useState([])
   console.log(props)
