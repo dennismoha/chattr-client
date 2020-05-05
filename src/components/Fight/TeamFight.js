@@ -8,30 +8,32 @@ import Layout from '../shared/Layout'
 const Fight = props => {
   const [team1, setTeam1] = useState([])
   const [team2, setTeam2] = useState([])
+  const [fighter, setFighter] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
+  const [enemy, setEnemy] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
+  const [fighterSkill, setFighterSkill] = useState({ name: '', description: '', cost: '', resource: '' })
+  const [enemySkill, setEnemySkill] = useState({ name: '', description: '', cost: '', resource: '' })
   const [turn, setTurn] = useState(1)
   const [log, setLog] = useState([])
   console.log(props)
 
   useEffect(() => {
-    axios(`${apiUrl}/foragers`)
-      .then(res => {
-        const foragers = res.data.foragers
-        const foundFighter = foragers.find(forager => forager._id === props.fighter)
-        const foundEnemy = foragers.find(forager => forager._id === props.opponent)
-        foundFighter.hp = 200 + (foundFighter.hp * 2)
-        foundEnemy.hp = 200 + (foundEnemy.hp * 2)
-        setFighter(foundFighter)
-        setEnemy(foundEnemy)
-      })
-      .catch()
+    setTeam1(props.team1)
+    setTeam2(props.team2)
+    const currentFighter = props.team1[0]
+    const currentEnemy = props.team2[0]
+    currentFighter.hp = 200 + (currentFighter.hp * 2)
+    currentEnemy.hp = 200 + (currentEnemy.hp * 2)
+    setFighter(currentFighter)
+    setFighter(currentEnemy)
 
-    if (props.fighterSkill !== undefined) {
-      axios(`${apiUrl}/skills/${props.fighterSkill}`)
+    if (props.team1[0].skill !== undefined) {
+      axios(`${apiUrl}/skills/${props.team1[0].skill}`)
         .then((res) => setFighterSkill(res.data.skill))
         .catch()
     }
-    if (props.enemySkill !== undefined) {
-      axios(`${apiUrl}/skills/${props.enemySkill}`)
+
+    if (props.team2[0].skill !== undefined) {
+      axios(`${apiUrl}/skills/${props.team2[0].skill}`)
         .then((res) => setEnemySkill(res.data.skill))
         .catch()
     }
