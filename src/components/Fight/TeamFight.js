@@ -8,6 +8,8 @@ import Layout from '../shared/Layout'
 const Fight = props => {
   const [team1, setTeam1] = useState([])
   const [team2, setTeam2] = useState([])
+  const [team1Skills, setTeam1Skills] = useState([])
+  const [team2Skills, setTeam2Skills] = useState([])
   const [fighter, setFighter] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [enemy, setEnemy] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [fighterSkill, setFighterSkill] = useState({ name: '', description: '', cost: '', resource: '' })
@@ -26,17 +28,32 @@ const Fight = props => {
     setFighter(currentFighter)
     setFighter(currentEnemy)
 
-    if (props.team1[0].skill !== undefined) {
-      axios(`${apiUrl}/skills/${props.team1[0].skill}`)
-        .then((res) => setFighterSkill(res.data.skill))
-        .catch()
-    }
+    const t1Skills = []
+    const t1 = props.team1
+    t1.each(forager => {
+      if (forager.skill) {
+        axios(`${apiUrl}/skills/${forager.skill}`)
+          .then((res) => t1Skills.push(res.data.skill))
+          .catch()
+      } else {
+        t1Skills.push('no skill')
+      }
+    })
+    setTeam1Skills(t1Skills)
 
-    if (props.team2[0].skill !== undefined) {
-      axios(`${apiUrl}/skills/${props.team2[0].skill}`)
-        .then((res) => setEnemySkill(res.data.skill))
-        .catch()
-    }
+    const t2Skills = []
+    const t2 = props.team2
+    t2.each(forager => {
+      if (forager.skill) {
+        axios(`${apiUrl}/skills/${forager.skill}`)
+          .then((res) => t2Skills.push(res.data.skill))
+          .catch()
+      } else {
+        t2Skills.push('no skill')
+      }
+    })
+    setFighterSkill(t1Skills[0])
+    setEnemySkill(t2Skills[0])
   }, [])
 
   const templog = [...log]
