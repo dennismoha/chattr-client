@@ -52,6 +52,8 @@ const Fight = props => {
         t2Skills.push('no skill')
       }
     })
+    setTeam2Skills(t2Skills)
+
     setFighterSkill(t1Skills[0])
     setEnemySkill(t2Skills[0])
   }, [])
