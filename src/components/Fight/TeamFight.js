@@ -32,7 +32,8 @@ const TeamFight = props => {
 
     const t1Skills = []
     const t1 = props.team1
-    t1.each(forager => {
+    console.log(t1)
+    t1.forEach(forager => {
       if (forager.skill) {
         axios(`${apiUrl}/skills/${forager.skill}`)
           .then((res) => t1Skills.push(res.data.skill))
@@ -45,7 +46,7 @@ const TeamFight = props => {
 
     const t2Skills = []
     const t2 = props.team2
-    t2.each(forager => {
+    t2.forEach(forager => {
       if (forager.skill) {
         axios(`${apiUrl}/skills/${forager.skill}`)
           .then((res) => t2Skills.push(res.data.skill))
