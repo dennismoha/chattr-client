@@ -28,11 +28,10 @@ const TeamFight = props => {
     currentFighter.hp = 200 + (currentFighter.hp * 2)
     currentEnemy.hp = 200 + (currentEnemy.hp * 2)
     setFighter(currentFighter)
-    setFighter(currentEnemy)
+    setEnemy(currentEnemy)
 
     const t1Skills = []
     const t1 = props.team1
-    console.log(t1)
     t1.forEach(forager => {
       if (forager.skill) {
         axios(`${apiUrl}/skills/${forager.skill}`)
@@ -204,7 +203,7 @@ const TeamFight = props => {
     <Layout>
       <div>
         <div className="float-md-left float-lg-left float-xl-left">
-          <ul>your stats:
+          <ul>{fighter.name}:
             <li>hp: {fighter.hp}</li>
             <li>str: {fighter.str}</li>
             <li>mp: {fighter.mp}</li>
@@ -214,7 +213,7 @@ const TeamFight = props => {
           <Button onClick={useAbility}>Use your Ability!</Button>
         </div>
         <div className="float-md-right float-lg-right float-xl-right">
-          <ul>opponents stats:
+          <ul>{enemy.name}:
             <li>hp: {enemy.hp}</li>
             <li>str: {enemy.str}</li>
             <li>mp: {enemy.mp}</li>

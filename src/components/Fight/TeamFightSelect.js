@@ -52,7 +52,6 @@ const TeamFightSelect = props => {
         t2.push(forager)
       }
       setTeam2(t2)
-      console.log(team2)
     }
 
     if (confirm === true) {
@@ -80,6 +79,7 @@ const TeamFightSelect = props => {
     props.setTeam2(team2)
     setConfirm(true)
   }
+  console.log(props.team1)
 
   return (
     <Layout>

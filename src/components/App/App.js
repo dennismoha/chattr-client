@@ -78,21 +78,13 @@ class App extends Component {
 
   setTeam1 = (arr) => {
     this.setState({
-      team1: [
-        { forager1: arr[0] },
-        { forager2: arr[1] },
-        { forager3: arr[2] }
-      ]
+      team1: arr
     })
   }
 
   setTeam2 = (arr) => {
     this.setState({
-      team2: [
-        { forager4: arr[0] },
-        { forager5: arr[1] },
-        { forager6: arr[2] }
-      ]
+      team2: arr
     })
   }
 
