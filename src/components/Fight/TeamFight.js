@@ -32,13 +32,17 @@ const TeamFight = props => {
 
     const t1Skills = []
     const t1 = props.team1
+    console.log(t1)
     t1.forEach(forager => {
-      if (forager.skill) {
-        axios(`${apiUrl}/skills/${forager.skill}`)
-          .then((res) => t1Skills.push(res.data.skill))
-          .catch()
+      if (!forager.skill) {
+        t1Skills.push({ name: 'no skill' })
       } else {
-        t1Skills.push('no skill')
+        axios(`${apiUrl}/skills/${forager.skill}`)
+          .then((res) => {
+            t1Skills.push(res.data.skill)
+            console.log(res.data.skill)
+          })
+          .catch()
       }
     })
     setTeam1Skills(t1Skills)
@@ -57,6 +61,7 @@ const TeamFight = props => {
     setTeam2Skills(t2Skills)
 
     setFighterSkill(t1Skills[0])
+    console.log(t1Skills)
     setEnemySkill(t2Skills[0])
   }, [])
 
@@ -64,18 +69,26 @@ const TeamFight = props => {
     const t1Defeated = [...team1Defeated]
     t1Defeated.push(fighter)
     const fighterIndex = t1Defeated.length
-    setFighter(team1[fighterIndex])
-    setFighterSkill(team1Skills[fighterIndex])
-    setTeam1Defeated(t1Defeated)
+    if (fighterIndex < 3) {
+      setFighter(team1[fighterIndex])
+      setFighterSkill(team1Skills[fighterIndex])
+      setTeam1Defeated(t1Defeated)
+    } else {
+      return ('You lose')
+    }
   }
 
   if (enemy.hp <= 0) {
     const t2Defeated = [...team2Defeated]
     t2Defeated.push(enemy)
     const enemyIndex = t2Defeated.length
-    setEnemy(team2[enemyIndex])
-    setEnemySkill(team2Skills[enemyIndex])
-    setTeam2Defeated(t2Defeated)
+    if (enemyIndex < 3) {
+      setEnemy(team2[enemyIndex])
+      setEnemySkill(team2Skills[enemyIndex])
+      setTeam2Defeated(t2Defeated)
+    } else {
+      return ('You win')
+    }
   }
 
   const templog = [...log]
