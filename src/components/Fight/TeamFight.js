@@ -30,22 +30,23 @@ const TeamFight = props => {
     setFighter(currentFighter)
     setEnemy(currentEnemy)
 
-    const t1Skills = []
     const t1 = props.team1
     console.log(t1)
     t1.forEach(forager => {
       if (!forager.skill) {
+        const t1Skills = [...team1Skills]
         t1Skills.push({ name: 'no skill' })
+        setTeam1Skills(t1Skills)
       } else {
         axios(`${apiUrl}/skills/${forager.skill}`)
           .then((res) => {
+            const t1Skills = [...team1Skills]
             t1Skills.push(res.data.skill)
-            console.log(res.data.skill)
+            setTeam1Skills(t1Skills)
           })
           .catch()
       }
     })
-    setTeam1Skills(t1Skills)
 
     const t2Skills = []
     const t2 = props.team2
