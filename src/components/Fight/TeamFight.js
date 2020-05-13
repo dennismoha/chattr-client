@@ -48,22 +48,23 @@ const TeamFight = props => {
       }
     })
 
-    const t2Skills = []
     const t2 = props.team2
     t2.forEach(forager => {
-      if (forager.skill) {
-        axios(`${apiUrl}/skills/${forager.skill}`)
-          .then((res) => t2Skills.push(res.data.skill))
-          .catch()
+      if (!forager.skill) {
+        const t2Skills = [...team2Skills]
+        t2Skills.push({ name: 'no skill' })
+        setTeam2Skills(t2Skills)
       } else {
-        t2Skills.push('no skill')
+        axios(`${apiUrl}/skills/${forager.skill}`)
+          .then((res) => {
+            const t2Skills = [...team2Skills]
+            t2Skills.push(res.data.skill)
+            setTeam2Skills(t2Skills)
+            t2Skills.push(res.data.skill)
+          })
+          .catch()
       }
     })
-    setTeam2Skills(t2Skills)
-
-    setFighterSkill(t1Skills[0])
-    console.log(t1Skills)
-    setEnemySkill(t2Skills[0])
   }, [])
 
   if (fighter.hp <= 0) {
