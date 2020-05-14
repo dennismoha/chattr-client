@@ -18,7 +18,6 @@ const TeamFight = props => {
   const [enemySkill, setEnemySkill] = useState({ name: '', description: '', cost: '', resource: '' })
   const [turn, setTurn] = useState(1)
   const [log, setLog] = useState([])
-  console.log(props)
 
   useEffect(() => {
     setTeam1(props.team1)
@@ -31,41 +30,48 @@ const TeamFight = props => {
     setEnemy(currentEnemy)
 
     const t1 = props.team1
-    console.log(t1)
+    const t1Skills = [...team1Skills]
     t1.forEach(forager => {
-      if (!forager.skill) {
-        const t1Skills = [...team1Skills]
-        t1Skills.push({ name: 'no skill' })
-        setTeam1Skills(t1Skills)
+      if (forager.skill) {
+        t1Skills.push(forager.skill)
       } else {
-        axios(`${apiUrl}/skills/${forager.skill}`)
-          .then((res) => {
-            const t1Skills = [...team1Skills]
-            t1Skills.push(res.data.skill)
-            setTeam1Skills(t1Skills)
-          })
-          .catch()
+        t1Skills.push('no skill')
       }
     })
+    setTeam1Skills(t1Skills)
 
     const t2 = props.team2
+    const t2Skills = [...team2Skills]
     t2.forEach(forager => {
-      if (!forager.skill) {
-        const t2Skills = [...team2Skills]
-        t2Skills.push({ name: 'no skill' })
-        setTeam2Skills(t2Skills)
+      if (forager.skill) {
+        t2Skills.push(forager.skill)
       } else {
-        axios(`${apiUrl}/skills/${forager.skill}`)
-          .then((res) => {
-            const t2Skills = [...team2Skills]
-            t2Skills.push(res.data.skill)
-            setTeam2Skills(t2Skills)
-            t2Skills.push(res.data.skill)
-          })
-          .catch()
+        t2Skills.push('no skill')
       }
     })
+    setTeam2Skills(t2Skills)
   }, [])
+
+  const skiller1 = skill => {
+    axios(`${apiUrl}/skills/${skill}`)
+      .then(res => {
+        setFighterSkill(res.data.skill)
+      })
+      .catch(() => { setFighterSkill({ name: 'no skill' }) })
+  }
+
+  const skiller2 = skill => {
+    axios(`${apiUrl}/skills/${skill}`)
+      .then(res => {
+        setEnemySkill(res.data.skill)
+      })
+      .catch(() => { setEnemySkill({ name: 'no skill' }) })
+  }
+
+  if (turn === 1) {
+    skiller1(team1Skills[0])
+    skiller2(team2Skills[0])
+  }
 
   if (fighter.hp <= 0) {
     const t1Defeated = [...team1Defeated]
@@ -73,7 +79,7 @@ const TeamFight = props => {
     const fighterIndex = t1Defeated.length
     if (fighterIndex < 3) {
       setFighter(team1[fighterIndex])
-      setFighterSkill(team1Skills[fighterIndex])
+      skiller1(team1Skills[fighterIndex])
       setTeam1Defeated(t1Defeated)
     } else {
       return ('You lose')
@@ -86,7 +92,7 @@ const TeamFight = props => {
     const enemyIndex = t2Defeated.length
     if (enemyIndex < 3) {
       setEnemy(team2[enemyIndex])
-      setEnemySkill(team2Skills[enemyIndex])
+      skiller2(team2Skills[enemyIndex])
       setTeam2Defeated(t2Defeated)
     } else {
       return ('You win')
