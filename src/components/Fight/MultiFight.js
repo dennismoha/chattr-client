@@ -259,7 +259,7 @@ const MultiFight = props => {
   const revLog = log.reverse()
   return (
     <div>
-      <div className="float-md-left float-lg-left float-xl-left">
+      <div className="float-md-left float-lg-left float-xl-left mt-2">
         <ul>{fighter1.name}:
           <li>hp: {fighter1.hp}</li>
           <li>str: {fighter1.str}</li>
@@ -271,7 +271,7 @@ const MultiFight = props => {
         </ul>
       </div>
 
-      <div className="float-md-right float-lg-right float-xl-right">
+      <div className="float-md-right float-lg-right float-xl-right mt-2">
         <ul>{fighter2.name}:
           <li>hp: {fighter2.hp}</li>
           <li>str: {fighter2.str}</li>

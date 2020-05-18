@@ -179,7 +179,7 @@ const SingleFight = props => {
   return (
     <Layout>
       <div>
-        <div className="float-md-left float-lg-left float-xl-left">
+        <div className="float-md-left float-lg-left float-xl-left mt-2">
           <ul>your stats:
             <li>hp: {fighter.hp}</li>
             <li>str: {fighter.str}</li>
@@ -189,7 +189,7 @@ const SingleFight = props => {
           <Button onClick={attack}>Attack!</Button>
           <Button onClick={useAbility}>Use your Ability!</Button>
         </div>
-        <div className="float-md-right float-lg-right float-xl-right">
+        <div className="float-md-right float-lg-right float-xl-right mt-2">
           <ul>opponents stats:
             <li>hp: {enemy.hp}</li>
             <li>str: {enemy.str}</li>
