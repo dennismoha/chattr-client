@@ -18,8 +18,8 @@ const MultiSelect = props => {
   const [fighter4, setFighter4] = useState(null)
   const [fighter5, setFighter5] = useState(null)
   const [fighter6, setFighter6] = useState(null)
-  const [team1, setTeam1] = useState(null)
-  const [team2, setTeam2] = useState(null)
+  const [tem1, setTem1] = useState([])
+  const [tem2, setTem2] = useState([])
   const [confirm1, setConfirm1] = useState(false)
   const [confirm2, setConfirm2] = useState(false)
   const [copier, setCopier] = useState(window.location.href)
@@ -42,21 +42,20 @@ const MultiSelect = props => {
     axios(`${apiUrl}/foragers`)
       .then(res => setForagers(res.data.foragers))
       .catch()
-    axios(`${apiUrl}/skills`)
-      .then(res => setSkills(res.data.skills))
-      .catch()
 
     socket.on('new peep', (fighter) => {
       if (fighter.fighter) {
-        if (fighter.fighter.forager1) {
-          setFighter1(fighter.fighter.forager1._id)
-          setFighter1Skill(fighter.fighter.forager1.skill)
+        if (fighter.fighter.teammate1) {
+          const team1 = [...tem1]
+          tem1.push(fighter.fighter.teammate1)
+          setTem1(team1)
         }
       }
       if (fighter.fighter) {
-        if (fighter.fighter.forager2) {
-          setFighter2(fighter.fighter.forager2._id)
-          setFighter2Skill(fighter.fighter.forager2.skill)
+        if (fighter.fighter.teammate2) {
+          const team2 = [...tem2]
+          tem2.push(fighter.fighter.teammate2)
+          setTem2(team2)
         }
       }
       if (fighter.game) {
@@ -71,25 +70,25 @@ const MultiSelect = props => {
     })
   }, [])
   const foragerss = foragers.map(forager => {
-    const fighter1Selector = () => {
+    const tem1Selector = () => {
       // setFighter1(forager._id)
       // setFighter1Skill(forager.skill)
-      const forager1 = forager
-      socket.emit('new peep', { fighter: { forager1 } })
+      const teammate1 = forager
+      socket.emit('new peep', { fighter: { teammate1 } })
     }
-    const fighter2Selector = () => {
+    const tem2Selector = () => {
       // setFighter2(forager._id)
       // setFighter2Skill(forager.skill)
-      const forager2 = forager
-      socket.emit('new peep', { fighter: { forager2 } })
+      const teammate2 = forager
+      socket.emit('new peep', { fighter: { teammate2 } })
     }
 
     return (
       <tbody className="lay" key={forager._id}>
         <tr>
           <td><Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
-            {props.user._id === game.player1 && (game.player2) ? <Button variant="secondary" onClick={fighter1Selector}>Forager 1</Button> : ''}
-            {props.user._id === game.player2 ? <Button variant="secondary" onClick={fighter2Selector}>Forager 2</Button> : ''}
+            {props.user._id === game.player1 && (game.player2) && tem1.length <= 3 ? <Button variant="secondary" onClick={tem1Selector}>Team 1</Button> : ''}
+            {props.user._id === game.player2 && tem2.length <= 3 ? <Button variant="secondary" onClick={tem2Selector}>Team 2</Button> : ''}
           </td>
           <td>{forager.description}</td>
           <td>{forager.hp}</td>
@@ -99,37 +98,6 @@ const MultiSelect = props => {
       </tbody>
     )
   })
-
-  let fighter1Name = ''
-  let fighter1SkillName = ''
-  let fighter2Name = ''
-  let fighter2SkillName = ''
-
-  if (fighter1) {
-    const foundForager = foragers.find(forager => forager._id === fighter1)
-    if (foundForager !== undefined) {
-      fighter1Name = foundForager.name
-    }
-    if (fighter1Skill) {
-      const foundSkill = skills.find(skill => skill._id === fighter1Skill)
-      if (foundSkill !== undefined) {
-        fighter1SkillName = foundSkill.name
-      }
-    }
-  }
-
-  if (fighter2) {
-    const foundForager = foragers.find(forager => forager._id === fighter2)
-    if (foundForager !== undefined) {
-      fighter2Name = foundForager.name
-    }
-    if (fighter2Skill) {
-      const foundSkill = skills.find(skill => skill._id === fighter2Skill)
-      if (foundSkill !== undefined) {
-        fighter2SkillName = foundSkill.name
-      }
-    }
-  }
 
   const p2 = () => {
     axios({
@@ -153,15 +121,15 @@ const MultiSelect = props => {
   const confirmation1 = () => {
     setConfirm1(true)
     socket.emit('new peep', { confirm1: true })
-    props.setFighter1(fighter1, fighter1Skill)
-    props.setFighter2(fighter2, fighter2Skill)
+    props.setTem1(tem1)
+    props.setTem2(tem2)
   }
 
   const confirmation2 = () => {
     setConfirm2(true)
     socket.emit('new peep', { confirm2: true })
-    props.setFighter2(fighter2, fighter2Skill)
-    props.setFighter1(fighter1, fighter1Skill)
+    props.setTem2(tem2)
+    props.setTem1(tem1)
   }
 
   if (confirm1 === true) {

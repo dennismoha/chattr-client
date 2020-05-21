@@ -23,6 +23,7 @@ import Home from '../Home/Home'
 import TeamFight from '../Fight/TeamFight'
 import TeamFightSelect from '../Fight/TeamFightSelect'
 import SingleFightSelect from '../Fight/SingleFightSelect'
+import MultiTeamFightSelect from '../Fight/MultiTeamFightSelect'
 // import Home from '../Home/Home'
 
 class App extends Component {
@@ -33,9 +34,9 @@ class App extends Component {
       user: null,
       msgAlerts: [],
       selected: null,
+      selectedSkill: null,
       fighter: null,
       opponent: null,
-      selectedSkill: null,
       fighterSkill: null,
       opponentSkill: null,
       fighter1: null,
@@ -43,7 +44,9 @@ class App extends Component {
       fighter1Skill: null,
       fighter2Skill: null,
       team1: [],
-      team2: []
+      team2: [],
+      tem1: [],
+      tem2: []
     }
   }
 
@@ -85,6 +88,18 @@ class App extends Component {
   setTeam2 = (arr) => {
     this.setState({
       team2: arr
+    })
+  }
+
+  setTem1 = (arr) => {
+    this.setState({
+      tem1: arr
+    })
+  }
+
+  setTem2 = (arr) => {
+    this.setState({
+      tem2: arr
     })
   }
 
@@ -161,8 +176,11 @@ class App extends Component {
           <AuthenticatedRoute exact user={user} path='/teamfight' render={() => (
             <TeamFight msgAlert={this.msgAlert} user={user} team1={this.state.team1} team2={this.state.team2}/>
           )} />
-          <Route exact path='/singlefight/select' render={() => (
+          <AuthenticatedRoute exact user={user} path='/singlefight/select' render={() => (
             <SingleFightSelect msgAlert={this.msgAlert} user={user} setFighter={this.setFighter} setOpponent={this.setOpponent} fighter={this.state.fighter} opponent={this.state.opponent} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/games/:id/teamselect' render={({ match }) => (
+            <MultiTeamFightSelect match={match} msgAlert={this.msgAlert} user={user} setTem1={this.setTem1} setTem2={this.setTem2} />
           )} />
         </main>
       </Fragment>
