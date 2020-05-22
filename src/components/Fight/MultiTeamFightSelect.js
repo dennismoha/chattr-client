@@ -134,19 +134,19 @@ const MultiSelect = props => {
 
   if (confirm1 === true) {
     if (confirm2 === true) {
-      return <Redirect to={`/games/${game._id}/multi-fight`} />
+      return <Redirect to={`/games/${game._id}/multiTeamFight`} />
     }
   }
 
   const confirmButton1 = (
     <Button onClick={confirmation1} type='button'>
-      Lock in your forager player 1
+      Lock in your team player 1
     </Button>
   )
 
   const confirmButton2 = (
     <Button onClick={confirmation2} type='button'>
-      Lock in your forager player 2
+      Lock in your team player 2
     </Button>
   )
 
