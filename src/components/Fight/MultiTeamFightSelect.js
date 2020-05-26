@@ -176,10 +176,20 @@ const MultiSelect = props => {
     <Layout>
       <h4>Foragers</h4>
       {(game.player1 && game.player2) ? <h5>Please pick a selected forager and an opponent</h5> : <div><p>Please send your friend this link to get started:</p> { urlCopier }</div>}
-      <p>Forager 1: {fighter1Name}<br></br>
-      Skill: {fighter1SkillName}</p>
-      <p>Forager 2: {fighter2Name}<br></br>
-      Skill: {fighter2SkillName}</p>
+      <div>
+      Team 1:
+        <ul>
+          {(fighter1 !== null) ? <li>{fighter1.name}</li> : '' }
+          {(fighter2 !== null) ? <li>{fighter2.name}</li> : '' }
+          {(fighter3 !== null) ? <li>{fighter3.name}</li> : '' }
+        </ul>
+        Team 2:
+        <ul>
+          {(fighter4 !== null) ? <li>{fighter4.name}</li> : '' }
+          {(fighter5 !== null) ? <li>{fighter5.name}</li> : '' }
+          {(fighter6 !== null) ? <li>{fighter6.name}</li> : '' }
+        </ul>
+      </div>
       {((game) && (game.player2)) || ((game) && (props.user._id === game.player1)) ? '' : <p>{p2Button}</p>}
       {((fighter1Name !== '') && (fighter2Name !== '') && (props.user._id === game.player1) && (confirm1 === false)) ? <p>{confirmButton1}</p> : ''}
       {((fighter1Name !== '') && (fighter2Name !== '') && (props.user._id === game.player2) && (confirm2 === false)) ? <p>{confirmButton2}</p> : ''}
