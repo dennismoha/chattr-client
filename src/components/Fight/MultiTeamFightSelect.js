@@ -11,7 +11,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 const MultiSelect = props => {
   const [game, setGame] = useState({ player1: '', player2: '' })
   const [foragers, setForagers] = useState([])
-  const [skills, setSkills] = useState([])
   const [fighter1, setFighter1] = useState(null)
   const [fighter2, setFighter2] = useState(null)
   const [fighter3, setFighter3] = useState(null)
@@ -46,16 +45,42 @@ const MultiSelect = props => {
     socket.on('new peep', (fighter) => {
       if (fighter.fighter) {
         if (fighter.fighter.teammate1) {
-          const team1 = [...tem1]
-          tem1.push(fighter.fighter.teammate1)
-          setTem1(team1)
+          if (fighter1 === null) {
+            const team1 = [...tem1]
+            tem1.push(fighter.fighter.teammate1)
+            setTem1(team1)
+            setFighter1(fighter.fighter.teammate1)
+          } else if (fighter2 === null) {
+            const team1 = [...tem1]
+            tem1.push(fighter.fighter.teammate1)
+            setTem1(team1)
+            setFighter2(fighter.fighter.teammate1)
+          } else if (fighter3 === null) {
+            const team1 = [...tem1]
+            tem1.push(fighter.fighter.teammate1)
+            setTem1(team1)
+            setFighter3(fighter.fighter.teammate1)
+          }
         }
       }
       if (fighter.fighter) {
         if (fighter.fighter.teammate2) {
-          const team2 = [...tem2]
-          tem2.push(fighter.fighter.teammate2)
-          setTem2(team2)
+          if (fighter4 === null) {
+            const team2 = [...tem2]
+            tem2.push(fighter.fighter.teammate2)
+            setTem2(team2)
+            setFighter4(fighter.fighter.teammate2)
+          } else if (fighter5 === null) {
+            const team2 = [...tem2]
+            tem2.push(fighter.fighter.teammate2)
+            setTem2(team2)
+            setFighter5(fighter.fighter.teammate2)
+          } else if (fighter6 === null) {
+            const team2 = [...tem2]
+            tem2.push(fighter.fighter.teammate2)
+            setTem2(team2)
+            setFighter6(fighter.fighter.teammate2)
+          }
         }
       }
       if (fighter.game) {
@@ -191,10 +216,10 @@ const MultiSelect = props => {
         </ul>
       </div>
       {((game) && (game.player2)) || ((game) && (props.user._id === game.player1)) ? '' : <p>{p2Button}</p>}
-      {((fighter1Name !== '') && (fighter2Name !== '') && (props.user._id === game.player1) && (confirm1 === false)) ? <p>{confirmButton1}</p> : ''}
-      {((fighter1Name !== '') && (fighter2Name !== '') && (props.user._id === game.player2) && (confirm2 === false)) ? <p>{confirmButton2}</p> : ''}
-      <div>{(fighter1Name === '' && (game.player2) && (props.user._id === game.player1)) ? 'Please pick your forager' : ''}
-        {(fighter2Name === '' && (game.player2) && (props.user._id === game.player2)) ? 'Please pick your forager' : ''}</div>
+      {((tem1.length === 3) && (tem2.length === 3) && (props.user._id === game.player1) && (confirm1 === false)) ? <p>{confirmButton1}</p> : ''}
+      {((tem1.length === 3) && (tem2.length === 3) && (props.user._id === game.player2) && (confirm2 === false)) ? <p>{confirmButton2}</p> : ''}
+      <div>{(tem1.length < 3 && (game.player2) && (props.user._id === game.player1)) ? 'Please pick your forager' : ''}
+        {(tem2.length < 3 && (game.player2) && (props.user._id === game.player2)) ? 'Please pick your forager' : ''}</div>
       {(fighter1Name === '' && (props.user._id === game.player2) ? 'Waiting for player 1 to choose a forager...' : '')}
       {(fighter2Name === '' && (game.player2) && (props.user._id === game.player1) ? 'Waiting for player 2 to choose a forager...' : '')}
       <div>{((fighter2Name !== '') && (fighter1Name !== '') && (confirm1 === false) && (props.user._id === game.player1)) ? 'Please lock in your forager' : ''}
