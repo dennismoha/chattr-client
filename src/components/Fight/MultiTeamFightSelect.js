@@ -220,12 +220,12 @@ const MultiSelect = props => {
       {((tem1.length === 3) && (tem2.length === 3) && (props.user._id === game.player2) && (confirm2 === false)) ? <p>{confirmButton2}</p> : ''}
       <div>{(tem1.length < 3 && (game.player2) && (props.user._id === game.player1)) ? 'Please pick your forager' : ''}
         {(tem2.length < 3 && (game.player2) && (props.user._id === game.player2)) ? 'Please pick your forager' : ''}</div>
-      {(fighter1Name === '' && (props.user._id === game.player2) ? 'Waiting for player 1 to choose a forager...' : '')}
-      {(fighter2Name === '' && (game.player2) && (props.user._id === game.player1) ? 'Waiting for player 2 to choose a forager...' : '')}
-      <div>{((fighter2Name !== '') && (fighter1Name !== '') && (confirm1 === false) && (props.user._id === game.player1)) ? 'Please lock in your forager' : ''}
-        {((fighter2Name !== '') && (fighter1Name !== '') && (confirm2 === false) && (props.user._id === game.player2)) ? 'Please lock in your forager' : ''}</div>
-      {(fighter2Name !== '' && (fighter1Name !== '') && (confirm2 === false) && (props.user._id === game.player1) ? 'Waiting for player 2 to lock in...' : '')}
-      {(fighter1Name !== '' && (fighter1Name !== '') && (confirm1 === false) && (props.user._id === game.player2) ? 'Waiting for player 1 to lock in...' : '')}
+      {(tem1.length < 3 && (props.user._id === game.player2) ? 'Waiting for player 1 to choose a forager...' : '')}
+      {(tem1.length < 3 && (game.player2) && (props.user._id === game.player1) ? 'Waiting for player 2 to choose a forager...' : '')}
+      <div>{((tem1.length === 3) && (tem2.length === 3) && (confirm1 === false) && (props.user._id === game.player1)) ? 'Please lock in your forager' : ''}
+        {((tem1.length === 3) && (tem2.length === 3) && (confirm2 === false) && (props.user._id === game.player2)) ? 'Please lock in your forager' : ''}</div>
+      {(tem2.length === 3 && (tem1.length === 3) && (confirm2 === false) && (props.user._id === game.player1) ? 'Waiting for player 2 to lock in...' : '')}
+      {(tem1.length === 3 && (tem2.length === 3) && (confirm1 === false) && (props.user._id === game.player2) ? 'Waiting for player 1 to lock in...' : '')}
       {(!game.player2) ? 'Waiting for player 2 to join...' : ''}
       <table className="table">
         <thead>
