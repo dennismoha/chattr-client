@@ -78,7 +78,9 @@ const TeamFight = props => {
     t1Defeated.push(fighter)
     const fighterIndex = t1Defeated.length
     if (fighterIndex < 3) {
-      setFighter(team1[fighterIndex])
+      const fer = team1[fighterIndex]
+      fer.hp = 200 + (fer.hp * 2)
+      setFighter(fer)
       skiller1(team1Skills[fighterIndex])
       setTeam1Defeated(t1Defeated)
     } else {
@@ -91,7 +93,9 @@ const TeamFight = props => {
     t2Defeated.push(enemy)
     const enemyIndex = t2Defeated.length
     if (enemyIndex < 3) {
-      setEnemy(team2[enemyIndex])
+      const fer = team2[enemyIndex]
+      fer.hp = 200 + (fer.hp * 2)
+      setEnemy(fer)
       skiller2(team2Skills[enemyIndex])
       setTeam2Defeated(t2Defeated)
     } else {
