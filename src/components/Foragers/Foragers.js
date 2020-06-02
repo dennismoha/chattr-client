@@ -48,10 +48,10 @@ const Foragers = props => {
         <thead>
           <tr className="lay">
             <th scope="col">Name</th>
-            <th scope="col">description</th>
-            <th scope="col">hp</th>
-            <th scope="col">mp</th>
-            <th scope="col">str</th>
+            <th scope="col">Description</th>
+            <th scope="col">Hp</th>
+            <th scope="col">Mp</th>
+            <th scope="col">Str</th>
           </tr>
         </thead>
         {foragerss}

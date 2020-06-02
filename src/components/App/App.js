@@ -112,7 +112,7 @@ class App extends Component {
 
     return (
       <Fragment>
-        <Header user={user} />
+        <Header className='header' user={user} />
         {msgAlerts.map((msgAlert, index) => (
           <AutoDismissAlert
             key={index}

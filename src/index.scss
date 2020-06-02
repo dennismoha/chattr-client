@@ -17,12 +17,18 @@ body {
 }
 
 .container {
-  background: url('https://images2.alphacoders.com/104/104520.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  background-color: black;
+  opacity: 75%;
   color: white;
+}
+
+.header {
+  opacity: 100%;
+}
+
+.buttoins {
+  background-color: black;
+  opacity: 100%;
 }
 
 .lay {

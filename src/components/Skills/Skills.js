@@ -89,9 +89,9 @@ const Skills = props => {
         <thead>
           <tr className="lay">
             <th scope="col">Name</th>
-            <th scope="col">description</th>
-            <th scope="col">resource</th>
-            <th scope="col">cost</th>
+            <th scope="col">Description</th>
+            <th scope="col">Resource</th>
+            <th scope="col">Cost</th>
           </tr>
         </thead>
         {skillss}

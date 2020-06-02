@@ -3,21 +3,25 @@ import { NavLink } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 
 const Nav = () => (
-  <nav>
+  <nav className='buttoins'>
     <Button
-      variant="dark">
-      <NavLink to='/'>Home</NavLink>
+      variant="light">
+      <NavLink to='/home'>Home</NavLink>
     </Button>
     <Button
-      variant="dark">
+      variant="light">
       <NavLink to='/foragers'>Foragers</NavLink>
     </Button>
     <Button
-      variant="dark">
+      variant="light">
+      <NavLink to='/skills'>Skills</NavLink>
+    </Button>
+    <Button
+      variant="light">
       <NavLink to='/forager-create'>Create Forager</NavLink>
     </Button>
     <Button
-      variant="dark">
+      variant="light">
       <NavLink to='/skill-create'>Create Skill</NavLink>
     </Button>
   </nav>
