@@ -44,42 +44,32 @@ const MultiSelect = props => {
 
     socket.on('new peep', (fighter) => {
       if (fighter.fighter) {
-        if (fighter.fighter.teammate1) {
-          if (fighter1 === null) {
-            const team1 = [...tem1]
-            tem1.push(fighter.fighter.teammate1)
-            setTem1(team1)
-            setFighter1(fighter.fighter.teammate1)
-          } else if (fighter2 === null) {
-            const team1 = [...tem1]
-            tem1.push(fighter.fighter.teammate1)
-            setTem1(team1)
-            setFighter2(fighter.fighter.teammate1)
-          } else if (fighter3 === null) {
-            const team1 = [...tem1]
-            tem1.push(fighter.fighter.teammate1)
-            setTem1(team1)
-            setFighter3(fighter.fighter.teammate1)
+        if (fighter.fighter.team1) {
+          setTem1(fighter.fighter.team1)
+          if (fighter.fighter.team1.length === 1) {
+            setFighter1(fighter.fighter.team1[0])
+          } else if (fighter.fighter.team1.length === 2) {
+            setFighter1(fighter.fighter.team1[0])
+            setFighter2(fighter.fighter.team1[1])
+          } else if (fighter.fighter.team1.length === 3) {
+            setFighter1(fighter.fighter.team1[0])
+            setFighter2(fighter.fighter.team1[1])
+            setFighter3(fighter.fighter.team1[2])
           }
         }
       }
       if (fighter.fighter) {
-        if (fighter.fighter.teammate2) {
-          if (fighter4 === null) {
-            const team2 = [...tem2]
-            tem2.push(fighter.fighter.teammate2)
-            setTem2(team2)
-            setFighter4(fighter.fighter.teammate2)
-          } else if (fighter5 === null) {
-            const team2 = [...tem2]
-            tem2.push(fighter.fighter.teammate2)
-            setTem2(team2)
-            setFighter5(fighter.fighter.teammate2)
-          } else if (fighter6 === null) {
-            const team2 = [...tem2]
-            tem2.push(fighter.fighter.teammate2)
-            setTem2(team2)
-            setFighter6(fighter.fighter.teammate2)
+        if (fighter.fighter.team2) {
+          setTem2(fighter.fighter.team2)
+          if (fighter.fighter.team2.length === 1) {
+            setFighter4(fighter.fighter.team2[0])
+          } else if (fighter.fighter.team2.length === 2) {
+            setFighter4(fighter.fighter.team2[0])
+            setFighter5(fighter.fighter.team2[1])
+          } else if (fighter.fighter.team2.length === 3) {
+            setFighter4(fighter.fighter.team2[0])
+            setFighter5(fighter.fighter.team2[1])
+            setFighter6(fighter.fighter.team2[2])
           }
         }
       }
@@ -94,18 +84,39 @@ const MultiSelect = props => {
       }
     })
   }, [])
+
+  console.log(tem1)
+  console.log(fighter1)
   const foragerss = foragers.map(forager => {
     const tem1Selector = () => {
       // setFighter1(forager._id)
       // setFighter1Skill(forager.skill)
+      const team1 = [...tem1]
       const teammate1 = forager
-      socket.emit('new peep', { fighter: { teammate1 } })
+      team1.push(teammate1)
+      socket.emit('new peep', { fighter: { team1 } })
+      if (fighter1 === null) {
+        setFighter1(forager)
+      } else if (fighter2 === null) {
+        setFighter2(forager)
+      } else if (fighter3 === null) {
+        setFighter3(forager)
+      }
     }
     const tem2Selector = () => {
       // setFighter2(forager._id)
       // setFighter2Skill(forager.skill)
+      const team2 = [...tem2]
       const teammate2 = forager
-      socket.emit('new peep', { fighter: { teammate2 } })
+      team2.push(teammate2)
+      socket.emit('new peep', { fighter: { team2 } })
+      if (!fighter4) {
+        setFighter4(forager)
+      } else if (!fighter5) {
+        setFighter5(forager)
+      } else {
+        setFighter6(forager)
+      }
     }
 
     return (
