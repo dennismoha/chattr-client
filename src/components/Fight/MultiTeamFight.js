@@ -5,9 +5,9 @@ import BattleLog from './BattleLog'
 import useSocket from 'socket.io-client'
 import Button from 'react-bootstrap/Button'
 
-const MultiFight = props => {
-  const [teem1, setTeem1] = useState([])
-  const [teem2, setTeem2] = useState([])
+const MultiTeamFight = props => {
+  const [tem1, setTem1] = useState([])
+  const [tem2, setTem2] = useState([])
   const [fighter1, setFighter1] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [fighter2, setFighter2] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [fighter1Skill, setFighter1Skill] = useState({ name: '', description: '', cost: '', resource: '' })
@@ -289,4 +289,4 @@ const MultiFight = props => {
   )
 }
 
-export default MultiFight
+export default MultiTeamFight

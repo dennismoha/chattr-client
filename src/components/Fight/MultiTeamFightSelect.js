@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button'
 import useSocket from 'socket.io-client'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 // import LetsFight from '../shared/LetsFight'
-const MultiSelect = props => {
+const MultiTeamFightSelect = props => {
   const [game, setGame] = useState({ player1: '', player2: '' })
   const [foragers, setForagers] = useState([])
   const [fighter1, setFighter1] = useState(null)
@@ -254,4 +254,4 @@ const MultiSelect = props => {
   )
 }
 
-export default MultiSelect
+export default MultiTeamFightSelect

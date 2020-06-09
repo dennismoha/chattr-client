@@ -24,6 +24,7 @@ import TeamFight from '../Fight/TeamFight'
 import TeamFightSelect from '../Fight/TeamFightSelect'
 import SingleFightSelect from '../Fight/SingleFightSelect'
 import MultiTeamFightSelect from '../Fight/MultiTeamFightSelect'
+import MultiTeamFight from '../Fight/MultiTeamFight'
 // import Home from '../Home/Home'
 
 class App extends Component {
@@ -181,6 +182,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute exact user={user} path='/games/:id/teamselect' render={({ match }) => (
             <MultiTeamFightSelect match={match} msgAlert={this.msgAlert} user={user} setTem1={this.setTem1} setTem2={this.setTem2} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/games/:id/multiTeamFight' render={({ match }) => (
+            <MultiTeamFight match={match} msgAlert={this.msgAlert} user={user} tem1={this.state.tem1} tem2={this.state.tem2} />
           )} />
         </main>
       </Fragment>
