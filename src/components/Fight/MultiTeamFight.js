@@ -20,6 +20,8 @@ const MultiTeamFight = props => {
   socket.connect()
 
   useEffect(() => {
+    setTem1(props.tem1)
+    setTem2(props.tem2)
     axios(`${apiUrl}/foragers`)
       .then(res => {
         const foragers = res.data.foragers
