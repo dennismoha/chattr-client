@@ -22,23 +22,19 @@ const MultiTeamFight = props => {
   useEffect(() => {
     setTem1(props.tem1)
     setTem2(props.tem2)
-    axios(`${apiUrl}/foragers`)
-      .then(res => {
-        const foragers = res.data.foragers
-        const foundFighter1 = foragers.find(forager => forager._id === props.fighter1)
-        const foundFighter2 = foragers.find(forager => forager._id === props.fighter2)
-        foundFighter1.hp = 200 + (foundFighter1.hp * 2)
-        foundFighter2.hp = 200 + (foundFighter2.hp * 2)
-        setFighter1(foundFighter1)
-        setFighter2(foundFighter2)
+
+    axios(`${apiUrl}/skills/${props.tem1[0].skill}`)
+      .then((res) => {
+        setFighter1Skill(res.data.skill)
+        setFighter1(props.tem1[0])
       })
       .catch()
-    axios(`${apiUrl}/skills/${props.fighter1Skill}`)
-      .then((res) => setFighter1Skill(res.data.skill))
-      .catch()
 
-    axios(`${apiUrl}/skills/${props.fighter2Skill}`)
-      .then((res) => setFighter2Skill(res.data.skill))
+    axios(`${apiUrl}/skills/${props.tem2[0].skill}`)
+      .then((res) => {
+        setFighter2Skill(res.data.skill)
+        setFighter2(props.tem2[0])
+      })
       .catch()
 
     axios({
@@ -75,6 +71,9 @@ const MultiTeamFight = props => {
       }
     })
   }, [])
+
+  console.log(tem1)
+  console.log(tem2)
 
   const templog = [...log]
   const fighter1Dmg = () => {
