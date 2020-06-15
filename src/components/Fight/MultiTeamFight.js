@@ -8,6 +8,8 @@ import Button from 'react-bootstrap/Button'
 const MultiTeamFight = props => {
   const [tem1, setTem1] = useState([])
   const [tem2, setTem2] = useState([])
+  const [tem1Defeated, setTem1Defeated] = useState([])
+  const [tem2Defeated, setTem2Defeated] = useState([])
   const [fighter1, setFighter1] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [fighter2, setFighter2] = useState({ name: '', description: '', hp: 1, mp: 1, str: 1 })
   const [fighter1Skill, setFighter1Skill] = useState({ name: '', description: '', cost: '', resource: '' })
