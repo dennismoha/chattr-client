@@ -64,6 +64,21 @@ const MultiTeamFight = props => {
           setFighter1(editedFighter1)
         }
       }
+      if (fighter.fighter.fer !== undefined) {
+        const fer = fighter.fighter.fer
+        setFighter1(fer)
+        axios({
+          url: `${apiUrl}/skills/${fer.skill}`,
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${props.user.token}`
+          }
+        })
+          .then(res => {
+            setFighter1Skill(res.data.skill)
+          })
+          .catch()
+      }
       if (fighter.turn) {
         setTurn(fighter.turn.newTurn)
       }
@@ -223,7 +238,17 @@ const MultiTeamFight = props => {
   }
 
   if (fighter1.hp <= 0) {
-    return `${fighter2.name} has won`
+    const t1Defeated = [...tem1Defeated]
+    t1Defeated.push(fighter1)
+    const fighterIndex = t1Defeated.length
+    if (fighterIndex < 3) {
+      const fer = tem1[fighterIndex]
+      fer.hp = 200 + (fer.hp * 2)
+      socket.emit('new peep', { fighter: { fer } })
+      setTem1Defeated(t1Defeated)
+    } else {
+      return (`${fighter2.name} wins!`)
+    }
   }
 
   if (fighter2.hp <= 0) {
