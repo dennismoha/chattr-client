@@ -66,6 +66,9 @@ const MultiTeamFight = props => {
       }
       if (fighter.fighter.fer !== undefined) {
         const fer = fighter.fighter.fer
+        const defeated1 = [...tem1Defeated]
+        defeated1.push(fer)
+        setTem1Defeated(defeated1)
         setFighter1(fer)
         axios({
           url: `${apiUrl}/skills/${fer.skill}`,
