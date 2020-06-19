@@ -82,6 +82,25 @@ const MultiTeamFight = props => {
           })
           .catch()
       }
+
+      if (fighter.fighter.fer2 !== undefined) {
+        const fer2 = fighter.fighter.fer2
+        const defeated2 = [...tem2Defeated]
+        defeated2.push(fer2)
+        setTem1Defeated(defeated2)
+        setFighter1(fer2)
+        axios({
+          url: `${apiUrl}/skills/${fer2.skill}`,
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${props.user.token}`
+          }
+        })
+          .then(res => {
+            setFighter1Skill(res.data.skill)
+          })
+          .catch()
+      }
       if (fighter.turn) {
         setTurn(fighter.turn.newTurn)
       }
