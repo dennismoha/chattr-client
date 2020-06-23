@@ -87,8 +87,8 @@ const MultiTeamFight = props => {
         const fer2 = fighter.fighter.fer2
         const defeated2 = [...tem2Defeated]
         defeated2.push(fer2)
-        setTem1Defeated(defeated2)
-        setFighter1(fer2)
+        setTem2Defeated(defeated2)
+        setFighter2(fer2)
         axios({
           url: `${apiUrl}/skills/${fer2.skill}`,
           method: 'GET',
