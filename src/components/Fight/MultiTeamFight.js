@@ -97,7 +97,7 @@ const MultiTeamFight = props => {
           }
         })
           .then(res => {
-            setFighter1Skill(res.data.skill)
+            setFighter2Skill(res.data.skill)
           })
           .catch()
       }
