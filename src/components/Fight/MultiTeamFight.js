@@ -274,7 +274,17 @@ const MultiTeamFight = props => {
   }
 
   if (fighter2.hp <= 0) {
-    return `${fighter1.name} has won`
+    const t2Defeated = [...tem2Defeated]
+    t2Defeated.push(fighter2)
+    const fighterIndex = t2Defeated.length
+    if (fighterIndex < 3) {
+      const fer2 = tem2[fighterIndex]
+      fer2.hp = 200 + (fer2.hp * 2)
+      socket.emit('new peep', { fighter: { fer2 } })
+      setTem2Defeated(t2Defeated)
+    } else {
+      return (`${fighter2.name} wins!`)
+    }
   }
 
   if (turn === 15) {
