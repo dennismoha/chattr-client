@@ -24,6 +24,8 @@ const MultiTeamFight = props => {
   useEffect(() => {
     setTem1(props.tem1)
     setTem2(props.tem2)
+    console.log(props.tem1)
+    console.log(props.tem2)
 
     axios(`${apiUrl}/skills/${props.tem1[0].skill}`)
       .then((res) => {
@@ -63,43 +65,43 @@ const MultiTeamFight = props => {
           const editedFighter1 = fighter.fighter.editedFighter1
           setFighter1(editedFighter1)
         }
-      }
-      if (fighter.fighter.fer1 !== undefined) {
-        const fer1 = fighter.fighter.fer1
-        const defeated1 = [...tem1Defeated]
-        defeated1.push(fer1)
-        setTem1Defeated(defeated1)
-        setFighter1(fer1)
-        axios({
-          url: `${apiUrl}/skills/${fer1.skill}`,
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${props.user.token}`
-          }
-        })
-          .then(res => {
-            setFighter1Skill(res.data.skill)
+        if (fighter.fighter.fer1 !== undefined) {
+          const fer1 = fighter.fighter.fer1
+          const defeated1 = [...tem1Defeated]
+          defeated1.push(fer1)
+          setTem1Defeated(defeated1)
+          setFighter1(fer1)
+          axios({
+            url: `${apiUrl}/skills/${fer1.skill}`,
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${props.user.token}`
+            }
           })
-          .catch()
-      }
+            .then(res => {
+              setFighter1Skill(res.data.skill)
+            })
+            .catch()
+        }
 
-      if (fighter.fighter.fer2 !== undefined) {
-        const fer2 = fighter.fighter.fer2
-        const defeated2 = [...tem2Defeated]
-        defeated2.push(fer2)
-        setTem2Defeated(defeated2)
-        setFighter2(fer2)
-        axios({
-          url: `${apiUrl}/skills/${fer2.skill}`,
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${props.user.token}`
-          }
-        })
-          .then(res => {
-            setFighter2Skill(res.data.skill)
+        if (fighter.fighter.fer2 !== undefined) {
+          const fer2 = fighter.fighter.fer2
+          const defeated2 = [...tem2Defeated]
+          defeated2.push(fer2)
+          setTem2Defeated(defeated2)
+          setFighter2(fer2)
+          axios({
+            url: `${apiUrl}/skills/${fer2.skill}`,
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${props.user.token}`
+            }
           })
-          .catch()
+            .then(res => {
+              setFighter2Skill(res.data.skill)
+            })
+            .catch()
+        }
       }
       if (fighter.turn) {
         setTurn(fighter.turn.newTurn)
