@@ -289,7 +289,7 @@ const MultiTeamFight = props => {
     }
   }
 
-  if (turn === 15) {
+  if (turn === 40) {
     return 'Time Over!'
   }
   const fighter2Button = (
