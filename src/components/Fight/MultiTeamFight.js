@@ -263,7 +263,7 @@ const MultiTeamFight = props => {
 
   if (fighter1.hp <= 0) {
     const t1Defeated = [...tem1Defeated]
-    t1Defeated.push(fighter1)
+    t1Defeated.push(tem1[0])
     const fighterIndex = t1Defeated.length
     if (fighterIndex < 3) {
       const fer1 = tem1[fighterIndex]
@@ -277,7 +277,7 @@ const MultiTeamFight = props => {
 
   if (fighter2.hp <= 0) {
     const t2Defeated = [...tem2Defeated]
-    t2Defeated.push(fighter2)
+    t2Defeated.push(tem2[0])
     const fighterIndex = t2Defeated.length
     if (fighterIndex < 3) {
       const fer2 = tem2[fighterIndex]
