@@ -5,7 +5,7 @@ import Footer from './Footer'
 
 const Layout = props => (
   <div>
-    <h1>A turn based RPG</h1>
+    <h1>Naya Studio</h1>
     <Nav />
 
     {props.children}
