@@ -120,19 +120,23 @@ const Project = props => {
     </Button>
   )
 
-  const responder = () => {
-    if (props.user._id !== client) {
-      return (
-        { response }
-      )
-    }
-  }
+  // const responder = () => {
+  //   if (props.user._id !== client) {
+  //     return (
+  //       { response }
+  //     )
+  //   }
+  // }
 
   return (
     <div>
-      <p>client: {client}</p>
-      <p>designer: {designer}</p>
-      {responder}
+      <div className='row mb-3'>
+        <div className='col-6'>client: {client}</div>
+        <div className='col-6'>designer: {designer}</div>
+      </div>
+      <div>
+        {(props.user._id !== client) ? <p>{response}</p> : '' }
+      </div>
       <div>
         <ChatLog messages={messages} user={props.user} />
       </div>
