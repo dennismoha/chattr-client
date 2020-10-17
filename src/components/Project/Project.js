@@ -40,6 +40,10 @@ const Project = props => {
         const editedMessage = message.message
         setMessages(editedMessage)
       }
+      if (message.user2 !== undefined) {
+        const newDesigner = message.user2
+        setDesigner(newDesigner)
+      }
     })
   }, [])
   const handleChange = event => {
@@ -48,6 +52,23 @@ const Project = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
+    axios({
+      url: `${apiUrl}/projects/${props.match.params.id}`,
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${props.user.token}`
+      }
+    })
+      .then(res => {
+        setProject(res.data.project)
+        setClient(res.data.project.user1)
+        setMessages(res.data.project.messages)
+        if (res.data.project.user2 !== undefined) {
+          setDesigner(res.data.project.user2)
+        }
+      })
+      .catch()
+
     const fullMessage = messages
     fullMessage.push(newMessage)
     setMessages(fullMessage)
@@ -62,9 +83,10 @@ const Project = props => {
     })
       .then(() => {
         socket.emit('new peep', { message: messages })
+        setNewMessage({ werd: '', owner: '' })
       })
       .catch(() => props.msgAlert({
-        heading: 'Couldnt send message',
+        heading: 'Couldnt send messsage',
         message: 'Please try again',
         variant: 'danger'
       }))
@@ -81,11 +103,9 @@ const Project = props => {
         'Authorization': `Bearer ${props.user.token}`
       }
     })
-      .then(() => props.msgAlert({
-        heading: 'You have been appointed the designer for this project',
-        message: 'Thank you',
-        variant: 'successs'
-      }))
+      .then(() => {
+        socket.emit('new peep', { user2: props.user._id })
+      })
 
       .catch(() => props.msgAlert({
         heading: 'Couldnt appoint you as the designer',
@@ -100,19 +120,19 @@ const Project = props => {
     </Button>
   )
 
-  // const responder = () => {
-  //   if (props.user._id !== client) {
-  //     return (
-  //       { response }
-  //     )
-  //   }
-  // }
+  const responder = () => {
+    if (props.user._id !== client) {
+      return (
+        { response }
+      )
+    }
+  }
 
   return (
     <div>
-      <p>user: {client}</p>
+      <p>client: {client}</p>
       <p>designer: {designer}</p>
-      {response}
+      {responder}
       <div>
         <ChatLog messages={messages} user={props.user} />
       </div>

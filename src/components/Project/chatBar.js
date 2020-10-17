@@ -6,7 +6,7 @@ const Chatbar = ({ message, handleSubmit, handleChange }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Control
-        placeholder="dafs"
+        placeholder="type here"
         value={message.werd}
         name="werd"
         onChange={handleChange}
