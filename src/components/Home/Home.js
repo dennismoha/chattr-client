@@ -1,96 +1,46 @@
 import React, { useState } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
 
 const Home = props => {
-  const [createdGameId, setCreatedGameId] = useState(null)
-  const [createdGameTeamId, setCreatedGameTeamId] = useState(null)
+  const [createdProjectId, setCreatedProjectId] = useState(null)
 
-  if (createdGameId) {
-    return <Redirect to={`/games/${createdGameId}/select`} />
+  if (createdProjectId) {
+    return <Redirect to={`/projects/${createdProjectId}`} />
   }
 
-  if (createdGameTeamId) {
-    return <Redirect to={`/games/${createdGameTeamId}/teamselect`} />
-  }
-
-  const gameCreate = () => {
+  const projectCreate = () => {
     axios({
-      url: `${apiUrl}/games`,
+      url: `${apiUrl}/projects`,
       method: 'POST',
-      data: { 'game': {
-        'player1': `${props.user._id}`
+      data: { 'project': {
+        'user1': `${props.user._id}`
       }
       },
       headers: {
         'Authorization': `Bearer ${props.user.token}`
       }
     })
-      .then(res => setCreatedGameId(res.data.game._id))
+      .then(res => setCreatedProjectId(res.data.project._id))
       .catch(() => props.msgAlert({
-        heading: 'Couldnt Create Game',
+        heading: 'Couldnt Create Project',
         message: 'Are you signed in?',
         variant: 'danger'
       }))
   }
 
-  const gameCreateTeam = () => {
-    axios({
-      url: `${apiUrl}/games`,
-      method: 'POST',
-      data: { 'game': {
-        'player1': `${props.user._id}`
-      }
-      },
-      headers: {
-        'Authorization': `Bearer ${props.user.token}`
-      }
-    })
-      .then(res => setCreatedGameTeamId(res.data.game._id))
-      .catch(() => props.msgAlert({
-        heading: 'Couldnt Create Game',
-        message: 'Are you signed in?',
-        variant: 'danger'
-      }))
-  }
-
-  const teamfight = (
-    <Link to='/teamfight/select'>
-      <Button type='button'>
-          Team Fight!
-      </Button>
-    </Link>
-  )
-
-  const singlefight = (
-    <Link to='/singlefight/select'>
-      <Button type='button'>
-        Solo Fight!
-      </Button>
-    </Link>
-  )
-
-  const multiplayer = (
-    <Button onClick={gameCreate} type='button'>
-          Multiplayer!
-    </Button>
-  )
-
-  const multiteamfight = (
-    <Button onClick={gameCreateTeam} type='button'>
-          Multiplayer Team Fight!
+  const projecter = (
+    <Button onClick={projectCreate} type='button'>
+          Create Project!
     </Button>
   )
 
   return (
     <div>
-      <h1 className="lay">Welcome to Fantasy Foragers</h1>
-      <h6>{teamfight}</h6>
-      <h6>{singlefight}</h6>
-      <h6>{multiplayer}</h6>
-      <h6>{multiteamfight}</h6>
+      <h1 className="lay">Welcome to Naya Chatter</h1>
+      <h6>{projecter}</h6>
     </div>
   )
 }
