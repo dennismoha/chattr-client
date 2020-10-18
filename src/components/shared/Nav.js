@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 const Nav = () => (
   <nav className='buttoins'>
     <Button
-      variant="light">
+      variant="dark">
       <NavLink to='/home'>Home</NavLink>
     </Button>
   </nav>

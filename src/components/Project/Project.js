@@ -8,7 +8,9 @@ import Button from 'react-bootstrap/Button'
 
 const Project = props => {
   const [client, setClient] = useState('')
+  const [clientEmail, setClientEmail] = useState('')
   const [designer, setDesigner] = useState('')
+  const [designerEmail, setDesignerEmail] = useState('')
   const [project, setProject] = useState({ user1: '', user2: '', messages: [] })
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState({ werd: '', owner: '' })
@@ -27,6 +29,8 @@ const Project = props => {
       .then(res => {
         setProject(res.data.project)
         setClient(res.data.project.user1)
+        setClientEmail(res.data.project.user1Email)
+        console.log(res.data.project)
         setMessages(res.data.project.messages)
         if (res.data.project.user2 !== undefined) {
           setDesigner(res.data.project.user2)
@@ -43,6 +47,7 @@ const Project = props => {
       if (message.user2 !== undefined) {
         const newDesigner = message.user2
         setDesigner(newDesigner)
+        setDesignerEmail(message.user2Email)
       }
     })
   }, [])
@@ -94,7 +99,7 @@ const Project = props => {
 
   const arrival = () => {
     setDesigner(props.user._id)
-    setProject({ ...project, user1: client, user2: props.user._id, message: messages })
+    setProject({ ...project, user1: client, user2: props.user._id, user1Email: clientEmail, user2Email: props.user.email, message: messages })
     axios({
       url: `${apiUrl}/projects/${props.match.params.id}`,
       method: 'PATCH',
@@ -103,8 +108,9 @@ const Project = props => {
         'Authorization': `Bearer ${props.user.token}`
       }
     })
-      .then(() => {
-        socket.emit('new peep', { user2: props.user._id })
+      .then((res) => {
+        console.log(res.data.project)
+        socket.emit('new peep', { user2: props.user._id, user2Email: props.user.email })
       })
 
       .catch(() => props.msgAlert({
@@ -131,11 +137,11 @@ const Project = props => {
   return (
     <div>
       <div className='row mb-3'>
-        <div className='col-6'>client: {client}</div>
-        <div className='col-6'>designer: {designer}</div>
+        <div className='col-6 bg-primary'><h3>client: {clientEmail}</h3></div>
+        <div className='col-6 bg-secondary'><h3>designer: {designerEmail}</h3></div>
       </div>
       <div>
-        {(props.user._id !== client) ? <p>{response}</p> : '' }
+        {(props.user._id !== client) && (designerEmail === '') ? <p>{response}</p> : '' }
       </div>
       <div>
         <ChatLog messages={messages} user={props.user} />

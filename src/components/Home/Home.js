@@ -16,7 +16,8 @@ const Home = props => {
       url: `${apiUrl}/projects`,
       method: 'POST',
       data: { 'project': {
-        'user1': `${props.user._id}`
+        'user1': `${props.user._id}`,
+        'user1Email': `${props.user.email}`
       }
       },
       headers: {
