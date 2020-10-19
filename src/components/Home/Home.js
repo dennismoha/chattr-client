@@ -6,6 +6,11 @@ import axios from 'axios'
 
 const Home = props => {
   const [createdProjectId, setCreatedProjectId] = useState(null)
+  const [newProjectName, setNewProjectName] = useState('')
+
+  const handleChange = event => {
+    setNewProjectName({ ...newProjectName, [event.target.name]: event.target.value})
+  }
 
   if (createdProjectId) {
     return <Redirect to={`/projects/${createdProjectId}`} />
