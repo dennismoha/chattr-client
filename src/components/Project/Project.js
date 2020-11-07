@@ -19,6 +19,7 @@ const Project = props => {
   socket.connect()
 
   useEffect(() => {
+    // make axios call to projects
     axios({
       url: `${apiUrl}/projects/${props.match.params.id}`,
       method: 'GET',
@@ -27,10 +28,13 @@ const Project = props => {
       }
     })
       .then(res => {
+        // change project to response
         setProject(res.data.project)
+        // change client to response
         setClient(res.data.project.user1)
+        // change email to response
         setClientEmail(res.data.project.user1Email)
-        console.log(res.data.project)
+        // change the message log
         setMessages(res.data.project.messages)
         if (res.data.project.user2 !== undefined) {
           setDesigner(res.data.project.user2)
@@ -39,11 +43,12 @@ const Project = props => {
       .catch()
 
     socket.on('new peep', (message) => {
-      console.log(message)
+      // if there is a message object, change message log state
       if (message.message !== undefined) {
         const editedMessage = message.message
         setMessages(editedMessage)
       }
+      // if there is a user2 object, set the second user
       if (message.user2 !== undefined) {
         const newDesigner = message.user2
         setDesigner(newDesigner)
@@ -57,6 +62,7 @@ const Project = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
+    // get the specified project
     axios({
       url: `${apiUrl}/projects/${props.match.params.id}`,
       method: 'GET',
@@ -73,10 +79,12 @@ const Project = props => {
         }
       })
       .catch()
-
+    // take the message log, then add the new message to the log
     const fullMessage = messages
     fullMessage.push(newMessage)
+    // change the message log to the new edited message log
     setMessages(fullMessage)
+    // change the project with all the new information that has been edited
     setProject({ ...project, user1: client, user2: designer, message: messages })
     axios({
       url: `${apiUrl}/projects/${props.match.params.id}`,
@@ -87,6 +95,7 @@ const Project = props => {
       }
     })
       .then(() => {
+        // after modifying project, emit to socket with the modified message
         socket.emit('new peep', { message: messages })
         setNewMessage({ werd: '', owner: '' })
       })
@@ -96,10 +105,13 @@ const Project = props => {
         variant: 'danger'
       }))
   }
-
+  // for second user in project to assign themselves to project
   const arrival = () => {
+    // set new user to designer state
     setDesigner(props.user._id)
+    // change project state to reflect new user
     setProject({ ...project, user1: client, user2: props.user._id, user1Email: clientEmail, user2Email: props.user.email, message: messages })
+    // make axios call to update api with new user
     axios({
       url: `${apiUrl}/projects/${props.match.params.id}`,
       method: 'PATCH',
@@ -109,7 +121,7 @@ const Project = props => {
       }
     })
       .then((res) => {
-        console.log(res.data.project)
+        // emit to socket with new user so other users will see change
         socket.emit('new peep', { user2: props.user._id, user2Email: props.user.email })
       })
 
@@ -119,7 +131,7 @@ const Project = props => {
         variant: 'danger'
       }))
   }
-
+  // create button for second user to assign themself to project
   const response = (
     <Button onClick={arrival} type='button'>
       Are you the designer for this project?
