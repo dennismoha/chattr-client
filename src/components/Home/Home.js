@@ -40,7 +40,7 @@ const Home = props => {
 
   return (
     <div>
-      <h1 className="lay">Welcome to Naya Chatter</h1>
+      <h1 className="lay">Welcome to Chattr</h1>
       <h6>{projecter}</h6>
     </div>
   )
