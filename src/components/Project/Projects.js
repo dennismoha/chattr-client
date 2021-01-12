@@ -7,20 +7,20 @@ import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
 
 // import LetsFight from '../shared/LetsFight'
-const Foragers = props => {
-  const [foragers, setForagers] = useState([])
+const Projects = props => {
+  const [projects, setProjects] = useState([])
   useEffect(() => {
-    axios(`${apiUrl}/foragers`)
-      .then(res => setForagers(res.data.foragers))
+    axios(`${apiUrl}/projects`)
+      .then(res => setProjects(res.data.projects))
       .catch()
   }, [])
 
-  const foragerss = foragers.map(forager => {
+  const projectss = projects.map(project => {
     return (
-      <tbody className="lay" key={forager._id}>
+      <tbody className="lay" key={project._id}>
         <tr>
-          <td><Link to={`/foragers/${forager._id}`}>{forager.name}<br></br></Link>
-            <Button variant="secondary" onClick={() => { props.setSelected(forager._id, forager.skill) }}>Select</Button></td>
+          <td><Link to={`/projects/${project._id}`}>{project.title}<br></br></Link>
+            <Button variant="secondary" onClick={() => { props.setSelected(project._id, forager.skill) }}>Select</Button></td>
           <td>{forager.description}</td>
           <td>{forager.hp}</td>
           <td>{forager.mp}</td>
