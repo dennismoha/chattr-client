@@ -10,6 +10,7 @@ import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 import Home from '../Home/Home'
 import Project from '../Project/Project.js'
+import Projects from '../Project/Projects.js'
 
 class App extends Component {
   constructor () {
@@ -61,6 +62,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute exact user={user} path='/projects/:id' render={({ match }) => (
             <Project match={match} msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/projects' render={() => (
+            <Projects msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>
