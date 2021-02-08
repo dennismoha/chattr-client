@@ -1,1 +1,1 @@
-naya-chat-client
+Chattr-client
