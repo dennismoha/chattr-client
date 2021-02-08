@@ -4,10 +4,17 @@ import axios from 'axios'
 
 import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+// import ProjectForm from './projectForm'
 
 // import LetsFight from '../shared/LetsFight'
 const Projects = props => {
   const [projects, setProjects] = useState([])
+  // const [project, setProject] = useState({ title: '', user1: '', user1Email: '' })
+  // const [createdProjectId, setCreatedProjectId] = useState(null)
+  const [show, setShow] = useState(false)
+
   useEffect(() => {
     axios(`${apiUrl}/projects`)
       .then(res => setProjects(res.data.projects))
@@ -24,21 +31,24 @@ const Projects = props => {
     )
   })
 
-  // const [createdProjectId, setCreatedProjectId] = useState(null)
-  //
   // if (createdProjectId) {
   //   return <Redirect to={`/projects/${createdProjectId}`} />
   // }
+
+  // const handleChange = event => {
+  //   const updatedField = { [event.target.name]: event.target.value }
   //
-  // const projectCreate = () => {
+  //   const editedProject = Object.assign({ ...project }, updatedField)
+  //   setProject(editedProject)
+  // }
+  //
+  // const handleSubmit = event => {
+  //   event.preventDefault()
+  //
   //   axios({
   //     url: `${apiUrl}/projects`,
   //     method: 'POST',
-  //     data: { 'project': {
-  //       'user1': `${props.user._id}`,
-  //       'user1Email': `${props.user.email}`
-  //     }
-  //     },
+  //     data: { project },
   //     headers: {
   //       'Authorization': `Bearer ${props.user.token}`
   //     }
@@ -50,12 +60,10 @@ const Projects = props => {
   //       variant: 'danger'
   //     }))
   // }
-  //
-  // const projecter = (
-  //   <Button onClick={projectCreate} type='button'>
-  //         Create Project!
-  //   </Button>
-  // )
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
   return (
     <Layout className="lay">
       <h4>Projects</h4>
@@ -68,6 +76,24 @@ const Projects = props => {
         </thead>
         {projectss}
       </table>
+      <Button variant="primary" onClick={handleShow}>
+    Launch demo modal
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, youre reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+        Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+        Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Layout>
   )
 }
