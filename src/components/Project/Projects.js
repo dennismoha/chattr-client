@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-// import ProjectForm from './projectForm'
+import ProjectForm from './projectForm'
 
-// import LetsFight from '../shared/LetsFight'
 const Projects = props => {
   const [projects, setProjects] = useState([])
-  // const [project, setProject] = useState({ title: '', user1: '', user1Email: '' })
-  // const [createdProjectId, setCreatedProjectId] = useState(null)
+  const [project, setProject] = useState({ title: '', user1: '', user1Email: '' })
+  const [createdProjectId, setCreatedProjectId] = useState(null)
   const [show, setShow] = useState(false)
 
   useEffect(() => {
@@ -31,35 +30,40 @@ const Projects = props => {
     )
   })
 
-  // if (createdProjectId) {
-  //   return <Redirect to={`/projects/${createdProjectId}`} />
-  // }
+  if (createdProjectId) {
+    return <Redirect to={`/projects/${createdProjectId}`} />
+  }
 
-  // const handleChange = event => {
-  //   const updatedField = { [event.target.name]: event.target.value }
-  //
-  //   const editedProject = Object.assign({ ...project }, updatedField)
-  //   setProject(editedProject)
-  // }
-  //
-  // const handleSubmit = event => {
-  //   event.preventDefault()
-  //
-  //   axios({
-  //     url: `${apiUrl}/projects`,
-  //     method: 'POST',
-  //     data: { project },
-  //     headers: {
-  //       'Authorization': `Bearer ${props.user.token}`
-  //     }
-  //   })
-  //     .then(res => setCreatedProjectId(res.data.project._id))
-  //     .catch(() => props.msgAlert({
-  //       heading: 'Couldnt Create Project',
-  //       message: 'Are you signed in?',
-  //       variant: 'danger'
-  //     }))
-  // }
+  const handleChange = event => {
+    const updatedField = { [event.target.name]: event.target.value }
+
+    const editedProject = Object.assign({ ...project }, updatedField)
+    setProject(editedProject)
+  }
+
+  const userId = props.user._id
+  const userEmail = props.user.email
+
+  const handleSubmit = event => {
+    event.preventDefault()
+
+    setProject({ user1: userId, user1Email: userEmail })
+
+    axios({
+      url: `${apiUrl}/projects`,
+      method: 'POST',
+      data: { project },
+      headers: {
+        'Authorization': `Bearer ${props.user.token}`
+      }
+    })
+      .then(res => setCreatedProjectId(res.data.project._id))
+      .catch(() => props.msgAlert({
+        heading: 'Couldnt Create Project',
+        message: 'Are you signed in?',
+        variant: 'danger'
+      }))
+  }
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
