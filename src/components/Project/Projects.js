@@ -86,9 +86,16 @@ const Projects = props => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Create a new project</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, youre reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          <ProjectForm
+            project={project}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            cancelPath="/Projects">
+          </ProjectForm>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
         Close
