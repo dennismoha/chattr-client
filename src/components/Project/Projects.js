@@ -6,7 +6,7 @@ import apiUrl from '../../apiConfig'
 import Layout from '../shared/Layout'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import ProjectForm from './projectForm'
+import ProjectForm from './ProjectForm'
 
 const Projects = props => {
   const [projects, setProjects] = useState([])
@@ -15,9 +15,18 @@ const Projects = props => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    axios(`${apiUrl}/projects`)
+    axios({
+      url: `${apiUrl}/projects`,
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${props.user.token}`
+      }
+    })
       .then(res => setProjects(res.data.projects))
       .catch()
+
+    const newProject = Object.assign({ ...project }, { user1: userId, user1Email: userEmail, owner: userId })
+    setProject(newProject)
   }, [])
 
   const projectss = projects.map(project => {
@@ -43,11 +52,10 @@ const Projects = props => {
 
   const userId = props.user._id
   const userEmail = props.user.email
+  console.log(props.user)
 
   const handleSubmit = event => {
     event.preventDefault()
-
-    setProject({ user1: userId, user1Email: userEmail })
 
     axios({
       url: `${apiUrl}/projects`,
@@ -72,6 +80,9 @@ const Projects = props => {
     <Layout className="lay">
       <h4>Projects</h4>
       <h5>These are the projects you are currently involved in</h5>
+      <Button variant="primary" onClick={handleShow}>
+    Create a new Project
+      </Button>
       <table className="table">
         <thead>
           <tr className="lay">
@@ -80,9 +91,6 @@ const Projects = props => {
         </thead>
         {projectss}
       </table>
-      <Button variant="primary" onClick={handleShow}>
-    Launch demo modal
-      </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -93,15 +101,12 @@ const Projects = props => {
             project={project}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
-            cancelPath="/Projects">
+          >
           </ProjectForm>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
         Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-        Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

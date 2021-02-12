@@ -63,7 +63,7 @@ class App extends Component {
           <AuthenticatedRoute exact user={user} path='/projects/:id' render={({ match }) => (
             <Project match={match} msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/projects' render={() => (
+          <AuthenticatedRoute exact user={user} path='/projects' render={() => (
             <Projects msgAlert={this.msgAlert} user={user} />
           )} />
         </main>

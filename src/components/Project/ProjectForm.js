@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import React from 'react'
 // import apiUrl from '../../apiConfig'
 // import axios from 'axios'
 
-const ProjectForm = ({ project, handleSubmit, handleChange, cancelPath }) => {
+const ProjectForm = ({ project, handleSubmit, handleChange }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Label>Title</Form.Label>
@@ -17,9 +16,6 @@ const ProjectForm = ({ project, handleSubmit, handleChange, cancelPath }) => {
       />
 
       <Button type="submit">Submit</Button>
-      <Link to={cancelPath}>
-        <Button>Cancel</Button>
-      </Link>
     </Form>
   )
 }
