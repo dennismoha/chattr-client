@@ -52,7 +52,6 @@ const Projects = props => {
 
   const userId = props.user._id
   const userEmail = props.user.email
-  console.log(props.user)
 
   const handleSubmit = event => {
     event.preventDefault()

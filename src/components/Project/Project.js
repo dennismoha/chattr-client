@@ -11,7 +11,7 @@ const Project = props => {
   const [clientEmail, setClientEmail] = useState('')
   const [designer, setDesigner] = useState('')
   const [designerEmail, setDesignerEmail] = useState('')
-  const [project, setProject] = useState({ user1: '', user2: '', messages: [] })
+  const [project, setProject] = useState({ title: '', user1: '', user2: '', messages: [] })
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState({ werd: '', owner: '' })
 
@@ -148,6 +148,8 @@ const Project = props => {
 
   return (
     <div>
+      <div className='text-center bg-dark text-light'><h1>{project.title}</h1>
+      </div>
       <div className='row mb-3'>
         <div className='col-6 bg-primary'><h3>client: {clientEmail}</h3></div>
         <div className='col-6 bg-secondary'><h3>designer: {designerEmail}</h3></div>
