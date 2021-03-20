@@ -96,7 +96,7 @@ const Project = props => {
     })
       .then(() => {
         // after modifying project, emit to socket with the modified message
-        socket.emit('new peep', { message: messages })
+        // socket.emit('new peep', { message: messages })
         setNewMessage({ werd: '', owner: '' })
       })
       .catch(() => props.msgAlert({
@@ -104,6 +104,7 @@ const Project = props => {
         message: 'Please try again',
         variant: 'danger'
       }))
+    socket.emit('new peep', { message: messages })
   }
   // for second user in project to assign themselves to project
   const arrival = () => {
