@@ -63,29 +63,35 @@ const Project = props => {
   const handleSubmit = event => {
     event.preventDefault()
     // get the specified project
-    axios({
-      url: `${apiUrl}/projects/${props.match.params.id}`,
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${props.user.token}`
-      }
-    })
-      .then(res => {
-        setProject(res.data.project)
-        setClient(res.data.project.user1)
-        setMessages(res.data.project.messages)
-        if (res.data.project.user2 !== undefined) {
-          setDesigner(res.data.project.user2)
-        }
-      })
-      .catch()
+    // axios({
+    //   url: `${apiUrl}/projects/${props.match.params.id}`,
+    //   method: 'GET',
+    //   headers: {
+    //     'Authorization': `Bearer ${props.user.token}`
+    //   }
+    // })
+    //   .then(res => {
+    //     if (res.data.project.user2 !== undefined) {
+    //       setDesigner(res.data.project.user2)
+    //     }
+    //     setProject(res.data.project)
+    //     setClient(res.data.project.user1)
+    //     setMessages(res.data.project.messages)
+    //   })
+    //   .catch()
     // take the message log, then add the new message to the log
     const fullMessage = messages
     fullMessage.push(newMessage)
+    console.log(newMessage)
+    console.log(messages)
+    console.log(fullMessage)
+    // setMessages({ ...messages, newMessage })
+
     // change the message log to the new edited message log
     setMessages(fullMessage)
     // change the project with all the new information that has been edited
-    setProject({ ...project, user1: client, user2: designer, message: messages })
+    setProject({ ...project, user1: client, user2: designer, message: fullMessage })
+    console.log(project)
     axios({
       url: `${apiUrl}/projects/${props.match.params.id}`,
       method: 'PATCH',
