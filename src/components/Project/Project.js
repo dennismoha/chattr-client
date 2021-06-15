@@ -36,8 +36,9 @@ const Project = props => {
         setClientEmail(res.data.project.user1Email)
         // change the message log
         setMessages(res.data.project.messages)
-        if (res.data.project.user2 !== undefined) {
+        if (res.data.project.user2) {
           setDesigner(res.data.project.user2)
+          setDesignerEmail(res.data.project.user2Email)
         }
       })
       .catch()
@@ -82,16 +83,13 @@ const Project = props => {
     // take the message log, then add the new message to the log
     const fullMessage = messages
     fullMessage.push(newMessage)
-    console.log(newMessage)
-    console.log(messages)
-    console.log(fullMessage)
     // setMessages({ ...messages, newMessage })
 
     // change the message log to the new edited message log
     setMessages(fullMessage)
+    console.log(fullMessage)
     // change the project with all the new information that has been edited
     setProject({ ...project, user1: client, user2: designer, message: fullMessage })
-    console.log(project)
     axios({
       url: `${apiUrl}/projects/${props.match.params.id}`,
       method: 'PATCH',
@@ -100,7 +98,11 @@ const Project = props => {
         'Authorization': `Bearer ${props.user.token}`
       }
     })
-      .then(() => {
+      .then((res) => {
+        console.log(res)
+        setProject(res.data.project)
+        setMessages(res.data.project.messages)
+        console.log(messages)
         // after modifying project, emit to socket with the modified message
         // socket.emit('new peep', { message: messages })
         setNewMessage({ werd: '', owner: '' })
@@ -111,13 +113,30 @@ const Project = props => {
         variant: 'danger'
       }))
     socket.emit('new peep', { message: messages })
+
+    // axios({
+    //   url: `${apiUrl}/projects/${props.match.params.id}`,
+    //   method: 'GET',
+    //   headers: {
+    //     'Authorization': `Bearer ${props.user.token}`
+    //   }
+    // })
+    //   .then(res => {
+    //     if (res.data.project.user2 !== undefined) {
+    //       setDesigner(res.data.project.user2)
+    //     }
+    //     setProject(res.data.project)
+    //     setClient(res.data.project.user1)
+    //     setMessages(res.data.project.messages)
+    //   })
+    //   .catch()
   }
   // for second user in project to assign themselves to project
   const arrival = () => {
     // set new user to designer state
     setDesigner(props.user._id)
     // change project state to reflect new user
-    setProject({ ...project, user1: client, user2: props.user._id, user1Email: clientEmail, user2Email: props.user.email, message: messages })
+    setProject({ ...project, user1: client, user2: props.user._id, user1Email: clientEmail, user2Email: props.user.email })
     // make axios call to update api with new user
     axios({
       url: `${apiUrl}/projects/${props.match.params.id}`,
@@ -137,6 +156,21 @@ const Project = props => {
         message: 'Please try again',
         variant: 'danger'
       }))
+
+    axios({
+      url: `${apiUrl}/projects/${props.match.params.id}`,
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${props.user.token}`
+      }
+    })
+      .then(res => {
+        setProject(res.data.project)
+        setClient(res.data.project.user1)
+        setDesigner(res.data.project.user2)
+        setMessages(res.data.project.messages)
+      })
+      .catch()
   }
   // create button for second user to assign themself to project
   const response = (
